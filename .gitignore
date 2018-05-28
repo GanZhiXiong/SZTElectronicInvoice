@@ -1,0 +1,5 @@
+#忽略所有bin目录下的文件和目录，包括bin目录
+bin/
+obj/
+#忽略指定目录
+#HttpServerTest/.vs
