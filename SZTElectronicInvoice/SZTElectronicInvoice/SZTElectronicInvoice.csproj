@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DataPersistence.cs" />
     <Compile Include="Common\GlobalManager.cs" />
     <Compile Include="Common\RuoKuaiHttp.cs" />
     <Compile Include="MainForm.cs">
@@ -60,6 +61,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\ElectronicInvoiceInfo.cs" />
+    <Compile Include="Model\UserConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\StringOperation.cs" />
