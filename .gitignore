@@ -3,3 +3,4 @@ bin/
 obj/
 #忽略指定目录
 #HttpServerTest/.vs
+SZTElectronicInvoice/.vs
