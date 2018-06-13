@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -75,6 +75,7 @@
             this.superTooltip1 = new DevComponents.DotNetBar.SuperTooltip();
             this.balloonTip1 = new DevComponents.DotNetBar.BalloonTip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel3.SuspendLayout();
@@ -101,8 +102,8 @@
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
             this.metroShell1.Controls.Add(this.metroTabPanel3);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
@@ -140,6 +141,7 @@
             // metroTabPanel3
             // 
             this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.metroTabPanel3.Controls.Add(this.checkBoxXSkipDownloadedFile);
             this.metroTabPanel3.Controls.Add(this.comboBoxCompanyName);
             this.metroTabPanel3.Controls.Add(this.textBoxXTaxpayerRegistrationNumber);
             this.metroTabPanel3.Controls.Add(this.labelX7);
@@ -173,7 +175,7 @@
             this.comboBoxCompanyName.Location = new System.Drawing.Point(169, 47);
             this.comboBoxCompanyName.Name = "comboBoxCompanyName";
             this.comboBoxCompanyName.Size = new System.Drawing.Size(525, 29);
-            this.comboBoxCompanyName.TabIndex = 7;
+            this.comboBoxCompanyName.TabIndex = 0;
             // 
             // textBoxXTaxpayerRegistrationNumber
             // 
@@ -190,7 +192,7 @@
             this.textBoxXTaxpayerRegistrationNumber.Name = "textBoxXTaxpayerRegistrationNumber";
             this.textBoxXTaxpayerRegistrationNumber.PreventEnterBeep = true;
             this.textBoxXTaxpayerRegistrationNumber.Size = new System.Drawing.Size(525, 29);
-            this.textBoxXTaxpayerRegistrationNumber.TabIndex = 5;
+            this.textBoxXTaxpayerRegistrationNumber.TabIndex = 1;
             this.textBoxXTaxpayerRegistrationNumber.TextChanged += new System.EventHandler(this.textBoxXTaxpayerRegistrationNumber_TextChanged);
             // 
             // labelX7
@@ -279,10 +281,10 @@
             this.metroTabPanel2.Controls.Add(this.labelX4);
             this.metroTabPanel2.Controls.Add(this.metroToolbar4);
             this.metroTabPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel2.Location = new System.Drawing.Point(0, 63);
+            this.metroTabPanel2.Location = new System.Drawing.Point(0, 0);
             this.metroTabPanel2.Name = "metroTabPanel2";
             this.metroTabPanel2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel2.Size = new System.Drawing.Size(764, 470);
+            this.metroTabPanel2.Size = new System.Drawing.Size(764, 533);
             // 
             // 
             // 
@@ -800,40 +802,60 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
+            // checkBoxXSkipDownloadedFile
+            // 
+            this.checkBoxXSkipDownloadedFile.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.checkBoxXSkipDownloadedFile.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.checkBoxXSkipDownloadedFile.CheckSignSize = new System.Drawing.Size(15, 15);
+            this.checkBoxXSkipDownloadedFile.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.checkBoxXSkipDownloadedFile.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxXSkipDownloadedFile.Location = new System.Drawing.Point(169, 162);
+            this.checkBoxXSkipDownloadedFile.Name = "checkBoxXSkipDownloadedFile";
+            this.checkBoxXSkipDownloadedFile.Size = new System.Drawing.Size(194, 23);
+            this.checkBoxXSkipDownloadedFile.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.superTooltip1.SetSuperTooltip(this.checkBoxXSkipDownloadedFile, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "如果该发票文件之前已经生成过（可能下载了，也可能只是生成了而未下载），则跳过不下载。\r\n如下情况可以勾选该选项：\r\n1、防止重复下载该发票文件；\r\n2、防止下载的" +
+            "发票公司信息不是配置的公司（发票已被其他人生成过）。", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(300, 88)));
+            this.checkBoxXSkipDownloadedFile.TabIndex = 2;
+            this.checkBoxXSkipDownloadedFile.Text = "跳过已下载的发票文件";
+            this.checkBoxXSkipDownloadedFile.CheckedChanged += new System.EventHandler(this.checkBoxXSkipDownloadedFile_CheckedChanged);
+            // 
             // zxDataGridViewXDownloadResult
             // 
             this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
             this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle10;
             this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
             this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
             this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
             this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
             this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
             this.zxDataGridViewXDownloadResult.TabIndex = 4;
@@ -909,5 +931,6 @@
         private System.Windows.Forms.ComboBox comboBoxCompanyName;
         private DevComponents.DotNetBar.ButtonItem buttonItemAddCompanyInfo;
         private DevComponents.DotNetBar.ButtonItem buttonItemDeleteCompanyInfo;
+        private DevComponents.DotNetBar.Controls.CheckBoxX checkBoxXSkipDownloadedFile;
     }
 }

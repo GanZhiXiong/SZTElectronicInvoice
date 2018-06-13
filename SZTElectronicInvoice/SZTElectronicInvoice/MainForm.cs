@@ -108,10 +108,11 @@ namespace SZTElectronicInvoice
 
             #region 读取配置文件
 
-            BindingSource bs = new BindingSource();
-bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
-//            comboBoxCompanyName.DataSource = bs;
-                        comboBoxCompanyName.DataSource = GlobalManager.UserConfig.CompanyInfos;
+            checkBoxXSkipDownloadedFile.Checked = GlobalManager.UserConfig.IsSkipDownloadFile;
+            //            BindingSource bs = new BindingSource();
+            //bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
+            //            comboBoxCompanyName.DataSource = bs;
+            comboBoxCompanyName.DataSource = GlobalManager.UserConfig.CompanyInfos;
             comboBoxCompanyName.DisplayMember = "CompanyName";
 
             comboBoxCompanyName.SelectedItem = GlobalManager.UserConfig.SelectedCompanyInfo;
@@ -123,37 +124,25 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
 
             #endregion
 
-            /*         Thread thread = new Thread(() =>
-                     {
-                         circularProgressSingleDownload.IsRunning = true;
-                         circularProgressSingleDownload.ProgressText = "请等待";
-                         circularProgressSingleDownload.ProgressTextVisible = true;
-
-                         picVerificationImage.Image = ZXNetworking.GetValidateImage();
-                         string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-
-                         this.Invoke(new Action(() =>
-                         {
-                             textBoxXIdentifyCode.Text = orcResult;
-                             buttonItemStartBulkDownloadInvoice.Enabled = true;
-                             buttonItemStartDownloadInvoice.Enabled = true;
-                             circularProgressSingleDownload.IsRunning = false;
-                             circularProgressSingleDownload.ProgressTextVisible = false;
-                         }));
-                     });
-                     thread.Start();*/
-        }
-         
-        private void ComboBoxCompanyName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GlobalManager.UserConfig.SelectedCompanyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
-            GlobalManager.SaveUserConfig();
-
-            if (GlobalManager.UserConfig.SelectedCompanyInfo==null)
+            Thread thread = new Thread(() =>
             {
-                return;
-            }
-            textBoxXTaxpayerRegistrationNumber.Text = GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
+                circularProgressSingleDownload.IsRunning = true;
+                circularProgressSingleDownload.ProgressText = "请等待";
+                circularProgressSingleDownload.ProgressTextVisible = true;
+
+                picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+
+                this.Invoke(new Action(() =>
+                {
+                    textBoxXIdentifyCode.Text = orcResult;
+                    buttonItemStartBulkDownloadInvoice.Enabled = true;
+                    buttonItemStartDownloadInvoice.Enabled = true;
+                    circularProgressSingleDownload.IsRunning = false;
+                    circularProgressSingleDownload.ProgressTextVisible = false;
+                }));
+            });
+            thread.Start();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -173,7 +162,7 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
         private bool IsConfigurationComplete()
         {
 
-            if (GlobalManager.UserConfig.SelectedCompanyInfo==null&& string.IsNullOrWhiteSpace(GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName))
+            if (GlobalManager.UserConfig.SelectedCompanyInfo == null || string.IsNullOrWhiteSpace(GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName))
             {
                 //                metroTabPanel3.MetroTabItem= metroToolbar3;
 
@@ -286,6 +275,12 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
 
             if (ret1.Contains(".pdf"))
             {
+                if (GlobalManager.UserConfig.IsSkipDownloadFile)
+                {
+                    downloadResult = "跳过";
+                    return true;
+                }
+
                 Regex regImg = new Regex(
                     @"(?is)<a[^>]*?href=(['""\s]?)(?<href>([^'""\s]*\.doc)|([^'""\s]*\.docx)|([^'""\s]*\.xls)|([^'""\s]*\.xlsx)|([^'""\s]*\.ppt)|([^'""\s]*\.txt)|([^'""\s]*\.zip)|([^'""\s]*\.rar)|([^'""\s]*\.gz)|([^'""\s]*\.pdf))\1[^>]*?>");
                 MatchCollection match = regImg.Matches(ret1);
@@ -352,12 +347,14 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
             paramStringBuilder.Append("&");
             paramStringBuilder.Append("jsj=" + sj);
             paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jfirmfpmc=" + "深圳市华汇设计有限公司");
+            //            paramStringBuilder.Append("jfirmfpmc=" + "深圳市华汇设计有限公司");
+            paramStringBuilder.Append("jfirmfpmc=" + GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName);
 
             //            paramStringBuilder.Append("jfirmfpmc=" + "环汇系统科技（深圳）有限公司");
             paramStringBuilder.Append("&");
             //            paramStringBuilder.Append("jfirmsbh=" + "914403003429400273");
-            paramStringBuilder.Append("jfirmsbh=" + "91440300752525766M");
+            //            paramStringBuilder.Append("jfirmsbh=" + "91440300752525766M");
+            paramStringBuilder.Append("jfirmfpmc=" + GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber);
 
             paramStringBuilder.Append("&");
 
@@ -431,6 +428,12 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
 
                 if (ret1.Contains(".pdf"))
                 {
+                    if (GlobalManager.UserConfig.IsSkipDownloadFile)
+                    {
+                        downloadResult = "跳过";
+                        return true;
+                    }
+
                     Regex regImg = new Regex(
                         @"(?is)<a[^>]*?href=(['""\s]?)(?<href>([^'""\s]*\.doc)|([^'""\s]*\.docx)|([^'""\s]*\.xls)|([^'""\s]*\.xlsx)|([^'""\s]*\.ppt)|([^'""\s]*\.txt)|([^'""\s]*\.zip)|([^'""\s]*\.rar)|([^'""\s]*\.gz)|([^'""\s]*\.pdf))\1[^>]*?>");
                     MatchCollection match = regImg.Matches(ret1);
@@ -496,6 +499,97 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
         #endregion
 
         #region 控件点击事件
+
+        private void buttonItemAddCompanyInfo_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(comboBoxCompanyName.Text))
+            {
+                balloonTip1.SetBalloonText(comboBoxCompanyName, "请输入公司名称");
+                balloonTip1.ShowBalloon(comboBoxCompanyName);
+
+                comboBoxCompanyName.Focus();
+                comboBoxCompanyName.SelectAll();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBoxXTaxpayerRegistrationNumber.Text))
+            {
+                balloonTip1.SetBalloonText(textBoxXTaxpayerRegistrationNumber, "请输入纳税人识别号");
+                balloonTip1.ShowBalloon(textBoxXTaxpayerRegistrationNumber);
+
+                textBoxXTaxpayerRegistrationNumber.Focus();
+                textBoxXTaxpayerRegistrationNumber.SelectAll();
+                return;
+            }
+
+            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p => p.CompanyName.Equals(comboBoxCompanyName.Text)))
+            {
+                balloonTip1.SetBalloonText(comboBoxCompanyName, "公司名称已存在");
+                balloonTip1.ShowBalloon(comboBoxCompanyName);
+
+                comboBoxCompanyName.Focus();
+                comboBoxCompanyName.SelectAll();
+                return;
+            }
+
+            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p => p.TaxpayerRegistrationNumber.Equals(textBoxXTaxpayerRegistrationNumber.Text)))
+            {
+                balloonTip1.SetBalloonText(textBoxXTaxpayerRegistrationNumber, "纳税人识别号已存在");
+                balloonTip1.ShowBalloon(textBoxXTaxpayerRegistrationNumber);
+
+                textBoxXTaxpayerRegistrationNumber.Focus();
+                textBoxXTaxpayerRegistrationNumber.SelectAll();
+                return;
+            }
+
+            CompanyInfo companyInfo = new CompanyInfo
+            {
+                CompanyName = comboBoxCompanyName.Text,
+                TaxpayerRegistrationNumber = textBoxXTaxpayerRegistrationNumber.Text
+            };
+            GlobalManager.UserConfig.CompanyInfos.Add(companyInfo);
+            GlobalManager.UserConfig.SelectedCompanyInfo = companyInfo;
+            GlobalManager.SaveUserConfig();
+            comboBoxCompanyName.SelectedItem = companyInfo;
+
+            balloonTip1.SetBalloonText(comboBoxCompanyName, "添加成功");
+            balloonTip1.ShowBalloon(comboBoxCompanyName);
+
+            comboBoxCompanyName.Focus();
+            comboBoxCompanyName.SelectAll();
+        }
+
+        private void buttonItemDeleteCompanyInfo_Click(object sender, EventArgs e)
+        {
+            //            CompanyInfo companyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
+            CompanyInfo companyInfo =
+                GlobalManager.UserConfig.CompanyInfos.ToList().Find(p => p.CompanyName.Equals(comboBoxCompanyName.Text));
+
+            GlobalManager.SaveUserConfig();
+            if (companyInfo == null)
+            {
+                balloonTip1.SetBalloonText(comboBoxCompanyName, "请选择要删除的公司名称");
+                balloonTip1.ShowBalloon(comboBoxCompanyName);
+
+                return;
+            }
+
+            GlobalManager.UserConfig.CompanyInfos.Remove(companyInfo);
+            GlobalManager.SaveUserConfig();
+            if (comboBoxCompanyName.SelectedItem != null)
+            {
+                comboBoxCompanyName.SelectedItem = GlobalManager.UserConfig.SelectedCompanyInfo;
+            }
+//            else
+//            {
+//                comboBoxCompanyName.SelectedIndex = 0;
+//            }
+
+            balloonTip1.SetBalloonText(comboBoxCompanyName, "删除成功");
+            balloonTip1.ShowBalloon(comboBoxCompanyName);
+
+            comboBoxCompanyName.Focus();
+        }
 
         private void picVerificationImage_Click(object sender, EventArgs e)
         {
@@ -900,88 +994,33 @@ bs.DataSource= GlobalManager.UserConfig.CompanyInfos;
 
         private void textBoxXTaxpayerRegistrationNumber_TextChanged(object sender, EventArgs e)
         {
-//            GlobalManager.UserConfig.TaxpayerRegistrationNumber = textBoxXTaxpayerRegistrationNumber.Text;
-//            GlobalManager.SaveUserConfig();
-        } 
+            //            GlobalManager.UserConfig.TaxpayerRegistrationNumber = textBoxXTaxpayerRegistrationNumber.Text;
+            //            GlobalManager.SaveUserConfig();
+        }
 
         #endregion
 
-        private void buttonItemAddCompanyInfo_Click(object sender, EventArgs e)
+        #region CheckBox ComboBox控件事件
+
+        private void checkBoxXSkipDownloadedFile_CheckedChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(comboBoxCompanyName.Text))
-            {
-                balloonTip1.SetBalloonText(comboBoxCompanyName, "请输入公司名称");
-                balloonTip1.ShowBalloon(comboBoxCompanyName);
-
-                comboBoxCompanyName.Focus();
-                comboBoxCompanyName.SelectAll();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBoxXTaxpayerRegistrationNumber.Text))
-            {
-                balloonTip1.SetBalloonText(textBoxXTaxpayerRegistrationNumber, "请输入纳税人识别号");
-                balloonTip1.ShowBalloon(textBoxXTaxpayerRegistrationNumber);
-
-                textBoxXTaxpayerRegistrationNumber.Focus();
-                textBoxXTaxpayerRegistrationNumber.SelectAll();
-                return;
-            }
-
-            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p=>p.CompanyName.Equals(comboBoxCompanyName.Text)))
-            {
-                balloonTip1.SetBalloonText(comboBoxCompanyName, "公司名称已存在");
-                balloonTip1.ShowBalloon(comboBoxCompanyName);
-
-                comboBoxCompanyName.Focus();
-                comboBoxCompanyName.SelectAll();
-                return;
-            }
-
-            CompanyInfo companyInfo = new CompanyInfo
-            {
-                CompanyName = comboBoxCompanyName.Text,
-                TaxpayerRegistrationNumber = textBoxXTaxpayerRegistrationNumber.Text
-            };
-            GlobalManager.UserConfig.CompanyInfos.Add(companyInfo);
-            GlobalManager.UserConfig.SelectedCompanyInfo = companyInfo; 
+            GlobalManager.UserConfig.IsSkipDownloadFile = checkBoxXSkipDownloadedFile.Checked;
             GlobalManager.SaveUserConfig();
-            comboBoxCompanyName.SelectedItem = companyInfo;
-
-            balloonTip1.SetBalloonText(comboBoxCompanyName, "添加成功");
-            balloonTip1.ShowBalloon(comboBoxCompanyName);
         }
 
-        private void buttonItemDeleteCompanyInfo_Click(object sender, EventArgs e)
+        private void ComboBoxCompanyName_SelectedIndexChanged(object sender, EventArgs e)
         {
-//            CompanyInfo companyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
-            CompanyInfo companyInfo =
-                GlobalManager.UserConfig.CompanyInfos.ToList().Find(p => p.CompanyName.Equals(comboBoxCompanyName.Text));
-
+            GlobalManager.UserConfig.SelectedCompanyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
             GlobalManager.SaveUserConfig();
-            if (companyInfo == null)
+
+            if (GlobalManager.UserConfig.SelectedCompanyInfo == null)
             {
-                balloonTip1.SetBalloonText(comboBoxCompanyName, "请选择要删除的公司名称");
-                balloonTip1.ShowBalloon(comboBoxCompanyName);
-                 
+                textBoxXTaxpayerRegistrationNumber.Text = "";
                 return;
             }
-
-            GlobalManager.UserConfig.CompanyInfos.Remove(companyInfo);
-            GlobalManager.SaveUserConfig();
-            if (comboBoxCompanyName.SelectedItem !=null)
-            {
-                comboBoxCompanyName.SelectedItem = GlobalManager.UserConfig.SelectedCompanyInfo; 
-            }
-            else
-            {
-                comboBoxCompanyName.SelectedIndex = 0;
-            }
-
-            balloonTip1.SetBalloonText(comboBoxCompanyName, "删除成功");
-            balloonTip1.ShowBalloon(comboBoxCompanyName);
-
-
+            textBoxXTaxpayerRegistrationNumber.Text = GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
         }
+
+        #endregion
     }
 }
