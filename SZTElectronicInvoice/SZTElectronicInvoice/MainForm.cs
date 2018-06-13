@@ -94,6 +94,8 @@ namespace SZTElectronicInvoice
         {
             base.OnLoad(e);
 
+            metroShell1.SelectedTab = metroTabItem1;
+
             textBoxXBrowseInvoicePhotoFolder.Text = @"D:\Program Files\QQRecord\1551935335\FileRecv\MobileFile";
 
             textBoxX1CardNum.TabIndex = 0;
@@ -210,7 +212,11 @@ namespace SZTElectronicInvoice
         private void UpdateprogressBarItemBatchDownloadText()
         {
             progressBarItemBatchDownload.TextVisible = true;
-            progressBarItemBatchDownload.Text = "完成：" + (((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) * 100).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
+            double progress = ((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) *
+                              100;
+            progress = progress >= 99 ? 100 : progress;
+
+            progressBarItemBatchDownload.Text = "完成：" + (progress).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
         }
 
         private void InitDataGridView()
@@ -369,7 +375,7 @@ namespace SZTElectronicInvoice
             paramStringBuilder.Append("&");
             //            paramStringBuilder.Append("jfirmsbh=" + "914403003429400273");
             //            paramStringBuilder.Append("jfirmsbh=" + "91440300752525766M");
-            paramStringBuilder.Append("jfirmfpmc=" + GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber);
+            paramStringBuilder.Append("jfirmsbh=" + GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber);
 
             paramStringBuilder.Append("&");
 
@@ -708,7 +714,7 @@ namespace SZTElectronicInvoice
                 return;
             }
 
-            _autoDownloadStopwatch.Start();
+            _autoDownloadStopwatch.Restart();
             timerAutoDownloadFile.Start();
 
             buttonItemStartBulkDownloadInvoice.Enabled = false;
@@ -740,55 +746,22 @@ namespace SZTElectronicInvoice
                         {
                             ShowBalloon(pictureBoxReceipt, "已停止下载");
                         }));
-                    
+
                         return;
                     }
 
                     Console.WriteLine(path);
                     string cardNum = null, transactionDate = null;
-                    //                    try
-                    //                    {
-                    //                    pictureBoxReceipt.Image = Image.FromFile(path);
-                    //                    System.Drawing.Image img = System.Drawing.Image.FromFile(path);
-                    //                    System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
-                    //                    img.Dispose();
-                    //                    pictureBoxReceipt.Image = bmp;
 
-                    //                     FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-                    //                    pictureBoxReceipt.Image = Image.FromStream(fileStream);
-                    //                     fileStream.Close();
-                    //                     fileStream.Dispose();
-
-                    /*                    //读取文件流
-                                     /*   System.IO.FileStream fs = new System.IO.FileStream(path, FileMode.Open, FileAccess.Read);
-
-                                        int byteLength = (int)fs.Length;
-                                        byte[] fileBytes = new byte[byteLength];
-                                        fs.Read(fileBytes, 0, byteLength);
-
-                                        //文件流关閉,文件解除锁定
-                                        fs.Close();
-                                        Image image = Image.FromStream(new MemoryStream(fileBytes));#1#
-
-                    System.Drawing.Image img = System.Drawing.Image.FromFile(path);
-                    System.Drawing.Image bmp = new System.Drawing.Bitmap(img.Width, img.Height, img.PixelFormat);
-
-                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
-                    g.DrawImage(img, 0, 0);
-                    g.Flush();
-                    g.Dispose();
-                    img.Dispose();
-                    pictureBoxReceipt.Image = img;*/
-
-                    //                    pictureBoxReceipt.Image = Image.FromStream(ByteToStream(SetImageToByteArray(path)));
-                    //
-                    // 通过生成clone的方式，使用clone来赋值，从而 FileSourcePath对应的图片得到解锁
-                    //
                     System.Drawing.Image img = System.Drawing.Image.FromFile(path);
                     System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
                     img.Dispose();
 
                     pictureBoxReceipt.Image = bmp;
+                    textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
+                    {
+                        textBoxXInvoiceRecognitionResult.Text = "正在识别……";
+                    }));
 
                     string result = Youtu.generalocr(path);
 
@@ -884,39 +857,6 @@ namespace SZTElectronicInvoice
                                 downloadResult, DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path)));
                         }));
                     }
-                    picVerificationImage.Image = ZXNetworking.GetValidateImage();
-                    string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
-                    {
-                        textBoxXIdentifyCode.Text = orcResult;
-                    }));
-
-                    if (!ret)
-                    {
-                        //                        File.Copy(path,Path.path);
-                        //                        File.Move(path, Path.Combine(@"C:\Users\15519\Desktop\未下载成功的发票", cardNum + DateTime.Now.ToString(" HHmmss.fff") + ".JPG"));
-
-                    }
-                    else
-                    {
-                        //                        File.Delete(path);
-                    }
-                    //                    }
-                    //                    catch (Exception exception)
-                    //                    {
-                    //                        try
-                    //                        {
-                    //                            this.Invoke(new Action(() =>
-                    //                            {
-                    //                                GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum, transactionDate, false,
-                    //                                    exception.Message, DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path)));
-                    //                            }));
-                    //                        }
-                    //                        catch (Exception e1)
-                    //                        {
-                    //                            Console.WriteLine(e1);
-                    //                        }
-                    //                    }
 
                     if (this.IsHandleCreated)
                     {
@@ -926,6 +866,13 @@ namespace SZTElectronicInvoice
                             //                            progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
                         }));
                     }
+
+                    picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                    string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+                    {
+                        textBoxXIdentifyCode.Text = orcResult;
+                    }));
                 }
 
                 foreach (var electronicInvoiceInfo in GlobalManager.ElectronicInvoiceInfos)
@@ -952,7 +899,7 @@ namespace SZTElectronicInvoice
 
         private void buttonItemStopBulkDownloadInvoice_Click(object sender, EventArgs e)
         {
-            ShowBalloon(pictureBoxReceipt,"当前正在下载的发票下载完成后才会停止下载");
+            ShowBalloon(pictureBoxReceipt, "当前正在下载的发票下载完成后才会停止下载");
             buttonItemStartBulkDownloadInvoice.Enabled = true;
             buttonItemStopBulkDownloadInvoice.Enabled = false;
             _startBatchDownload = false;
@@ -1057,6 +1004,13 @@ namespace SZTElectronicInvoice
         private void timerAutoDownloadFile_Tick(object sender, EventArgs e)
         {
             UpdateprogressBarItemBatchDownloadText();
+        }
+
+        private void buttonItemAbout_Click(object sender, EventArgs e)
+        {
+            MessageBoxEx.Show("人生苦短，请给作者一个Star吧\r\n在打开的页面点击右上角的Star即可，不要钱的");
+
+            Process.Start("https://github.com/GanZhiXiong/SZTElectronicInvoice");
         }
     }
 }
