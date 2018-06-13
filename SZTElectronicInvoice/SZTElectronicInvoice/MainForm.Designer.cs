@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -77,6 +77,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
+            this.timerAutoDownloadFile = new System.Windows.Forms.Timer(this.components);
             this.metroShell1.SuspendLayout();
             this.metroTabPanel3.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
@@ -101,9 +102,9 @@
             // 
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
@@ -165,6 +166,7 @@
             // 
             this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel3.TabIndex = 3;
+            this.metroTabPanel3.Visible = false;
             // 
             // comboBoxCompanyName
             // 
@@ -281,10 +283,10 @@
             this.metroTabPanel2.Controls.Add(this.labelX4);
             this.metroTabPanel2.Controls.Add(this.metroToolbar4);
             this.metroTabPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel2.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel2.Location = new System.Drawing.Point(0, 63);
             this.metroTabPanel2.Name = "metroTabPanel2";
             this.metroTabPanel2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel2.Size = new System.Drawing.Size(764, 533);
+            this.metroTabPanel2.Size = new System.Drawing.Size(764, 470);
             // 
             // 
             // 
@@ -298,7 +300,6 @@
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 2;
-            this.metroTabPanel2.Visible = false;
             // 
             // textBoxXInvoiceRecognitionResult
             // 
@@ -714,6 +715,7 @@
             // 
             // metroTabItem2
             // 
+            this.metroTabItem2.Checked = true;
             this.metroTabItem2.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem2.Name = "metroTabItem2";
             this.metroTabItem2.Panel = this.metroTabPanel2;
@@ -721,7 +723,6 @@
             // 
             // metroTabItem3
             // 
-            this.metroTabItem3.Checked = true;
             this.metroTabItem3.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
@@ -826,39 +827,44 @@
             // 
             this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
             this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle6;
             this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
             this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
             this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
             this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
             this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
             this.zxDataGridViewXDownloadResult.TabIndex = 4;
+            // 
+            // timerAutoDownloadFile
+            // 
+            this.timerAutoDownloadFile.Interval = 1000;
+            this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
             // 
             // MainForm
             // 
@@ -932,5 +938,6 @@
         private DevComponents.DotNetBar.ButtonItem buttonItemAddCompanyInfo;
         private DevComponents.DotNetBar.ButtonItem buttonItemDeleteCompanyInfo;
         private DevComponents.DotNetBar.Controls.CheckBoxX checkBoxXSkipDownloadedFile;
+        private System.Windows.Forms.Timer timerAutoDownloadFile;
     }
 }

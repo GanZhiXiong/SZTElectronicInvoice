@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace SZTElectronicInvoice
     public partial class MainForm : MetroAppForm
     {
         private bool _startBatchDownload;
+
+        private Stopwatch _autoDownloadStopwatch = new Stopwatch();
 
         #region 窗体构造函数
 
@@ -159,6 +162,12 @@ namespace SZTElectronicInvoice
 
         #region private method
 
+        private void ShowBalloon(Control control, string message)
+        {
+            balloonTip1.SetBalloonText(control, message);
+            balloonTip1.ShowBalloon(control);
+        }
+
         private bool IsConfigurationComplete()
         {
 
@@ -195,7 +204,13 @@ namespace SZTElectronicInvoice
         {
             progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / blockLength;
             progressBarItemBatchDownload.TextVisible = true;
-            progressBarItemBatchDownload.Text = (((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) * 100).ToString("0.##") + "%";
+            UpdateprogressBarItemBatchDownloadText();
+        }
+
+        private void UpdateprogressBarItemBatchDownloadText()
+        {
+            progressBarItemBatchDownload.TextVisible = true;
+            progressBarItemBatchDownload.Text = "完成：" + (((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) * 100).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
         }
 
         private void InitDataGridView()
@@ -580,10 +595,10 @@ namespace SZTElectronicInvoice
             {
                 comboBoxCompanyName.SelectedItem = GlobalManager.UserConfig.SelectedCompanyInfo;
             }
-//            else
-//            {
-//                comboBoxCompanyName.SelectedIndex = 0;
-//            }
+            //            else
+            //            {
+            //                comboBoxCompanyName.SelectedIndex = 0;
+            //            }
 
             balloonTip1.SetBalloonText(comboBoxCompanyName, "删除成功");
             balloonTip1.ShowBalloon(comboBoxCompanyName);
@@ -693,6 +708,9 @@ namespace SZTElectronicInvoice
                 return;
             }
 
+            _autoDownloadStopwatch.Start();
+            timerAutoDownloadFile.Start();
+
             buttonItemStartBulkDownloadInvoice.Enabled = false;
             buttonItemStopBulkDownloadInvoice.Enabled = true;
             _startBatchDownload = true;
@@ -706,6 +724,7 @@ namespace SZTElectronicInvoice
 
             progressBarItemBatchDownload.Text = "";
             progressBarItemBatchDownload.Value = 0;
+            progressBarItemBatchDownload.TextVisible = true;
 
             Thread thread = new Thread(() =>
             {
@@ -714,6 +733,14 @@ namespace SZTElectronicInvoice
                 {
                     if (!_startBatchDownload)
                     {
+                        _autoDownloadStopwatch.Stop();
+                        timerAutoDownloadFile.Stop();
+
+                        this.Invoke(new Action(() =>
+                        {
+                            ShowBalloon(pictureBoxReceipt, "已停止下载");
+                        }));
+                    
                         return;
                     }
 
@@ -916,12 +943,16 @@ namespace SZTElectronicInvoice
 
                     MessageBoxEx.Show("批量下载发票已完成");
                 }));
+
+                _autoDownloadStopwatch.Stop();
+                timerAutoDownloadFile.Stop();
             });
             thread.Start();
         }
 
         private void buttonItemStopBulkDownloadInvoice_Click(object sender, EventArgs e)
         {
+            ShowBalloon(pictureBoxReceipt,"当前正在下载的发票下载完成后才会停止下载");
             buttonItemStartBulkDownloadInvoice.Enabled = true;
             buttonItemStopBulkDownloadInvoice.Enabled = false;
             _startBatchDownload = false;
@@ -1022,5 +1053,10 @@ namespace SZTElectronicInvoice
         }
 
         #endregion
+
+        private void timerAutoDownloadFile_Tick(object sender, EventArgs e)
+        {
+            UpdateprogressBarItemBatchDownloadText();
+        }
     }
 }
