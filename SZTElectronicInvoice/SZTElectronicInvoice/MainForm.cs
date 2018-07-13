@@ -27,10 +27,29 @@ namespace SZTElectronicInvoice
 
         private Stopwatch _autoDownloadStopwatch = new Stopwatch();
 
+        private int _autoDownloadCount = 0;
+        private int _autoHaveDownloadedCount = 0;
+
+        private List<ElectronicInvoiceInfo> _currentAutoHaveDownloadElectronicInvoiceInfos =
+            new List<ElectronicInvoiceInfo>();
+
         #region 窗体构造函数
 
         public MainForm()
         {
+            #region test
+
+            MatchCollection mc =
+                Regex.Matches(
+                    @"现在需要从HTML 页面中读取中文，我现在的解决方案是取 >文字<中间的字符，谁有更好的解决方案。还有谁知道 如何用正则判断 < > 吗？val=""100"">100元</td>",
+                    @"(?<=^|>)((?![<>]).)+(?=元<|$)");
+            foreach (Match m in mc)
+            {
+                Console.WriteLine(m.Value);
+            }
+
+            #endregion
+
             InitializeComponent();
 
             this.WindowState = FormWindowState.Normal;
@@ -85,7 +104,6 @@ namespace SZTElectronicInvoice
             #endregion
         }
 
-
         #endregion
 
         #region 重写
@@ -123,12 +141,21 @@ namespace SZTElectronicInvoice
             comboBoxCompanyName.SelectedItem = GlobalManager.UserConfig.SelectedCompanyInfo;
             if (GlobalManager.UserConfig.SelectedCompanyInfo != null)
             {
-                textBoxXTaxpayerRegistrationNumber.Text = GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
+                textBoxXTaxpayerRegistrationNumber.Text =
+                    GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
             }
             comboBoxCompanyName.SelectedIndexChanged += ComboBoxCompanyName_SelectedIndexChanged;
 
             #endregion
 
+            //            pictureBoxReceipt.Image=Image.FromFile(@"C:\Users\15519\Desktop\11\IMG_1917.JPG");
+            //
+            //            return;
+
+//            MessageBoxEx.Show(
+//                "<font size=\"15\" color=\"red\">验证码识别是著者付费购买第三方自动识别验证码平台接口<br/>该平台识别验证码是按照识别个数计算费用，现在验证码识别次数已用完，需要续费才能继续使用<br/>若想继续使用，请在打开的页面，找到【捐助开发者】，微信或支付宝给著者捐助点，著者收到钱后，会将其充值到验证码识别平台<br/>若不想捐助，那就请给作者一个★Star吧<br/>在打开的页面点击右上角的Star即可，不要钱的</font>");
+//            Process.Start("https://github.com/GanZhiXiong/SZTElectronicInvoice");
+//            return;
             Thread thread = new Thread(() =>
             {
                 circularProgressSingleDownload.IsRunning = true;
@@ -138,14 +165,21 @@ namespace SZTElectronicInvoice
                 picVerificationImage.Image = ZXNetworking.GetValidateImage();
                 string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
 
-                this.Invoke(new Action(() =>
+                if (string.IsNullOrWhiteSpace(orcResult))
                 {
-                    textBoxXIdentifyCode.Text = orcResult;
-                    buttonItemStartBulkDownloadInvoice.Enabled = true;
-                    buttonItemStartDownloadInvoice.Enabled = true;
-                    circularProgressSingleDownload.IsRunning = false;
-                    circularProgressSingleDownload.ProgressTextVisible = false;
-                }));
+                    VerificationCodeIdentificationRequiresRenewaFee();
+                }
+                else
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        textBoxXIdentifyCode.Text = orcResult;
+                        buttonItemStartBulkDownloadInvoice.Enabled = true;
+                        buttonItemStartDownloadInvoice.Enabled = true;
+                        circularProgressSingleDownload.IsRunning = false;
+                        circularProgressSingleDownload.ProgressTextVisible = false;
+                    }));
+                }
             });
             thread.Start();
         }
@@ -164,6 +198,13 @@ namespace SZTElectronicInvoice
 
         #region private method
 
+        private void VerificationCodeIdentificationRequiresRenewaFee()
+        {
+            MessageBoxEx.Show(
+                "<font size=\"15\" color=\"red\">验证码识别是著者付费购买第三方自动识别验证码平台接口<br/>该平台识别验证码是按照识别个数计算费用，现在验证码识别次数已用完，需要续费才能继续使用<br/>若想继续使用，请在打开的页面，找到【捐助开发者】，微信或支付宝给著者捐助点，著者收到钱后，会将其充值到验证码识别平台<br/>若不想捐助，那就请给作者一个★Star吧<br/>在打开的页面点击右上角的★Star即可，不要钱的</font>");
+            Process.Start("https://github.com/GanZhiXiong/SZTElectronicInvoice");
+        }
+
         private void ShowBalloon(Control control, string message)
         {
             balloonTip1.SetBalloonText(control, message);
@@ -172,8 +213,8 @@ namespace SZTElectronicInvoice
 
         private bool IsConfigurationComplete()
         {
-
-            if (GlobalManager.UserConfig.SelectedCompanyInfo == null || string.IsNullOrWhiteSpace(GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName))
+            if (GlobalManager.UserConfig.SelectedCompanyInfo == null ||
+                string.IsNullOrWhiteSpace(GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName))
             {
                 //                metroTabPanel3.MetroTabItem= metroToolbar3;
 
@@ -204,7 +245,10 @@ namespace SZTElectronicInvoice
 
         private void UpdateProgressBarItemBatchDownload(int blockLength)
         {
-            progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / blockLength;
+            _autoHaveDownloadedCount++;
+            progressBarItemBatchDownload.Value = (int) (progressBarItemBatchDownload.Maximum *
+                                                        ((double) _autoHaveDownloadedCount / _autoDownloadCount));
+            //            progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / blockLength;
             progressBarItemBatchDownload.TextVisible = true;
             UpdateprogressBarItemBatchDownloadText();
         }
@@ -212,11 +256,20 @@ namespace SZTElectronicInvoice
         private void UpdateprogressBarItemBatchDownloadText()
         {
             progressBarItemBatchDownload.TextVisible = true;
-            double progress = ((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) *
-                              100;
-            progress = progress >= 99 ? 100 : progress;
-
-            progressBarItemBatchDownload.Text = "完成：" + (progress).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
+            //            double progress = ((double)progressBarItemBatchDownload.Value / progressBarItemBatchDownload.Maximum) *
+            //                              100;
+            //            progress = progress >= 99 ? 100 : progress;
+            double progress = ((double) _autoHaveDownloadedCount / _autoDownloadCount) * 100;
+            //            progressBarItemBatchDownload.Text = "完成：" + (progress).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
+            progressBarItemBatchDownload.Text = "已成功/已完成/总共(张):" +
+                                                _currentAutoHaveDownloadElectronicInvoiceInfos
+                                                    .FindAll(a => a.IsDownloaded).Count + "/" +
+                                                _autoHaveDownloadedCount + "/" + _autoDownloadCount + "   合计(元):" +
+                                                _currentAutoHaveDownloadElectronicInvoiceInfos
+                                                    .FindAll(a => a.IsDownloaded == true).Sum(a => a.RechargeAmount) +
+                                                "   完成:" + (progress).ToString("0.##") + "%" + "   用时:" +
+                                                _autoDownloadStopwatch.Elapsed.Minutes + "分" +
+                                                _autoDownloadStopwatch.Elapsed.Seconds + "秒";
         }
 
         private void InitDataGridView()
@@ -231,6 +284,7 @@ namespace SZTElectronicInvoice
             zxDataGridViewXDownloadResult.AddColumn("ImageFileName", "图片名称");
             zxDataGridViewXDownloadResult.AddColumn("CardNum", "卡号");
             zxDataGridViewXDownloadResult.AddColumn("TransactionDate", "交易日期");
+            zxDataGridViewXDownloadResult.AddColumn("RechargeAmount", "金额");
             zxDataGridViewXDownloadResult.AddColumn("IsDownloadedString", "是否已下载");
 
             zxDataGridViewXDownloadResult.AddColumn("CompleteTime", "完成时间");
@@ -239,6 +293,7 @@ namespace SZTElectronicInvoice
             #endregion
 
             #region DataGridViewX 事件 
+
             zxDataGridViewXDownloadResult.RowsAdded += ZxDataGridViewXDownloadResult_RowsAdded;
             //            TaskGridView.MouseClick += TaskGridView_MouseClick;
             //            TaskGridView.RowPostPaint += TaskGridView_RowPostPaint;
@@ -249,199 +304,70 @@ namespace SZTElectronicInvoice
 
         private void ZxDataGridViewXDownloadResult_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            ZXDataGridViewX myDataGridViewX = (ZXDataGridViewX)sender;
+            ZXDataGridViewX myDataGridViewX = (ZXDataGridViewX) sender;
             myDataGridViewX.FirstDisplayedScrollingRowIndex = myDataGridViewX.RowCount - 1;
         }
 
-        private bool DownloadElectronicInvoice(ref string downloadResult, string cardNum, string transactionDate, string downloadFileName)
+        private bool DownloadElectronicInvoice(ref string downloadResult,
+            string cardNum, string transactionDate, string downloadFileName,
+            ElectronicInvoiceInfo electronicInvoiceInfo = null)
         {
-            string orcResult;
-            string url = "https://www.shenzhentong.com/Ajax/ElectronicInvoiceAjax.aspx";
-
-            string ret = ZXNetworking.PostRequest(url, string.Format("tp={0}&yzm={1}&cardnum={2}", "1",
-                textBoxXIdentifyCode.Text, cardNum
-            ));
-            //            GetValidateImage();
-
-            string state = StringOperation.GetMiddleText(ret, @"state"":""", @"""");
-            if (!state.Equals("100"))
+            try
             {
-                picVerificationImage.Image = ZXNetworking.GetValidateImage();
-                orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                string orcResult;
+                string url = "https://www.shenzhentong.com/Ajax/ElectronicInvoiceAjax.aspx";
 
-                textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+                string ret = ZXNetworking.PostRequest(url, string.Format("tp={0}&yzm={1}&cardnum={2}", "1",
+                    textBoxXIdentifyCode.Text, cardNum
+                ));
+                //            GetValidateImage();
+
+                string state = StringOperation.GetMiddleText(ret, @"state"":""", @"""");
+                if (!state.Equals("100"))
                 {
-                    textBoxXIdentifyCode.Text = orcResult;
-                }));
-
-                downloadResult = "第1条充值记录不存在或者已开票";
-                return false;
-            }
-            string fplistUrl = string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html",
-                cardNum, transactionDate);
-            string ret1 = ZXNetworking.GetRequest(fplistUrl);
-
-            if (ret1.Contains("开票中"))
-            {
-                picVerificationImage.Image = ZXNetworking.GetValidateImage();
-                orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-                textBoxXIdentifyCode.Invoke(new Action(() =>
-                {
-                    textBoxXIdentifyCode.Text = orcResult;
-                }));
-
-                downloadResult = "开票中，请稍后再试";
-                return false;
-            }
-
-            if (ret1.Contains(".pdf"))
-            {
-                if (GlobalManager.UserConfig.IsSkipDownloadFile)
-                {
-                    downloadResult = "跳过";
-                    return true;
-                }
-
-                Regex regImg = new Regex(
-                    @"(?is)<a[^>]*?href=(['""\s]?)(?<href>([^'""\s]*\.doc)|([^'""\s]*\.docx)|([^'""\s]*\.xls)|([^'""\s]*\.xlsx)|([^'""\s]*\.ppt)|([^'""\s]*\.txt)|([^'""\s]*\.zip)|([^'""\s]*\.rar)|([^'""\s]*\.gz)|([^'""\s]*\.pdf))\1[^>]*?>");
-                MatchCollection match = regImg.Matches(ret1);
-                foreach (Match m in match)
-                {
-                    //                Response.Write(m.Groups["href"].Value + "<br/>");
-                    //                Console.WriteLine(m.Groups["href"].Value );
-                    string pdfDownloadUrl = m.Groups["href"].Value;
-                    bool pdfDownloadRet = ZXNetworking.DownloadFile(pdfDownloadUrl, GlobalManager.DownloadPath,
-                        downloadFileName, 3);
                     picVerificationImage.Image = ZXNetworking.GetValidateImage();
                     orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-                    textBoxXIdentifyCode.Invoke(new Action(() =>
+
+                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
                     {
                         textBoxXIdentifyCode.Text = orcResult;
                     }));
 
-                    if (pdfDownloadRet)
-                    {
-                        downloadResult = "下载发票成功";
-                        return true;
-                    }
-                    else
-                    {
-                        downloadResult = "下载发票失败";
-                        return false;
-                    }
+                    downloadResult = "第1条充值记录不存在或者已开票";
+                    return false;
+                }
+                string fplistUrl = string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html",
+                    cardNum, transactionDate);
+                string ret1 = ZXNetworking.GetRequest(fplistUrl);
 
+                MatchCollection mc = Regex.Matches(ret1, @"(?<=^|>)((?![<>]).)+(?=元<|$)");
+                foreach (Match m in mc)
+                {
+                    Console.WriteLine(m.Value);
+                }
+                decimal rechargeAmout = 0;
+                if (mc.Count != 0)
+                {
+                    if (!String.IsNullOrWhiteSpace(mc[0].Value))
+                    {
+                        rechargeAmout = Convert.ToDecimal(mc[0].Value);
+                    }
+                }
+                if (electronicInvoiceInfo != null)
+                {
+                    electronicInvoiceInfo.RechargeAmount = rechargeAmout;
                 }
 
-            }
-
-            string sj = StringOperation.GetMiddleText(ret1, @"sj=""", @""">");
-            if (string.IsNullOrWhiteSpace(sj))
-            {
-                downloadResult = "sj为空";
-                return false;
-            }
-
-
-            //            tp	3
-            //jlsh	14
-            //jzdh	262011503
-            //jkh	368282314
-            //jrq	20180412
-            //jsj	223956
-            //jfirmfpmc	环汇系统科技（深圳）有限公司
-            //jfirmsbh	914403003429400273
-            //jfirmaddre	
-            //jfirmtel	
-            //jfirmyh	
-            //jfirmyhzh	
-            //jfirmphone	13728754591
-            StringBuilder paramStringBuilder = new StringBuilder();
-            paramStringBuilder.Append("tp=3");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jlsh=14");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jzdh=262011503");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jkh=" + cardNum);
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jrq=" + transactionDate);
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jsj=" + sj);
-            paramStringBuilder.Append("&");
-            //            paramStringBuilder.Append("jfirmfpmc=" + "深圳市华汇设计有限公司");
-            paramStringBuilder.Append("jfirmfpmc=" + GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName);
-
-            //            paramStringBuilder.Append("jfirmfpmc=" + "环汇系统科技（深圳）有限公司");
-            paramStringBuilder.Append("&");
-            //            paramStringBuilder.Append("jfirmsbh=" + "914403003429400273");
-            //            paramStringBuilder.Append("jfirmsbh=" + "91440300752525766M");
-            paramStringBuilder.Append("jfirmsbh=" + GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber);
-
-            paramStringBuilder.Append("&");
-
-
-            paramStringBuilder.Append("jfirmaddre=");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jfirmtel=");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jfirmyh=");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jfirmyhzh=");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("jfirmphone=" + "13728754591");
-            string ret2 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
-            string strs = StringOperation.GetMiddleText(ret2, @"strs"":""", @""",");
-            if (string.IsNullOrWhiteSpace(strs))
-            {
-                string message = StringOperation.GetMiddleText(ret2, @"message"":""", @"""");
-
-                downloadResult = message;
-                return false;
-            }
-            paramStringBuilder = new StringBuilder();
-            paramStringBuilder.Append("tp=4");
-            paramStringBuilder.Append("&");
-            paramStringBuilder.Append("pid=" + strs);
-            string ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
-            string downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
-            if (string.IsNullOrWhiteSpace(downloadUrl))
-            {
-                Thread.Sleep(1000);
-                ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
-                downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
-            }
-            if (string.IsNullOrWhiteSpace(downloadUrl))
-            {
-                Thread.Sleep(1000);
-                ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
-                downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
-            }
-            if (string.IsNullOrWhiteSpace(downloadUrl))
-            {
-                Thread.Sleep(1000);
-                ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
-                downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
-            }
-            if (string.IsNullOrWhiteSpace(downloadUrl))
-            {
-                url = string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html",
-                    cardNum, transactionDate);
-                ret1 = ZXNetworking.GetRequest(url);
+                GlobalManager.DownloadPath = GlobalManager.MainDownloadPath +
+                                             GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName + "/" +
+                                             rechargeAmout + "/";
+                Directory.CreateDirectory(GlobalManager.DownloadPath);
 
                 if (ret1.Contains("开票中"))
                 {
                     picVerificationImage.Image = ZXNetworking.GetValidateImage();
                     orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-                    textBoxXIdentifyCode.Invoke(new Action(() =>
-                    {
-                        textBoxXIdentifyCode.Text = orcResult;
-                    }));
-
-                    //                    balloonTip1.SetBalloonText(textBoxX1CardNum, "开票中，请稍后再试");
-                    //                    balloonTip1.ShowBalloon(textBoxX1CardNum);
-
-                    textBoxX1CardNum.Focus();
-                    textBoxX1CardNum.SelectAll();
+                    textBoxXIdentifyCode.Invoke(new Action(() => { textBoxXIdentifyCode.Text = orcResult; }));
 
                     downloadResult = "开票中，请稍后再试";
                     return false;
@@ -452,7 +378,7 @@ namespace SZTElectronicInvoice
                     if (GlobalManager.UserConfig.IsSkipDownloadFile)
                     {
                         downloadResult = "跳过";
-                        return true;
+                        return false;
                     }
 
                     Regex regImg = new Regex(
@@ -465,6 +391,9 @@ namespace SZTElectronicInvoice
                         string pdfDownloadUrl = m.Groups["href"].Value;
                         bool pdfDownloadRet = ZXNetworking.DownloadFile(pdfDownloadUrl, GlobalManager.DownloadPath,
                             downloadFileName, 3);
+                        picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                        orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                        textBoxXIdentifyCode.Invoke(new Action(() => { textBoxXIdentifyCode.Text = orcResult; }));
 
                         if (pdfDownloadRet)
                         {
@@ -477,30 +406,178 @@ namespace SZTElectronicInvoice
                             return false;
                         }
                     }
-
                 }
 
-                downloadResult = "下载地址为空";
-                return false;
-            }
-            bool downloadRet = ZXNetworking.DownloadFile(downloadUrl, GlobalManager.DownloadPath,
-                downloadFileName, 3);
-            picVerificationImage.Image = ZXNetworking.GetValidateImage();
-            orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-            textBoxXIdentifyCode.Invoke(new Action(() =>
-            {
-                textBoxXIdentifyCode.Text = orcResult;
-            }));
+                string sj = StringOperation.GetMiddleText(ret1, @"sj=""", @""">");
 
-            if (downloadRet)
-            {
-                downloadResult = "下载发票成功";
-                return true;
+                if (string.IsNullOrWhiteSpace(sj))
+                {
+                    downloadResult = "sj为空";
+                    return false;
+                }
+
+
+                //            tp	3
+                //jlsh	14
+                //jzdh	262011503
+                //jkh	368282314
+                //jrq	20180412
+                //jsj	223956
+                //jfirmfpmc	环汇系统科技（深圳）有限公司
+                //jfirmsbh	914403003429400273
+                //jfirmaddre	
+                //jfirmtel	
+                //jfirmyh	
+                //jfirmyhzh	
+                //jfirmphone	13728754591
+                StringBuilder paramStringBuilder = new StringBuilder();
+                paramStringBuilder.Append("tp=3");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jlsh=14");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jzdh=262011503");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jkh=" + cardNum);
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jrq=" + transactionDate);
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jsj=" + sj);
+                paramStringBuilder.Append("&");
+                //            paramStringBuilder.Append("jfirmfpmc=" + "深圳市华汇设计有限公司");
+                paramStringBuilder.Append("jfirmfpmc=" + GlobalManager.UserConfig.SelectedCompanyInfo.CompanyName);
+
+                //            paramStringBuilder.Append("jfirmfpmc=" + "环汇系统科技（深圳）有限公司");
+                paramStringBuilder.Append("&");
+                //            paramStringBuilder.Append("jfirmsbh=" + "914403003429400273");
+                //            paramStringBuilder.Append("jfirmsbh=" + "91440300752525766M");
+                paramStringBuilder.Append("jfirmsbh=" +
+                                          GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber);
+
+                paramStringBuilder.Append("&");
+
+
+                paramStringBuilder.Append("jfirmaddre=");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jfirmtel=");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jfirmyh=");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jfirmyhzh=");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("jfirmphone=" + "13728754591");
+                string ret2 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
+                string strs = StringOperation.GetMiddleText(ret2, @"strs"":""", @""",");
+                if (string.IsNullOrWhiteSpace(strs))
+                {
+                    string message = StringOperation.GetMiddleText(ret2, @"message"":""", @"""");
+
+                    downloadResult = message;
+                    return false;
+                }
+                paramStringBuilder = new StringBuilder();
+                paramStringBuilder.Append("tp=4");
+                paramStringBuilder.Append("&");
+                paramStringBuilder.Append("pid=" + strs);
+                Thread.Sleep(3000);
+                string ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
+                string downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
+                if (string.IsNullOrWhiteSpace(downloadUrl))
+                {
+                    Thread.Sleep(3000);
+                    ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
+                    downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
+                }
+                if (string.IsNullOrWhiteSpace(downloadUrl))
+                {
+                    Thread.Sleep(3000);
+                    ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
+                    downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
+                }
+                if (string.IsNullOrWhiteSpace(downloadUrl))
+                {
+                    Thread.Sleep(3000);
+                    ret3 = ZXNetworking.PostRequest(url, paramStringBuilder.ToString());
+                    downloadUrl = StringOperation.GetMiddleText(ret3, @"strs"":""", @"""");
+                }
+                if (string.IsNullOrWhiteSpace(downloadUrl))
+                {
+                    url = string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html",
+                        cardNum, transactionDate);
+                    ret1 = ZXNetworking.GetRequest(url);
+
+                    if (ret1.Contains("开票中"))
+                    {
+                        picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                        orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                        textBoxXIdentifyCode.Invoke(new Action(() => { textBoxXIdentifyCode.Text = orcResult; }));
+
+                        //                    balloonTip1.SetBalloonText(textBoxX1CardNum, "开票中，请稍后再试");
+                        //                    balloonTip1.ShowBalloon(textBoxX1CardNum);
+
+                        textBoxX1CardNum.Focus();
+                        textBoxX1CardNum.SelectAll();
+
+                        downloadResult = "开票中，请稍后再试";
+                        return false;
+                    }
+
+                    if (ret1.Contains(".pdf"))
+                    {
+                        if (GlobalManager.UserConfig.IsSkipDownloadFile)
+                        {
+                            downloadResult = "跳过";
+                            return true;
+                        }
+
+                        Regex regImg = new Regex(
+                            @"(?is)<a[^>]*?href=(['""\s]?)(?<href>([^'""\s]*\.doc)|([^'""\s]*\.docx)|([^'""\s]*\.xls)|([^'""\s]*\.xlsx)|([^'""\s]*\.ppt)|([^'""\s]*\.txt)|([^'""\s]*\.zip)|([^'""\s]*\.rar)|([^'""\s]*\.gz)|([^'""\s]*\.pdf))\1[^>]*?>");
+                        MatchCollection match = regImg.Matches(ret1);
+                        foreach (Match m in match)
+                        {
+                            //                Response.Write(m.Groups["href"].Value + "<br/>");
+                            //                Console.WriteLine(m.Groups["href"].Value );
+                            string pdfDownloadUrl = m.Groups["href"].Value;
+                            bool pdfDownloadRet = ZXNetworking.DownloadFile(pdfDownloadUrl, GlobalManager.DownloadPath,
+                                downloadFileName, 3);
+
+                            if (pdfDownloadRet)
+                            {
+                                downloadResult = "下载发票成功";
+                                return true;
+                            }
+                            else
+                            {
+                                downloadResult = "下载发票失败";
+                                return false;
+                            }
+                        }
+                    }
+
+                    downloadResult = "下载地址为空";
+                    return false;
+                }
+                bool downloadRet = ZXNetworking.DownloadFile(downloadUrl, GlobalManager.DownloadPath,
+                    downloadFileName, 3);
+                picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                textBoxXIdentifyCode.Invoke(new Action(() => { textBoxXIdentifyCode.Text = orcResult; }));
+
+                if (downloadRet)
+                {
+                    downloadResult = "下载发票成功";
+                    return true;
+                }
+                else
+                {
+                    downloadResult = "下载发票失败";
+                    return false;
+                }
             }
-            else
+            catch (Exception exception)
             {
-                downloadResult = "下载发票失败";
+                downloadResult = exception.Message;
                 return false;
+                //                throw;
             }
         }
 
@@ -543,7 +620,8 @@ namespace SZTElectronicInvoice
                 return;
             }
 
-            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p => p.CompanyName.Equals(comboBoxCompanyName.Text)))
+            if (GlobalManager.UserConfig.CompanyInfos.ToList()
+                .Exists(p => p.CompanyName.Equals(comboBoxCompanyName.Text)))
             {
                 balloonTip1.SetBalloonText(comboBoxCompanyName, "公司名称已存在");
                 balloonTip1.ShowBalloon(comboBoxCompanyName);
@@ -553,7 +631,8 @@ namespace SZTElectronicInvoice
                 return;
             }
 
-            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p => p.TaxpayerRegistrationNumber.Equals(textBoxXTaxpayerRegistrationNumber.Text)))
+            if (GlobalManager.UserConfig.CompanyInfos.ToList().Exists(p =>
+                p.TaxpayerRegistrationNumber.Equals(textBoxXTaxpayerRegistrationNumber.Text)))
             {
                 balloonTip1.SetBalloonText(textBoxXTaxpayerRegistrationNumber, "纳税人识别号已存在");
                 balloonTip1.ShowBalloon(textBoxXTaxpayerRegistrationNumber);
@@ -584,7 +663,8 @@ namespace SZTElectronicInvoice
         {
             //            CompanyInfo companyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
             CompanyInfo companyInfo =
-                GlobalManager.UserConfig.CompanyInfos.ToList().Find(p => p.CompanyName.Equals(comboBoxCompanyName.Text));
+                GlobalManager.UserConfig.CompanyInfos.ToList()
+                    .Find(p => p.CompanyName.Equals(comboBoxCompanyName.Text));
 
             GlobalManager.SaveUserConfig();
             if (companyInfo == null)
@@ -656,42 +736,48 @@ namespace SZTElectronicInvoice
 
             Thread thread = new Thread(() =>
             {
+                ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+                    transactionDate, false,
+                    "正在下载……", DateTime.Now.ToString("HH:mm:ss"), "");
+
                 try
                 {
+                    this.Invoke(new Action(() => { GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo); }));
+
                     string downloadResult = "";
-                    bool ret = DownloadElectronicInvoice(ref downloadResult, cardNum, transactionDate, cardNum + " " + transactionDate + ".pdf");
+                    bool ret = DownloadElectronicInvoice(ref downloadResult, cardNum, transactionDate,
+                        cardNum + " " + transactionDate + ".pdf", electronicInvoiceInfo);
 
                     balloonTip1.SetBalloonText(textBoxX1CardNum, downloadResult);
                     balloonTip1.ShowBalloon(textBoxX1CardNum);
                     textBoxX1CardNum.Focus();
                     textBoxX1CardNum.SelectAll();
 
-                    this.Invoke(new Action(() =>
-                    {
-                        GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum, transactionDate, ret,
-                            downloadResult, DateTime.Now.ToString("HH:mm:ss"), ""));
-                    }));
+                    electronicInvoiceInfo.IsDownloaded = ret;
+                    electronicInvoiceInfo.DownloadResult = downloadResult;
+                    //                    this.Invoke(new Action(() =>
+                    //                    {
+                    //                        GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                    //                    }));
                 }
                 catch (Exception exception)
                 {
-                    try
-                    {
-                        this.Invoke(new Action(() =>
+                    electronicInvoiceInfo.DownloadResult = exception.Message;
+                    /*    try
                         {
-                            GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum, transactionDate, false,
-                                exception.Message, DateTime.Now.ToString("HH:mm:ss"), ""));
-                        }));
-                    }
-                    catch (Exception e1)
-                    {
-                        Console.WriteLine(e1);
-                    }
+                            this.Invoke(new Action(() =>
+                            {
+                                GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum, transactionDate, false,
+                                    exception.Message, DateTime.Now.ToString("HH:mm:ss"), ""));
+                            }));
+                        }
+                        catch (Exception e1)
+                        {
+                            Console.WriteLine(e1);
+                        }*/
                 }
 
-                this.Invoke(new Action(() =>
-                {
-                    circularProgressSingleDownload.IsRunning = false;
-                }));
+                this.Invoke(new Action(() => { circularProgressSingleDownload.IsRunning = false; }));
             });
             thread.Start();
         }
@@ -720,6 +806,7 @@ namespace SZTElectronicInvoice
             buttonItemStartBulkDownloadInvoice.Enabled = false;
             buttonItemStopBulkDownloadInvoice.Enabled = true;
             _startBatchDownload = true;
+            _currentAutoHaveDownloadElectronicInvoiceInfos.Clear();
 
             //改代码会异常：路径中具有非法字符。
             //            var images = Directory.GetFiles(@"C:\\Users\\15519\\Desktop\\深圳通电子发票", "*.png|*.jpg", SearchOption.TopDirectoryOnly);
@@ -727,6 +814,8 @@ namespace SZTElectronicInvoice
 
             var images = Directory.GetFiles(textBoxXBrowseInvoicePhotoFolder.Text, ".", SearchOption.TopDirectoryOnly)
                 .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".JPG") || s.EndsWith(".gif"));
+            _autoDownloadCount = images.Count();
+            _autoHaveDownloadedCount = 0;
 
             progressBarItemBatchDownload.Text = "";
             progressBarItemBatchDownload.Value = 0;
@@ -734,165 +823,219 @@ namespace SZTElectronicInvoice
 
             Thread thread = new Thread(() =>
             {
-                //遍历string 型 images数组
-                foreach (var path in images)
+                try
                 {
-                    if (!_startBatchDownload)
+                    //遍历string 型 images数组
+                    foreach (var path in images)
                     {
-                        _autoDownloadStopwatch.Stop();
-                        timerAutoDownloadFile.Stop();
-
-                        this.Invoke(new Action(() =>
+                        if (!_startBatchDownload)
                         {
-                            ShowBalloon(pictureBoxReceipt, "已停止下载");
+                            _autoDownloadStopwatch.Stop();
+                            timerAutoDownloadFile.Stop();
+
+                            this.Invoke(new Action(() => { ShowBalloon(pictureBoxReceipt, "已停止下载"); }));
+
+                            return;
+                        }
+
+                        Console.WriteLine(path);
+                        string cardNum = null, transactionDate = null;
+
+                        System.Drawing.Image img = System.Drawing.Image.FromFile(path);
+                        System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
+                        img.Dispose();
+
+                        pictureBoxReceipt.Image = bmp;
+                        textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
+                        {
+                            textBoxXInvoiceRecognitionResult.Text =
+                                "正在识别……\r\n若识别不正确，可能原因如下：\r\n1、图片文字不是朝正面，请将图片旋转后再操作\r\n2、图片文字不清晰或缺失";
                         }));
 
-                        return;
-                    }
+                        string result = Youtu.generalocr(path);
 
-                    Console.WriteLine(path);
-                    string cardNum = null, transactionDate = null;
+                        JObject jObj = JObject.Parse(result);
+                        var items = (from staff1 in jObj["items"].Children()
+                            select (string) staff1["itemstring"]).ToList();
 
-                    System.Drawing.Image img = System.Drawing.Image.FromFile(path);
-                    System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
-                    img.Dispose();
-
-                    pictureBoxReceipt.Image = bmp;
-                    textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
-                    {
-                        textBoxXInvoiceRecognitionResult.Text = "正在识别……";
-                    }));
-
-                    string result = Youtu.generalocr(path);
-
-                    JObject jObj = JObject.Parse(result);
-                    var items = (from staff1 in jObj["items"].Children()
-                                 select (string)staff1["itemstring"]).ToList();
-
-                    if (!items.Contains("清湖"))
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            //                                progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
-                            UpdateProgressBarItemBatchDownload(images.Count());
-
-                            GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum, transactionDate, false,
-                                "批量下载暂只支持在清湖地铁站充值的小票", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path)));
-                        }));
-                        continue;
-                    }
-
-                    int cardNumIndex = items.IndexOf("卡编号") + 1;
-                    cardNum = items[cardNumIndex].Replace(" ", "");
-                    transactionDate = items[items.IndexOf("清湖") + 1].Substring(0, 8);
-                    transactionDate = Convert
-                        .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
-                        .ToString("yyyyMMdd").Replace(" ", "");
-                    string transactionNumber = items[items.IndexOf("交易号") + 1];
-
-                    StringBuilder resultStringBuilder = new StringBuilder();
-                    for (int j = 0; j < 3; j++)
-                    {
-                        resultStringBuilder.AppendLine(items[j]);
-                    }
-                    resultStringBuilder.AppendLine();
-
-                    for (int i = 3; i < 13; i++)
-                    {
-                        if (i % 2 == 0)
-                        {
-                            continue;
-                        }
-                        if (i >= 3 && i <= 12)
-                        {
-                            resultStringBuilder.AppendLine(items[i] + " : " + items[i + 1]);
-                        }
-                    }
-                    resultStringBuilder.AppendLine();
-
-                    resultStringBuilder.AppendLine(items[13]);
-                    for (int i = 14; i < 19; i++)
-                    {
-                        if (i % 2 != 0)
-                        {
-                            continue;
-                        }
-
-                        resultStringBuilder.AppendLine(items[i] + " : " + items[i + 1]);
-                    }
-
-                    textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
-                    {
-                        textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
-                    }));
-
-                    string downloadFileName = cardNum + " " + transactionNumber + ".pdf";
-                    if (File.Exists(GlobalManager.DownloadPath + downloadFileName))
-                    {
-                        if (this.IsHandleCreated)
+                        if (!items.Contains("清湖"))
                         {
                             this.Invoke(new Action(() =>
                             {
-                                //                                    progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
+                                //                                progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
                                 UpdateProgressBarItemBatchDownload(images.Count());
 
-                                GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum,
+                                ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
                                     transactionDate, false,
-                                    "该文件已经下载", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path)));
+                                    "批量下载暂只支持在清湖地铁站充值的小票", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+                                _currentAutoHaveDownloadElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                                GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                            }));
+                            continue;
+                        }
+
+
+                        int cardNumIndex = items.IndexOf("卡编号") + 1;
+                        cardNum = items[cardNumIndex].Replace(" ", "");
+                        int intTemp = 0;
+                        if (!int.TryParse(cardNum, out intTemp)) //判断是否可以转换为整型
+                        {
+                            cardNumIndex = items.IndexOf("卡编号") - 1;
+                            cardNum = items[cardNumIndex].Replace(" ", "");
+                        }
+                        //                        List<string> cardNumTempList = items.FindAll(a => a.Replace(" ", "").Length == 9);
+                        //                        if (cardNumTempList.Count == 1)
+                        //                        {
+                        //                            cardNum = cardNumTempList[0];
+                        //                        }
+                        //                        if (cardNumTempList.Count > 1)
+                        //                        {
+                        //                            cardNum = cardNumTempList[1];
+                        //                        }
+                        //                        transactionDate = items[items.IndexOf("清湖") + 1].Substring(0, 8);
+                        transactionDate = items.Find(a => a.Contains(":") || a.Contains("/")).Replace(":;", ":")
+                            .Replace(";", ":").Trim();
+                        if (!transactionDate.Contains(" "))
+                        {
+                            transactionDate = transactionDate.Insert(8, " ");
+                        }
+                        transactionDate = Convert
+                            .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
+                            .ToString("yyyyMMdd").Replace(" ", "");
+                        string transactionNumber = items[items.IndexOf("交易号") + 1];
+                        if (string.IsNullOrWhiteSpace(cardNum) || string.IsNullOrWhiteSpace(transactionDate))
+                        {
+                            ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+                                transactionDate, false,
+                                "识别不到卡号和交易日期", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+                            _currentAutoHaveDownloadElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                            GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                            continue;
+                        }
+
+
+                        StringBuilder resultStringBuilder = new StringBuilder();
+                        try
+                        {
+                            for (int j = 0; j < 3; j++)
+                            {
+                                resultStringBuilder.AppendLine(items[j]);
+                            }
+                            resultStringBuilder.AppendLine();
+
+                            for (int i = 3; i < 13; i++)
+                            {
+                                if (i % 2 == 0)
+                                {
+                                    continue;
+                                }
+                                if (i >= 3 && i <= 12)
+                                {
+                                    resultStringBuilder.AppendLine(items[i] + " : " + items[i + 1]);
+                                }
+                            }
+                            resultStringBuilder.AppendLine();
+
+                            resultStringBuilder.AppendLine(items[13]);
+                            for (int i = 14; i < 19; i++)
+                            {
+                                if (i % 2 != 0)
+                                {
+                                    continue;
+                                }
+
+                                resultStringBuilder.AppendLine(items[i] + " : " + items[i + 1]);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+
+                        textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
+                        {
+                            textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
+                        }));
+
+                        string downloadFileName = cardNum + "_" + Path.GetFileName(path) + ".pdf";
+                        if (File.Exists(GlobalManager.DownloadPath + downloadFileName))
+                        {
+                            if (this.IsHandleCreated)
+                            {
+                                this.Invoke(new Action(() =>
+                                {
+                                    //                                    progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
+                                    UpdateProgressBarItemBatchDownload(images.Count());
+
+                                    ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+                                        transactionDate, false,
+                                        "该文件已经下载", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+                                    _currentAutoHaveDownloadElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                                    GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo);
+                                }));
+                            }
+                            continue;
+                        }
+
+                        ElectronicInvoiceInfo currentElectronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+                            transactionDate, false,
+                            "正在下载……", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+                        _currentAutoHaveDownloadElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
+                        if (zxDataGridViewXDownloadResult.IsHandleCreated)
+                        {
+                            zxDataGridViewXDownloadResult.Invoke(new Action(() =>
+                            {
+                                GlobalManager.ElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
                             }));
                         }
-                        continue;
-                    }
 
-                    bool ret = false;
-                    string downloadResult = "";
-                    ret = DownloadElectronicInvoice(ref downloadResult, cardNum, transactionDate, downloadFileName);
+                        bool ret = false;
+                        string downloadResult = "";
+                        decimal rechargeAmount = 0;
+                        ret = DownloadElectronicInvoice(ref downloadResult, cardNum, transactionDate, downloadFileName,
+                            currentElectronicInvoiceInfo);
 
-                    if (zxDataGridViewXDownloadResult.IsHandleCreated)
-                    {
-                        zxDataGridViewXDownloadResult.Invoke(new Action(() =>
+                        currentElectronicInvoiceInfo.DownloadResult = downloadResult;
+                        currentElectronicInvoiceInfo.IsDownloaded = ret;
+
+                        if (this.IsHandleCreated)
                         {
-                            GlobalManager.ElectronicInvoiceInfos.Add(new ElectronicInvoiceInfo(cardNum,
-                                transactionDate, ret,
-                                downloadResult, DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path)));
+                            progressBarItemBatchDownload.Invoke(new Action(() =>
+                            {
+                                UpdateProgressBarItemBatchDownload(images.Count());
+                                //                            progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
+                            }));
+                        }
+
+                        picVerificationImage.Image = ZXNetworking.GetValidateImage();
+                        string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
+                        textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+                        {
+                            textBoxXIdentifyCode.Text = orcResult;
                         }));
                     }
 
-                    if (this.IsHandleCreated)
+                    foreach (var electronicInvoiceInfo in GlobalManager.ElectronicInvoiceInfos)
                     {
-                        progressBarItemBatchDownload.Invoke(new Action(() =>
-                        {
-                            UpdateProgressBarItemBatchDownload(images.Count());
-                            //                            progressBarItemBatchDownload.Value += progressBarItemBatchDownload.Maximum / images.Count();
-                        }));
+                        Console.WriteLine(string.Format("卡号：{0}，交易日期：{1}，是否下载：{2}，下载结果：{3}，完成时间：{4}，文件名：{5}",
+                            electronicInvoiceInfo.CardNum, electronicInvoiceInfo.TransactionDate,
+                            electronicInvoiceInfo.IsDownloaded, electronicInvoiceInfo.DownloadResult,
+                            electronicInvoiceInfo.CompleteTime, electronicInvoiceInfo.ImageFileName));
                     }
 
-                    picVerificationImage.Image = ZXNetworking.GetValidateImage();
-                    string orcResult = ZXNetworking.ORC(picVerificationImage.Image);
-                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+                    this.BeginInvoke(new Action(() =>
                     {
-                        textBoxXIdentifyCode.Text = orcResult;
+                        buttonItemStartBulkDownloadInvoice.Enabled = true;
+                        buttonItemStopBulkDownloadInvoice.Enabled = false;
+
+                        //                        MessageBoxEx.Show("批量下载发票已完成");
                     }));
+
+                    _autoDownloadStopwatch.Stop();
+                    timerAutoDownloadFile.Stop();
                 }
-
-                foreach (var electronicInvoiceInfo in GlobalManager.ElectronicInvoiceInfos)
+                catch (Exception exception)
                 {
-                    Console.WriteLine(string.Format("卡号：{0}，交易日期：{1}，是否下载：{2}，下载结果：{3}，完成时间：{4}，文件名：{5}",
-                        electronicInvoiceInfo.CardNum, electronicInvoiceInfo.TransactionDate,
-                        electronicInvoiceInfo.IsDownloaded, electronicInvoiceInfo.DownloadResult,
-                        electronicInvoiceInfo.CompleteTime, electronicInvoiceInfo.ImageFileName));
                 }
-
-                this.BeginInvoke(new Action(() =>
-                {
-                    buttonItemStartBulkDownloadInvoice.Enabled = true;
-                    buttonItemStopBulkDownloadInvoice.Enabled = false;
-
-                    MessageBoxEx.Show("批量下载发票已完成");
-                }));
-
-                _autoDownloadStopwatch.Stop();
-                timerAutoDownloadFile.Stop();
             });
             thread.Start();
         }
@@ -906,6 +1049,7 @@ namespace SZTElectronicInvoice
         }
 
         #region 将文件转换成流
+
         //public byte[] SetImageToByteArray(string fileName, ref string fileSize)
         /// <summary>
         /// 将文件转换成流
@@ -920,7 +1064,7 @@ namespace SZTElectronicInvoice
                 FileStream fs = new FileStream(fileName, FileMode.Open);
                 FileInfo fileInfo = new FileInfo(fileName);
                 //fileSize = Convert.ToDecimal(fileInfo.Length / 1024).ToString("f2") + " K";
-                int streamLength = (int)fs.Length;
+                int streamLength = (int) fs.Length;
                 image = new byte[streamLength];
                 fs.Read(image, 0, streamLength);
                 fs.Close();
@@ -931,9 +1075,11 @@ namespace SZTElectronicInvoice
                 return image;
             }
         }
+
         #endregion
 
         #region 将byte转换成MemoryStream类型
+
         /// <summary>
         /// 将byte转换成MemoryStream类型
         /// </summary>
@@ -944,9 +1090,11 @@ namespace SZTElectronicInvoice
             MemoryStream mymemorystream = new MemoryStream(mybyte, 0, mybyte.Length);
             return mymemorystream;
         }
+
         #endregion
 
         #region 将byte转换成Image文件
+
         /// <summary>
         /// 将byte转换成Image文件
         /// </summary>
@@ -959,13 +1107,13 @@ namespace SZTElectronicInvoice
             image = Image.FromStream(mymemorystream);
             return image;
         }
+
         #endregion
 
         #endregion
 
         private void metroTabItem3_Click(object sender, EventArgs e)
         {
-
         }
 
         #region TextBox控件事件
@@ -988,7 +1136,7 @@ namespace SZTElectronicInvoice
 
         private void ComboBoxCompanyName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GlobalManager.UserConfig.SelectedCompanyInfo = (CompanyInfo)comboBoxCompanyName.SelectedItem;
+            GlobalManager.UserConfig.SelectedCompanyInfo = (CompanyInfo) comboBoxCompanyName.SelectedItem;
             GlobalManager.SaveUserConfig();
 
             if (GlobalManager.UserConfig.SelectedCompanyInfo == null)
@@ -996,7 +1144,8 @@ namespace SZTElectronicInvoice
                 textBoxXTaxpayerRegistrationNumber.Text = "";
                 return;
             }
-            textBoxXTaxpayerRegistrationNumber.Text = GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
+            textBoxXTaxpayerRegistrationNumber.Text =
+                GlobalManager.UserConfig.SelectedCompanyInfo.TaxpayerRegistrationNumber;
         }
 
         #endregion
@@ -1008,7 +1157,7 @@ namespace SZTElectronicInvoice
 
         private void buttonItemAbout_Click(object sender, EventArgs e)
         {
-            MessageBoxEx.Show("人生苦短，请给作者一个Star吧\r\n在打开的页面点击右上角的Star即可，不要钱的");
+            MessageBoxEx.Show("<font size=\"15\" color=\"red\">人生苦短，请给作者一个★Star吧<br/>在打开的页面点击右上角的Star即可，不要钱的</font>");
 
             Process.Start("https://github.com/GanZhiXiong/SZTElectronicInvoice");
         }

@@ -12,6 +12,7 @@ namespace SZTElectronicInvoice
         public static string DomainName = "http://113.140.3.157:16922/";
 
         public static string DownloadPath = System.Windows.Forms.Application.StartupPath + "/ZhiXiongDownload/";
+        public static string MainDownloadPath = System.Windows.Forms.Application.StartupPath + "/ZhiXiongDownload/";
 
         public static BindingList<ElectronicInvoiceInfo> ElectronicInvoiceInfos = new BindingList<ElectronicInvoiceInfo>();
         //        public static string Cookie { get; set; }

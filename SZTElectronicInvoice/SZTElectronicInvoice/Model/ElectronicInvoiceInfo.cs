@@ -15,6 +15,7 @@ namespace SZTElectronicInvoice.Model
         private string _completeTime;
         private bool _isDownloaded;
         private string _isDownloadedString;
+        private decimal _rechargeAmount;
 
         public string ImageFileName
         {
@@ -48,6 +49,16 @@ namespace SZTElectronicInvoice.Model
             }
         }
 
+        public decimal RechargeAmount
+        {
+            get { return _rechargeAmount; }
+            set
+            {
+                _rechargeAmount = value; 
+                PropertyChanged(this, new PropertyChangedEventArgs("RechargeAmount"));
+            }
+        }
+
         public string DownloadResult
         {
             get { return _downloadResult; }
@@ -75,11 +86,11 @@ namespace SZTElectronicInvoice.Model
             {
                 if (value)
                 {
-                    _isDownloadedString = "是";
+                    IsDownloadedString = "是";
                 }
                 else
                 {
-                    _isDownloadedString = "否";
+                    IsDownloadedString = "否";
                 }
                 _isDownloaded = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("IsDownloaded"));
@@ -98,6 +109,17 @@ namespace SZTElectronicInvoice.Model
 
         public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime,string imageFileName)
         {
+            CardNum = cardNum;
+            TransactionDate = transactionDate;
+            DownloadResult = downloadResult;
+            CompleteTime = completeTime;
+            IsDownloaded = isDownloaded;
+            ImageFileName = imageFileName;
+        }
+
+        public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime, string imageFileName,decimal rechargeAmount)
+        {
+            RechargeAmount = rechargeAmount;
             CardNum = cardNum;
             TransactionDate = transactionDate;
             DownloadResult = downloadResult;

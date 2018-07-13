@@ -95,13 +95,15 @@ namespace SZTElectronicInvoice
 
         public static string ORC(Image image, int failureTryCount = 3)
         {
-            if (failureTryCount == 0)
-            {
-                return null;
-            }
+//            try
+//            {
+                if (failureTryCount == 0)
+                {
+                    return null;
+                }
 
-            //必要的参数
-            var param = new Dictionary<object, object>
+                //必要的参数
+                var param = new Dictionary<object, object>
             {
                 {"username",ruokuaiusername},
                 {"password",ruokuaipassword},
@@ -110,72 +112,78 @@ namespace SZTElectronicInvoice
                 {"softid",ruokuaisoftid},
                 {"softkey",ruokuaisoftkey}
             };
-//            byte[] data = File.ReadAllBytes("pic.jpg");
-            byte[] data = GetByteImage(image);
+                //            byte[] data = File.ReadAllBytes("pic.jpg");
+                byte[] data = GetByteImage(image);
 
-            //提交服务器
-            string httpResult = RuoKuaiHttp.Post("http://api.ruokuai.com/create.xml", param, data);
-             
-            XmlDocument xmlDoc = new XmlDocument();
-            try
-            {
-                xmlDoc.LoadXml(httpResult);
-            }
-            catch
-            {
-                failureTryCount--;
-                ORC(image, failureTryCount);
-                return null;
-                /*richTextBox1.BeginInvoke(new EventHandler(delegate
-                {
-                    richTextBox1.AppendText("返回格式有误\r\n");
-                    richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
-                    richTextBox1.ScrollToCaret();
-                }));*/
-            }
-            XmlNode idNode = xmlDoc.SelectSingleNode("Root/Id");
-            XmlNode resultNode = xmlDoc.SelectSingleNode("Root/Result");
-            XmlNode errorNode = xmlDoc.SelectSingleNode("Root/Error");
-            string result = string.Empty;
-            string topidid = string.Empty;
-            if (resultNode != null && idNode != null)
-            {
-                topidid = idNode.InnerText;
-                result = resultNode.InnerText;
-                return result;
+                //提交服务器
+                string httpResult = RuoKuaiHttp.Post("http://api.ruokuai.com/create.xml", param, data);
 
-                /*   richTextBox1.BeginInvoke(new EventHandler(delegate
-                   {
-                       richTextBox1.AppendText("题目ID：" + topidid + "\r\n");
-                       richTextBox1.AppendText("识别结果：" + result + "\r\n");
-                       richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
-                       richTextBox1.ScrollToCaret();
-                   }));*/
-            }
-            else if (errorNode != null)
-            {
-                failureTryCount--;
-                ORC(image, failureTryCount);
-                return null;
-                /*richTextBox1.BeginInvoke(new EventHandler(delegate
+                XmlDocument xmlDoc = new XmlDocument();
+                try
                 {
-                    richTextBox1.AppendText("识别错误：" + errorNode.InnerText + "\r\n");
-                    richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
-                    richTextBox1.ScrollToCaret();
-                }));*/
-            }
-            else 
-            {
-                failureTryCount--;
-                ORC(image, failureTryCount);
-                return null;
-                /*richTextBox1.BeginInvoke(new EventHandler(delegate
+                    xmlDoc.LoadXml(httpResult);
+                }
+                catch
                 {
-                    richTextBox1.AppendText("未知问题\r\n");
-                    richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
-                    richTextBox1.ScrollToCaret();
-                }));*/
-            }
+                    failureTryCount--;
+                    ORC(image, failureTryCount);
+                    return null;
+                    /*richTextBox1.BeginInvoke(new EventHandler(delegate
+                    {
+                        richTextBox1.AppendText("返回格式有误\r\n");
+                        richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
+                        richTextBox1.ScrollToCaret();
+                    }));*/
+                }
+                XmlNode idNode = xmlDoc.SelectSingleNode("Root/Id");
+                XmlNode resultNode = xmlDoc.SelectSingleNode("Root/Result");
+                XmlNode errorNode = xmlDoc.SelectSingleNode("Root/Error");
+                string result = string.Empty;
+                string topidid = string.Empty;
+                if (resultNode != null && idNode != null)
+                {
+                    topidid = idNode.InnerText;
+                    result = resultNode.InnerText;
+                    return result;
+
+                    /*   richTextBox1.BeginInvoke(new EventHandler(delegate
+                       {
+                           richTextBox1.AppendText("题目ID：" + topidid + "\r\n");
+                           richTextBox1.AppendText("识别结果：" + result + "\r\n");
+                           richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
+                           richTextBox1.ScrollToCaret();
+                       }));*/
+                }
+                else if (errorNode != null)
+                {
+                    failureTryCount--;
+                    ORC(image, failureTryCount);
+                    return null;
+                    /*richTextBox1.BeginInvoke(new EventHandler(delegate
+                    {
+                        richTextBox1.AppendText("识别错误：" + errorNode.InnerText + "\r\n");
+                        richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
+                        richTextBox1.ScrollToCaret();
+                    }));*/
+                }
+                else
+                {
+                    failureTryCount--;
+                    ORC(image, failureTryCount);
+                    return null;
+                    /*richTextBox1.BeginInvoke(new EventHandler(delegate
+                    {
+                        richTextBox1.AppendText("未知问题\r\n");
+                        richTextBox1.Select(richTextBox1.TextLength, richTextBox1.TextLength);
+                        richTextBox1.ScrollToCaret();
+                    }));*/
+                }
+//            }
+//            catch (Exception exception)
+//            {
+//
+//                throw exception;
+//            }
         }
 
         /// <summary>
@@ -186,37 +194,44 @@ namespace SZTElectronicInvoice
         /// <returns></returns>
         public static string PostRequest(string url, string postData)
         {
-            HttpWebRequest request = null;
+//            try
+//            {
+                HttpWebRequest request = null;
 
-            request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
+                request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
 
-            request.Accept = "*/*;";
-            request.UserAgent = "Mozilla/5.0";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.AllowAutoRedirect = true;
-            request.CookieContainer = _cookies;
-            request.KeepAlive = true;
+                request.Accept = "*/*;";
+                request.UserAgent = "Mozilla/5.0";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.AllowAutoRedirect = true;
+                request.CookieContainer = _cookies;
+                request.KeepAlive = true;
 
-            byte[] postdatabyte = Encoding.UTF8.GetBytes(postData);
-            request.ContentLength = postdatabyte.Length;
+                byte[] postdatabyte = Encoding.UTF8.GetBytes(postData);
+                request.ContentLength = postdatabyte.Length;
 
-            using (Stream stream = request.GetRequestStream())
-            {
-                stream.Write(postdatabyte, 0, postdatabyte.Length);
-            }
+                using (Stream stream = request.GetRequestStream())
+                {
+                    stream.Write(postdatabyte, 0, postdatabyte.Length);
+                }
 
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //            GlobalManager.Cookie = response.Headers.Get("Set-Cookie");
+                //            GlobalManager.Cookie = response.Headers.Get("Set-Cookie");
 
-            string strWebData = string.Empty;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-            {
-                strWebData = reader.ReadToEnd();
-            }
+                string strWebData = string.Empty;
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                {
+                    strWebData = reader.ReadToEnd();
+                }
 
-            return strWebData;
+                return strWebData;
+//            }
+//            catch (Exception exception)
+//            { 
+//                throw exception;
+//            }
         }
 
         /// <summary>
@@ -226,19 +241,21 @@ namespace SZTElectronicInvoice
         /// <returns></returns>
         public static string GetRequest(string url)
         {
-            HttpWebRequest request = null;
+//            try
+//            {
+                HttpWebRequest request = null;
 
-            request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
+                request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
 
-            request.Accept = "*/*;";
-            request.UserAgent = "Mozilla/5.0";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.AllowAutoRedirect = true;
-            request.CookieContainer = _cookies;
-            request.KeepAlive = true;
+                request.Accept = "*/*;";
+                request.UserAgent = "Mozilla/5.0";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.AllowAutoRedirect = true;
+                request.CookieContainer = _cookies;
+                request.KeepAlive = true;
 
-            /*   string postData = string.Format("tp={0}&yzm={1}&cardnum={2}", tp, yzm, cardnum
+                /*   string postData = string.Format("tp={0}&yzm={1}&cardnum={2}", tp, yzm, cardnum
                ); //这里按照前面FireBug中查到的POST字符串做相应修改。
                byte[] postdatabyte = Encoding.UTF8.GetBytes(postData);
                request.ContentLength = postdatabyte.Length;
@@ -248,19 +265,25 @@ namespace SZTElectronicInvoice
                    stream.Write(postdatabyte, 0, postdatabyte.Length);
                }*/
 
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //            GlobalManager.Cookie = response.Headers.Get("Set-Cookie");
+                //            GlobalManager.Cookie = response.Headers.Get("Set-Cookie");
 
-            string strWebData = string.Empty;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-            {
-                strWebData = reader.ReadToEnd();
-            }
+                string strWebData = string.Empty;
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                {
+                    strWebData = reader.ReadToEnd();
+                }
 
 
-            //            webBrowser1.Navigate(string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html", textBoxX1CardNum.Text, monthCalendarAdvTransaction.SelectedDate.ToString("yyyyMMdd")));
-            return strWebData;
+                //            webBrowser1.Navigate(string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html", textBoxX1CardNum.Text, monthCalendarAdvTransaction.SelectedDate.ToString("yyyyMMdd")));
+                return strWebData;
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine(e);
+//                throw e;
+//            }
         }
 
         /// <summary>
