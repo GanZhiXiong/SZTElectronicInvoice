@@ -10,7 +10,7 @@ using DevComponents.DotNetBar;
 
 namespace SZTElectronicInvoice
 {
-   public class ZXNetworking
+   public class GZXNetworking
     {
         private static CookieContainer _cookies = null;
         //        public string VerificationImageFileName = "pic.jpg";
