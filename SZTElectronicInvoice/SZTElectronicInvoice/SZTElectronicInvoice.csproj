@@ -54,6 +54,7 @@
     <Compile Include="Common\DataPersistence.cs" />
     <Compile Include="Common\GlobalManager.cs" />
     <Compile Include="Common\GZXImageManager.cs" />
+    <Compile Include="Common\GZXMessageBox.cs" />
     <Compile Include="Common\RuoKuaiHttp.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -99,6 +100,7 @@
   <ItemGroup>
     <Content Include="Lib\DevComponents.DotNetBar2.dll" />
     <Content Include="Lib\DevComponents.DotNetBar2.xml" />
+    <None Include="Resources\new_logo.png" />
     <None Include="Resources\新微_New_48px.ico" />
     <None Include="Resources\logo.png" />
   </ItemGroup>

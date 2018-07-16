@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using DevComponents.DotNetBar;
+using SZTElectronicInvoice.Common;
 
 namespace SZTElectronicInvoice
 {
@@ -18,6 +19,8 @@ namespace SZTElectronicInvoice
             //            MessageBoxEx.EnableGlass = true;
             DevComponents.DotNetBar.LocalizationKeys.LocalizeString +=
                 new DevComponents.DotNetBar.DotNetBarManager.LocalizeStringEventHandler(LocalizationKeys_LocalizeString);
+
+            //GZXMessageBox.MessageBoxResult("失败，点击【确定】重试下载失败的发票，");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

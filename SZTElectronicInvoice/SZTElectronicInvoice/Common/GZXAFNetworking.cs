@@ -311,14 +311,15 @@ namespace SZTElectronicInvoice
                 }
 
                 client.DownloadFile(url, path + fileName);
-                return true;
+                 
             }
             catch (Exception ex)
             {
                 failureTryCount--;
                 DownloadFile(url,path,fileName,failureTryCount);
-                return false;
             }
+
+            return true;
         }
     }
 }
