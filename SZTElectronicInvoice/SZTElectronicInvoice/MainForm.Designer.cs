@@ -37,6 +37,9 @@
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.buttonXzxDataGridViewXDownloadResultRightMenu = new DevComponents.DotNetBar.ButtonX();
+            this.buttonItemCopyCardNum = new DevComponents.DotNetBar.ButtonItem();
+            this.buttonItemzxDataGridViewXDownloadResultClear = new DevComponents.DotNetBar.ButtonItem();
             this.textBoxXInvoiceRecognitionResult = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.pictureBoxReceipt = new System.Windows.Forms.PictureBox();
@@ -45,15 +48,7 @@
             this.metroToolbar4 = new DevComponents.DotNetBar.Metro.MetroToolbar();
             this.buttonItemStartBulkDownloadInvoice = new DevComponents.DotNetBar.ButtonItem();
             this.buttonItemStopBulkDownloadInvoice = new DevComponents.DotNetBar.ButtonItem();
-            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.comboBoxCompanyName = new System.Windows.Forms.ComboBox();
-            this.textBoxXTaxpayerRegistrationNumber = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX7 = new DevComponents.DotNetBar.LabelX();
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.metroToolbar3 = new DevComponents.DotNetBar.Metro.MetroToolbar();
-            this.buttonItemAddCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
-            this.buttonItemDeleteCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
+            this.buttonItemRetryFailure = new DevComponents.DotNetBar.ButtonItem();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.circularProgressSingleDownload = new DevComponents.DotNetBar.Controls.CircularProgress();
             this.labelXTransactionDate = new DevComponents.DotNetBar.LabelX();
@@ -66,6 +61,15 @@
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.comboBoxCompanyName = new System.Windows.Forms.ComboBox();
+            this.textBoxXTaxpayerRegistrationNumber = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.metroToolbar3 = new DevComponents.DotNetBar.Metro.MetroToolbar();
+            this.buttonItemAddCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
+            this.buttonItemDeleteCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
             this.metroTabPanel4 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.metroTabItem1 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem2 = new DevComponents.DotNetBar.Metro.MetroTabItem();
@@ -75,18 +79,18 @@
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.progressBarItemBatchDownload = new DevComponents.DotNetBar.ProgressBarItem();
             this.superTooltip1 = new DevComponents.DotNetBar.SuperTooltip();
+            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.balloonTip1 = new DevComponents.DotNetBar.BalloonTip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerAutoDownloadFile = new System.Windows.Forms.Timer(this.components);
-            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).BeginInit();
-            this.metroTabPanel3.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.metroTabPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -103,9 +107,9 @@
             // 
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
-            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
+            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
@@ -144,6 +148,7 @@
             // metroTabPanel2
             // 
             this.metroTabPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.metroTabPanel2.Controls.Add(this.buttonXzxDataGridViewXDownloadResultRightMenu);
             this.metroTabPanel2.Controls.Add(this.textBoxXInvoiceRecognitionResult);
             this.metroTabPanel2.Controls.Add(this.labelX5);
             this.metroTabPanel2.Controls.Add(this.pictureBoxReceipt);
@@ -168,7 +173,35 @@
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 2;
-            this.metroTabPanel2.Visible = false;
+            // 
+            // buttonXzxDataGridViewXDownloadResultRightMenu
+            // 
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Location = new System.Drawing.Point(0, 0);
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Name = "buttonXzxDataGridViewXDownloadResultRightMenu";
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Size = new System.Drawing.Size(151, 38);
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.buttonItemCopyCardNum,
+            this.buttonItemzxDataGridViewXDownloadResultClear});
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.TabIndex = 10;
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Text = "zxDataGridViewXDownloadResult右键菜单";
+            this.buttonXzxDataGridViewXDownloadResultRightMenu.Visible = false;
+            // 
+            // buttonItemCopyCardNum
+            // 
+            this.buttonItemCopyCardNum.GlobalItem = false;
+            this.buttonItemCopyCardNum.Name = "buttonItemCopyCardNum";
+            this.buttonItemCopyCardNum.Text = "复制卡号";
+            this.buttonItemCopyCardNum.Click += new System.EventHandler(this.buttonItemCopyCardNum_Click);
+            // 
+            // buttonItemzxDataGridViewXDownloadResultClear
+            // 
+            this.buttonItemzxDataGridViewXDownloadResultClear.GlobalItem = false;
+            this.buttonItemzxDataGridViewXDownloadResultClear.Name = "buttonItemzxDataGridViewXDownloadResultClear";
+            this.buttonItemzxDataGridViewXDownloadResultClear.Text = "清空列表";
+            this.buttonItemzxDataGridViewXDownloadResultClear.Click += new System.EventHandler(this.buttonItemzxDataGridViewXDownloadResultClear_Click);
             // 
             // textBoxXInvoiceRecognitionResult
             // 
@@ -185,7 +218,7 @@
             this.textBoxXInvoiceRecognitionResult.Multiline = true;
             this.textBoxXInvoiceRecognitionResult.Name = "textBoxXInvoiceRecognitionResult";
             this.textBoxXInvoiceRecognitionResult.PreventEnterBeep = true;
-            this.textBoxXInvoiceRecognitionResult.Size = new System.Drawing.Size(292, 381);
+            this.textBoxXInvoiceRecognitionResult.Size = new System.Drawing.Size(292, 375);
             this.textBoxXInvoiceRecognitionResult.TabIndex = 9;
             this.textBoxXInvoiceRecognitionResult.Text = "MTR港铁(深圳)\r\n清湖\r\n03/19/1807:45:12\r\n\r\n设备号 : 503\r\n操作员 : 001978\r\n收据号 : 00024202\r\n交易号 :" +
     " 58158\r\n卡编号 : 687676235\r\n\r\n票充值\r\n余额 : 4.65\r\n付费额 : 50.00\r\n新余额 : 54.65";
@@ -217,7 +250,7 @@
             this.pictureBoxReceipt.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxReceipt.Image")));
             this.pictureBoxReceipt.Location = new System.Drawing.Point(23, 84);
             this.pictureBoxReceipt.Name = "pictureBoxReceipt";
-            this.pictureBoxReceipt.Size = new System.Drawing.Size(340, 381);
+            this.pictureBoxReceipt.Size = new System.Drawing.Size(340, 375);
             this.pictureBoxReceipt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxReceipt.TabIndex = 7;
             this.pictureBoxReceipt.TabStop = false;
@@ -279,7 +312,8 @@
             this.metroToolbar4.ForeColor = System.Drawing.Color.Black;
             this.metroToolbar4.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.buttonItemStartBulkDownloadInvoice,
-            this.buttonItemStopBulkDownloadInvoice});
+            this.buttonItemStopBulkDownloadInvoice,
+            this.buttonItemRetryFailure});
             this.metroToolbar4.ItemSpacing = 2;
             this.metroToolbar4.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.metroToolbar4.Location = new System.Drawing.Point(3, 4);
@@ -312,6 +346,259 @@
             this.buttonItemStopBulkDownloadInvoice.Text = "停止批量下载发票";
             this.buttonItemStopBulkDownloadInvoice.Click += new System.EventHandler(this.buttonItemStopBulkDownloadInvoice_Click);
             // 
+            // buttonItemRetryFailure
+            // 
+            this.buttonItemRetryFailure.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
+            this.buttonItemRetryFailure.FontBold = true;
+            this.buttonItemRetryFailure.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
+            this.buttonItemRetryFailure.Name = "buttonItemRetryFailure";
+            this.superTooltip1.SetSuperTooltip(this.buttonItemRetryFailure, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "1、请用手机拍摄深圳通电子发票\r\n2、通过手机微信将照片发送到电脑微信\r\n3、将照片保存到一个文件夹中\r\n4、选择电子发票照片所在的文件夹，点击“开始批量下载发票" +
+            "”按钮即可自动\r\n   识别照片上发票信息，自动下载发票", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(444, 77)));
+            this.buttonItemRetryFailure.Symbol = "";
+            this.buttonItemRetryFailure.Text = "重试下载上次失败的发票";
+            this.buttonItemRetryFailure.Click += new System.EventHandler(this.buttonItemRetryFailure_Click);
+            // 
+            // metroTabPanel1
+            // 
+            this.metroTabPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.metroTabPanel1.Controls.Add(this.circularProgressSingleDownload);
+            this.metroTabPanel1.Controls.Add(this.labelXTransactionDate);
+            this.metroTabPanel1.Controls.Add(this.textBoxXIdentifyCode);
+            this.metroTabPanel1.Controls.Add(this.textBoxX1CardNum);
+            this.metroTabPanel1.Controls.Add(this.monthCalendarAdvTransaction);
+            this.metroTabPanel1.Controls.Add(this.picVerificationImage);
+            this.metroTabPanel1.Controls.Add(this.metroToolbar1);
+            this.metroTabPanel1.Controls.Add(this.labelX3);
+            this.metroTabPanel1.Controls.Add(this.labelX2);
+            this.metroTabPanel1.Controls.Add(this.labelX1);
+            this.metroTabPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.metroTabPanel1.Location = new System.Drawing.Point(0, 69);
+            this.metroTabPanel1.Name = "metroTabPanel1";
+            this.metroTabPanel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.metroTabPanel1.Size = new System.Drawing.Size(764, 464);
+            // 
+            // 
+            // 
+            this.metroTabPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel1.TabIndex = 1;
+            this.metroTabPanel1.Visible = false;
+            // 
+            // circularProgressSingleDownload
+            // 
+            this.circularProgressSingleDownload.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.circularProgressSingleDownload.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.circularProgressSingleDownload.BackgroundStyle.Font = new System.Drawing.Font("微软雅黑", 5F);
+            this.circularProgressSingleDownload.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.circularProgressSingleDownload.Font = new System.Drawing.Font("微软雅黑", 2F);
+            this.circularProgressSingleDownload.Location = new System.Drawing.Point(3, 341);
+            this.circularProgressSingleDownload.Name = "circularProgressSingleDownload";
+            this.circularProgressSingleDownload.ProgressBarType = DevComponents.DotNetBar.eCircularProgressType.Dot;
+            this.circularProgressSingleDownload.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.circularProgressSingleDownload.ProgressTextFormat = "";
+            this.circularProgressSingleDownload.ProgressTextVisible = true;
+            this.circularProgressSingleDownload.Size = new System.Drawing.Size(758, 120);
+            this.circularProgressSingleDownload.Style = DevComponents.DotNetBar.eDotNetBarStyle.OfficeXP;
+            this.circularProgressSingleDownload.TabIndex = 10;
+            // 
+            // labelXTransactionDate
+            // 
+            this.labelXTransactionDate.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelXTransactionDate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelXTransactionDate.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelXTransactionDate.ForeColor = System.Drawing.Color.Black;
+            this.labelXTransactionDate.Location = new System.Drawing.Point(135, 110);
+            this.labelXTransactionDate.Name = "labelXTransactionDate";
+            this.labelXTransactionDate.Size = new System.Drawing.Size(170, 23);
+            this.labelXTransactionDate.TabIndex = 9;
+            this.labelXTransactionDate.Text = "请选择一个日期";
+            // 
+            // textBoxXIdentifyCode
+            // 
+            this.textBoxXIdentifyCode.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.textBoxXIdentifyCode.Border.Class = "TextBoxBorder";
+            this.textBoxXIdentifyCode.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.textBoxXIdentifyCode.DisabledBackColor = System.Drawing.Color.White;
+            this.textBoxXIdentifyCode.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.textBoxXIdentifyCode.ForeColor = System.Drawing.Color.Black;
+            this.textBoxXIdentifyCode.Location = new System.Drawing.Point(135, 302);
+            this.textBoxXIdentifyCode.Name = "textBoxXIdentifyCode";
+            this.textBoxXIdentifyCode.PreventEnterBeep = true;
+            this.textBoxXIdentifyCode.Size = new System.Drawing.Size(170, 29);
+            this.textBoxXIdentifyCode.TabIndex = 1;
+            // 
+            // textBoxX1CardNum
+            // 
+            this.textBoxX1CardNum.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.textBoxX1CardNum.Border.Class = "TextBoxBorder";
+            this.textBoxX1CardNum.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.textBoxX1CardNum.DisabledBackColor = System.Drawing.Color.White;
+            this.textBoxX1CardNum.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.textBoxX1CardNum.ForeColor = System.Drawing.Color.Black;
+            this.textBoxX1CardNum.Location = new System.Drawing.Point(135, 58);
+            this.textBoxX1CardNum.Name = "textBoxX1CardNum";
+            this.textBoxX1CardNum.PreventEnterBeep = true;
+            this.textBoxX1CardNum.Size = new System.Drawing.Size(170, 29);
+            this.textBoxX1CardNum.TabIndex = 0;
+            // 
+            // monthCalendarAdvTransaction
+            // 
+            this.monthCalendarAdvTransaction.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.monthCalendarAdvTransaction.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderBottomWidth = 1;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderLeftWidth = 1;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderRightWidth = 1;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.monthCalendarAdvTransaction.BackgroundStyle.BorderTopWidth = 1;
+            this.monthCalendarAdvTransaction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.monthCalendarAdvTransaction.Colors.Selection.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            // 
+            // 
+            // 
+            this.monthCalendarAdvTransaction.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.monthCalendarAdvTransaction.ContainerControlProcessDialogKey = true;
+            this.monthCalendarAdvTransaction.DisplayMonth = new System.DateTime(2007, 10, 1, 0, 0, 0, 0);
+            this.monthCalendarAdvTransaction.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.monthCalendarAdvTransaction.ForeColor = System.Drawing.Color.Black;
+            this.monthCalendarAdvTransaction.Location = new System.Drawing.Point(135, 140);
+            this.monthCalendarAdvTransaction.MultiSelect = true;
+            this.monthCalendarAdvTransaction.Name = "monthCalendarAdvTransaction";
+            // 
+            // 
+            // 
+            this.monthCalendarAdvTransaction.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.monthCalendarAdvTransaction.Size = new System.Drawing.Size(532, 139);
+            this.monthCalendarAdvTransaction.TabIndex = 6;
+            this.monthCalendarAdvTransaction.Text = "monthCalendarAdv2";
+            // 
+            // picVerificationImage
+            // 
+            this.picVerificationImage.BackColor = System.Drawing.Color.White;
+            this.picVerificationImage.ForeColor = System.Drawing.Color.Black;
+            this.picVerificationImage.Image = ((System.Drawing.Image)(resources.GetObject("picVerificationImage.Image")));
+            this.picVerificationImage.Location = new System.Drawing.Point(323, 288);
+            this.picVerificationImage.Name = "picVerificationImage";
+            this.picVerificationImage.Size = new System.Drawing.Size(100, 50);
+            this.picVerificationImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.superTooltip1.SetSuperTooltip(this.picVerificationImage, new DevComponents.DotNetBar.SuperTooltipInfo("点击图片，换一张验证码", "", "", null, null, DevComponents.DotNetBar.eTooltipColor.Default));
+            this.picVerificationImage.TabIndex = 1;
+            this.picVerificationImage.TabStop = false;
+            this.picVerificationImage.Click += new System.EventHandler(this.picVerificationImage_Click);
+            // 
+            // metroToolbar1
+            // 
+            this.metroToolbar1.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.metroToolbar1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.metroToolbar1.BackgroundStyle.BorderBottomWidth = 1;
+            this.metroToolbar1.BackgroundStyle.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarCaptionBackground;
+            this.metroToolbar1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.metroToolbar1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.metroToolbar1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.metroToolbar1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroToolbar1.ContainerControlProcessDialogKey = true;
+            this.metroToolbar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroToolbar1.DragDropSupport = true;
+            this.metroToolbar1.ExpandButtonVisible = false;
+            this.metroToolbar1.Font = new System.Drawing.Font("Segoe UI", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroToolbar1.ForeColor = System.Drawing.Color.Black;
+            this.metroToolbar1.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.buttonItemStartDownloadInvoice});
+            this.metroToolbar1.ItemSpacing = 2;
+            this.metroToolbar1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.metroToolbar1.Location = new System.Drawing.Point(3, 4);
+            this.metroToolbar1.Name = "metroToolbar1";
+            this.metroToolbar1.Size = new System.Drawing.Size(758, 37);
+            this.metroToolbar1.TabIndex = 2;
+            this.metroToolbar1.Text = "metroToolbar1";
+            // 
+            // buttonItemStartDownloadInvoice
+            // 
+            this.buttonItemStartDownloadInvoice.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
+            this.buttonItemStartDownloadInvoice.FontBold = true;
+            this.buttonItemStartDownloadInvoice.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
+            this.buttonItemStartDownloadInvoice.Name = "buttonItemStartDownloadInvoice";
+            this.buttonItemStartDownloadInvoice.Symbol = "";
+            this.buttonItemStartDownloadInvoice.Text = "下载（Alt+X）";
+            this.buttonItemStartDownloadInvoice.Click += new System.EventHandler(this.buttonItemSearchElectronicInvoice_Click);
+            // 
+            // labelX3
+            // 
+            this.labelX3.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelX3.ForeColor = System.Drawing.Color.Black;
+            this.labelX3.Location = new System.Drawing.Point(40, 302);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(98, 23);
+            this.labelX3.TabIndex = 4;
+            this.labelX3.Text = "验  证  码：";
+            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX2
+            // 
+            this.labelX2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelX2.ForeColor = System.Drawing.Color.Black;
+            this.labelX2.Location = new System.Drawing.Point(40, 110);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(98, 23);
+            this.labelX2.TabIndex = 3;
+            this.labelX2.Text = "交易日期：";
+            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX1
+            // 
+            this.labelX1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelX1.ForeColor = System.Drawing.Color.Black;
+            this.labelX1.Location = new System.Drawing.Point(40, 58);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(98, 23);
+            this.labelX1.TabIndex = 2;
+            this.labelX1.Text = "卡       号：";
+            this.labelX1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
             // metroTabPanel3
             // 
             this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
@@ -322,10 +609,10 @@
             this.metroTabPanel3.Controls.Add(this.labelX6);
             this.metroTabPanel3.Controls.Add(this.metroToolbar3);
             this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel3.Location = new System.Drawing.Point(0, 69);
+            this.metroTabPanel3.Location = new System.Drawing.Point(0, 0);
             this.metroTabPanel3.Name = "metroTabPanel3";
             this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(764, 464);
+            this.metroTabPanel3.Size = new System.Drawing.Size(764, 533);
             // 
             // 
             // 
@@ -339,6 +626,7 @@
             // 
             this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel3.TabIndex = 3;
+            this.metroTabPanel3.Visible = false;
             // 
             // checkBoxXSkipDownloadedFile
             // 
@@ -465,247 +753,6 @@
             this.buttonItemDeleteCompanyInfo.Text = "删除";
             this.buttonItemDeleteCompanyInfo.Click += new System.EventHandler(this.buttonItemDeleteCompanyInfo_Click);
             // 
-            // metroTabPanel1
-            // 
-            this.metroTabPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
-            this.metroTabPanel1.Controls.Add(this.circularProgressSingleDownload);
-            this.metroTabPanel1.Controls.Add(this.labelXTransactionDate);
-            this.metroTabPanel1.Controls.Add(this.textBoxXIdentifyCode);
-            this.metroTabPanel1.Controls.Add(this.textBoxX1CardNum);
-            this.metroTabPanel1.Controls.Add(this.monthCalendarAdvTransaction);
-            this.metroTabPanel1.Controls.Add(this.picVerificationImage);
-            this.metroTabPanel1.Controls.Add(this.metroToolbar1);
-            this.metroTabPanel1.Controls.Add(this.labelX3);
-            this.metroTabPanel1.Controls.Add(this.labelX2);
-            this.metroTabPanel1.Controls.Add(this.labelX1);
-            this.metroTabPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.metroTabPanel1.Location = new System.Drawing.Point(0, 63);
-            this.metroTabPanel1.Name = "metroTabPanel1";
-            this.metroTabPanel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel1.Size = new System.Drawing.Size(764, 470);
-            // 
-            // 
-            // 
-            this.metroTabPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel1.TabIndex = 1;
-            this.metroTabPanel1.Visible = false;
-            // 
-            // circularProgressSingleDownload
-            // 
-            this.circularProgressSingleDownload.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.circularProgressSingleDownload.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.circularProgressSingleDownload.BackgroundStyle.Font = new System.Drawing.Font("微软雅黑", 5F);
-            this.circularProgressSingleDownload.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.circularProgressSingleDownload.Font = new System.Drawing.Font("微软雅黑", 2F);
-            this.circularProgressSingleDownload.Location = new System.Drawing.Point(3, 347);
-            this.circularProgressSingleDownload.Name = "circularProgressSingleDownload";
-            this.circularProgressSingleDownload.ProgressBarType = DevComponents.DotNetBar.eCircularProgressType.Dot;
-            this.circularProgressSingleDownload.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.circularProgressSingleDownload.ProgressTextFormat = "";
-            this.circularProgressSingleDownload.ProgressTextVisible = true;
-            this.circularProgressSingleDownload.Size = new System.Drawing.Size(758, 120);
-            this.circularProgressSingleDownload.Style = DevComponents.DotNetBar.eDotNetBarStyle.OfficeXP;
-            this.circularProgressSingleDownload.TabIndex = 10;
-            // 
-            // labelXTransactionDate
-            // 
-            this.labelXTransactionDate.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelXTransactionDate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelXTransactionDate.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelXTransactionDate.ForeColor = System.Drawing.Color.Black;
-            this.labelXTransactionDate.Location = new System.Drawing.Point(135, 110);
-            this.labelXTransactionDate.Name = "labelXTransactionDate";
-            this.labelXTransactionDate.Size = new System.Drawing.Size(170, 23);
-            this.labelXTransactionDate.TabIndex = 9;
-            this.labelXTransactionDate.Text = "请选择一个日期";
-            // 
-            // textBoxXIdentifyCode
-            // 
-            this.textBoxXIdentifyCode.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.textBoxXIdentifyCode.Border.Class = "TextBoxBorder";
-            this.textBoxXIdentifyCode.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.textBoxXIdentifyCode.DisabledBackColor = System.Drawing.Color.White;
-            this.textBoxXIdentifyCode.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.textBoxXIdentifyCode.ForeColor = System.Drawing.Color.Black;
-            this.textBoxXIdentifyCode.Location = new System.Drawing.Point(135, 302);
-            this.textBoxXIdentifyCode.Name = "textBoxXIdentifyCode";
-            this.textBoxXIdentifyCode.PreventEnterBeep = true;
-            this.textBoxXIdentifyCode.Size = new System.Drawing.Size(170, 29);
-            this.textBoxXIdentifyCode.TabIndex = 1;
-            // 
-            // textBoxX1CardNum
-            // 
-            this.textBoxX1CardNum.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.textBoxX1CardNum.Border.Class = "TextBoxBorder";
-            this.textBoxX1CardNum.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.textBoxX1CardNum.DisabledBackColor = System.Drawing.Color.White;
-            this.textBoxX1CardNum.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.textBoxX1CardNum.ForeColor = System.Drawing.Color.Black;
-            this.textBoxX1CardNum.Location = new System.Drawing.Point(135, 58);
-            this.textBoxX1CardNum.Name = "textBoxX1CardNum";
-            this.textBoxX1CardNum.PreventEnterBeep = true;
-            this.textBoxX1CardNum.Size = new System.Drawing.Size(170, 29);
-            this.textBoxX1CardNum.TabIndex = 0;
-            // 
-            // monthCalendarAdvTransaction
-            // 
-            this.monthCalendarAdvTransaction.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.monthCalendarAdvTransaction.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderBottomWidth = 1;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderLeftWidth = 1;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderRightWidth = 1;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.monthCalendarAdvTransaction.BackgroundStyle.BorderTopWidth = 1;
-            this.monthCalendarAdvTransaction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.monthCalendarAdvTransaction.Colors.Selection.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            // 
-            // 
-            // 
-            this.monthCalendarAdvTransaction.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.monthCalendarAdvTransaction.ContainerControlProcessDialogKey = true;
-            this.monthCalendarAdvTransaction.DisplayMonth = new System.DateTime(2007, 10, 1, 0, 0, 0, 0);
-            this.monthCalendarAdvTransaction.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.monthCalendarAdvTransaction.ForeColor = System.Drawing.Color.Black;
-            this.monthCalendarAdvTransaction.Location = new System.Drawing.Point(135, 140);
-            this.monthCalendarAdvTransaction.MultiSelect = true;
-            this.monthCalendarAdvTransaction.Name = "monthCalendarAdvTransaction";
-            // 
-            // 
-            // 
-            this.monthCalendarAdvTransaction.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.monthCalendarAdvTransaction.Size = new System.Drawing.Size(532, 139);
-            this.monthCalendarAdvTransaction.TabIndex = 6;
-            this.monthCalendarAdvTransaction.Text = "monthCalendarAdv2";
-            // 
-            // picVerificationImage
-            // 
-            this.picVerificationImage.BackColor = System.Drawing.Color.White;
-            this.picVerificationImage.ForeColor = System.Drawing.Color.Black;
-            this.picVerificationImage.Image = global::SZTElectronicInvoice.Properties.Resources.logo;
-            this.picVerificationImage.Location = new System.Drawing.Point(323, 288);
-            this.picVerificationImage.Name = "picVerificationImage";
-            this.picVerificationImage.Size = new System.Drawing.Size(100, 50);
-            this.picVerificationImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.superTooltip1.SetSuperTooltip(this.picVerificationImage, new DevComponents.DotNetBar.SuperTooltipInfo("点击图片，换一张验证码", "", "", null, null, DevComponents.DotNetBar.eTooltipColor.Default));
-            this.picVerificationImage.TabIndex = 1;
-            this.picVerificationImage.TabStop = false;
-            this.picVerificationImage.Click += new System.EventHandler(this.picVerificationImage_Click);
-            // 
-            // metroToolbar1
-            // 
-            this.metroToolbar1.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.metroToolbar1.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.metroToolbar1.BackgroundStyle.BorderBottomWidth = 1;
-            this.metroToolbar1.BackgroundStyle.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarCaptionBackground;
-            this.metroToolbar1.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.metroToolbar1.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.metroToolbar1.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.metroToolbar1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroToolbar1.ContainerControlProcessDialogKey = true;
-            this.metroToolbar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroToolbar1.DragDropSupport = true;
-            this.metroToolbar1.ExpandButtonVisible = false;
-            this.metroToolbar1.Font = new System.Drawing.Font("Segoe UI", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.metroToolbar1.ForeColor = System.Drawing.Color.Black;
-            this.metroToolbar1.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.buttonItemStartDownloadInvoice});
-            this.metroToolbar1.ItemSpacing = 2;
-            this.metroToolbar1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.metroToolbar1.Location = new System.Drawing.Point(3, 4);
-            this.metroToolbar1.Name = "metroToolbar1";
-            this.metroToolbar1.Size = new System.Drawing.Size(758, 37);
-            this.metroToolbar1.TabIndex = 2;
-            this.metroToolbar1.Text = "metroToolbar1";
-            // 
-            // buttonItemStartDownloadInvoice
-            // 
-            this.buttonItemStartDownloadInvoice.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
-            this.buttonItemStartDownloadInvoice.FontBold = true;
-            this.buttonItemStartDownloadInvoice.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
-            this.buttonItemStartDownloadInvoice.Name = "buttonItemStartDownloadInvoice";
-            this.buttonItemStartDownloadInvoice.Symbol = "";
-            this.buttonItemStartDownloadInvoice.Text = "下载（Alt+X）";
-            this.buttonItemStartDownloadInvoice.Click += new System.EventHandler(this.buttonItemSearchElectronicInvoice_Click);
-            // 
-            // labelX3
-            // 
-            this.labelX3.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelX3.ForeColor = System.Drawing.Color.Black;
-            this.labelX3.Location = new System.Drawing.Point(40, 302);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(98, 23);
-            this.labelX3.TabIndex = 4;
-            this.labelX3.Text = "验  证  码：";
-            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX2
-            // 
-            this.labelX2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelX2.ForeColor = System.Drawing.Color.Black;
-            this.labelX2.Location = new System.Drawing.Point(40, 110);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(98, 23);
-            this.labelX2.TabIndex = 3;
-            this.labelX2.Text = "交易日期：";
-            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX1
-            // 
-            this.labelX1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelX1.ForeColor = System.Drawing.Color.Black;
-            this.labelX1.Location = new System.Drawing.Point(40, 58);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(98, 23);
-            this.labelX1.TabIndex = 2;
-            this.labelX1.Text = "卡       号：";
-            this.labelX1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
             // metroTabPanel4
             // 
             this.metroTabPanel4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -738,6 +785,7 @@
             // 
             // metroTabItem2
             // 
+            this.metroTabItem2.Checked = true;
             this.metroTabItem2.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem2.Name = "metroTabItem2";
             this.metroTabItem2.Panel = this.metroTabPanel2;
@@ -745,7 +793,6 @@
             // 
             // metroTabItem3
             // 
-            this.metroTabItem3.Checked = true;
             this.metroTabItem3.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
@@ -814,32 +861,6 @@
             this.superTooltip1.DefaultTooltipSettings = new DevComponents.DotNetBar.SuperTooltipInfo("", "", "", null, null, DevComponents.DotNetBar.eTooltipColor.Gray);
             this.superTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             // 
-            // balloonTip1
-            // 
-            this.balloonTip1.AutoCloseTimeOut = 3;
-            this.balloonTip1.DefaultBalloonWidth = 100;
-            this.balloonTip1.Enabled = false;
-            this.balloonTip1.MinimumBalloonWidth = 50;
-            this.balloonTip1.ShowBalloonOnFocus = true;
-            this.balloonTip1.Style = DevComponents.DotNetBar.eBallonStyle.Alert;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.ForeColor = System.Drawing.Color.Black;
-            this.pictureBox1.Image = global::SZTElectronicInvoice.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(108, 55);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // timerAutoDownloadFile
-            // 
-            this.timerAutoDownloadFile.Interval = 1000;
-            this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
-            // 
             // zxDataGridViewXDownloadResult
             // 
             this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
@@ -876,7 +897,34 @@
             this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
             this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
+            this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
             this.zxDataGridViewXDownloadResult.TabIndex = 4;
+            // 
+            // balloonTip1
+            // 
+            this.balloonTip1.AutoCloseTimeOut = 3;
+            this.balloonTip1.DefaultBalloonWidth = 100;
+            this.balloonTip1.Enabled = false;
+            this.balloonTip1.MinimumBalloonWidth = 50;
+            this.balloonTip1.ShowBalloonOnFocus = true;
+            this.balloonTip1.Style = DevComponents.DotNetBar.eBallonStyle.Alert;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.ForeColor = System.Drawing.Color.Black;
+            this.pictureBox1.Image = global::SZTElectronicInvoice.Properties.Resources.new_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(108, 55);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            // 
+            // timerAutoDownloadFile
+            // 
+            this.timerAutoDownloadFile.Interval = 1000;
+            this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
             // 
             // MainForm
             // 
@@ -896,11 +944,11 @@
             this.metroShell1.PerformLayout();
             this.metroTabPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).EndInit();
-            this.metroTabPanel3.ResumeLayout(false);
             this.metroTabPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.metroTabPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -952,5 +1000,9 @@
         private DevComponents.DotNetBar.Controls.CheckBoxX checkBoxXSkipDownloadedFile;
         private System.Windows.Forms.Timer timerAutoDownloadFile;
         private DevComponents.DotNetBar.ButtonItem buttonItemAbout;
+        private DevComponents.DotNetBar.ButtonX buttonXzxDataGridViewXDownloadResultRightMenu;
+        private DevComponents.DotNetBar.ButtonItem buttonItemCopyCardNum;
+        private DevComponents.DotNetBar.ButtonItem buttonItemzxDataGridViewXDownloadResultClear;
+        private DevComponents.DotNetBar.ButtonItem buttonItemRetryFailure;
     }
 }
