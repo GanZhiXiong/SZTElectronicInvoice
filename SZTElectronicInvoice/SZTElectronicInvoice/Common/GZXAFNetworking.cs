@@ -215,7 +215,7 @@ namespace SZTElectronicInvoice
                 {
                     stream.Write(postdatabyte, 0, postdatabyte.Length);
                 }
-
+            //return "";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 //            GlobalManager.Cookie = response.Headers.Get("Set-Cookie");
@@ -241,8 +241,8 @@ namespace SZTElectronicInvoice
         /// <returns></returns>
         public static string GetRequest(string url)
         {
-//            try
-//            {
+            try
+            {
                 HttpWebRequest request = null;
 
                 request = (HttpWebRequest)WebRequest.Create(url);
@@ -278,12 +278,13 @@ namespace SZTElectronicInvoice
 
                 //            webBrowser1.Navigate(string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html", textBoxX1CardNum.Text, monthCalendarAdvTransaction.SelectedDate.ToString("yyyyMMdd")));
                 return strWebData;
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine(e);
-//                throw e;
-//            }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                //throw e;
+                return null;
+            }
         }
 
         /// <summary>

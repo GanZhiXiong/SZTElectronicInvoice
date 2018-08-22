@@ -43,7 +43,7 @@ namespace SZTElectronicInvoice
             DataPersistence.SaveSerializeObject("user.dat", GlobalManager.UserConfig);
         }
 
-        public static UserConfig ReadUserConfig()
+        private static UserConfig ReadUserConfig()
         {
             return (UserConfig)DataPersistence.ReadSerializeObject("user.dat");
         }

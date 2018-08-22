@@ -1015,6 +1015,25 @@ namespace TencentYoutuYun.SDK.Csharp
         }
 
         /// <summary>
+        /// 根据用户上传的照片，识别并且获取图片中的文字信息
+        /// </summary>
+        /// <param name="image_path">图片路径</param>
+        /// <returns>返回的结果，JSON字符串，字段参见API文档</returns>
+        public static string handwritingocr(string image_path)
+        {
+            string expired = Utility.UnixTime(EXPIRED_SECONDS);
+            string methodName = "youtu/ocrapi/handwritingocr";
+            StringBuilder postData = new StringBuilder();
+
+            string pars = "\"app_id\":\"{0}\",\"image\":\"{1}\"";
+            pars = string.Format(pars, Conf.Instance().APPID, Utility.ImgBase64(image_path));
+            postData.Append("{");
+            postData.Append(pars);
+            postData.Append("}");
+            string result = Http.HttpPost(methodName, postData.ToString(), Auth.appSign(expired, Conf.Instance().USER_ID));
+            return result;
+        }
+        /// <summary>
         /// 银行卡OCR识别，根据用户上传的银行卡图像，返回识别出的银行卡字段信息。
         /// </summary>
         /// <param name="image_path">图片路径</param>

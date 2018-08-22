@@ -30,8 +30,11 @@ namespace SZTElectronicInvoice.Common
             {
                 MessageBoxEx.MessageBoxTextColor = Color.Yellow;
             }
+            else
+            {
+                MessageBoxEx.MessageBoxTextColor = ColorTranslator.FromHtml("#007acc");
+            }
             MessageBoxEx.Show("<font size=\"19\">" + text + "</font>", caption, MessageBoxButtons.OK, icon);
-            MessageBoxEx.MessageBoxTextColor = Color.White;
         }
 
         public static bool MessageBoxResult(string text)

@@ -9,6 +9,8 @@ namespace SZTElectronicInvoice.Model
     [Serializable]
     public class UserConfig
     {
+        public string BrowseInvoicePhotoFolder { get; set; }
+
         public bool IsSkipDownloadFile { get; set; } 
 
         private BindingList<CompanyInfo> _companyInfos;
