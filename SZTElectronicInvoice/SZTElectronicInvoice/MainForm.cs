@@ -849,7 +849,11 @@ namespace SZTElectronicInvoice
 
         private void buttonItemRetryFailure_Click(object sender, EventArgs e)
         {
-
+            //_currentAutoHaveDownloadElectronicInvoiceInfos.ForEach(p =>
+            //{
+            //    Console.WriteLine(p.CardNum);
+            //});
+            //return;
             List<ElectronicInvoiceInfo> failureElectronicInvoiceInfos =
                 _currentAutoHaveDownloadElectronicInvoiceInfos.FindAll(p => p.IsDownloaded == false);
             buttonItemRetryFailure.Enabled = false;
