@@ -18,6 +18,7 @@ using DevComponents.DotNetBar.Metro;
 using DevComponents.DotNetBar.Rendering;
 using Newtonsoft.Json.Linq;
 using SZTElectronicInvoice.Common;
+using SZTElectronicInvoice.Form;
 using SZTElectronicInvoice.Model;
 using TencentYoutuYun.SDK.Csharp;
 
@@ -34,6 +35,8 @@ namespace SZTElectronicInvoice
 
         private List<ElectronicInvoiceInfo> _currentAutoHaveDownloadElectronicInvoiceInfos =
             new List<ElectronicInvoiceInfo>();
+
+        private decimal _downloadedTotalAmount;
 
         //        private bool _isRetryFailure;
 
@@ -77,8 +80,9 @@ namespace SZTElectronicInvoice
             #region monthCalendarAdvTransaction
 
             DateTime dateTime = DateTime.Now;
-            this.monthCalendarAdvTransaction.DisplayMonth =
-                new DateTime(dateTime.Year, dateTime.Month - 1, dateTime.Day, 0, 0, 0, 0);
+            //            this.monthCalendarAdvTransaction.DisplayMonth =
+            //                new DateTime(dateTime.Year, dateTime.Month - 1, dateTime.Day, 0, 0, 0, 0);
+            this.monthCalendarAdvTransaction.DisplayMonth = dateTime.AddMonths(-1);
             monthCalendarAdvTransaction.MultiSelect = false;
             monthCalendarAdvTransaction.SelectedDate = dateTime;
 
@@ -284,13 +288,18 @@ namespace SZTElectronicInvoice
             //                              100;
             //            progress = progress >= 99 ? 100 : progress;
             double progress = ((double)_autoHaveDownloadedCount / _autoDownloadCount) * 100;
+            _downloadedTotalAmount = _currentAutoHaveDownloadElectronicInvoiceInfos
+               .FindAll(a => a.IsDownloaded == true && a.DownloadResult == "下载发票成功").Sum(a => a.RechargeAmount);
+            //if (downloadedTotalAmount>=3000)
+            //{
+
+            //}
             //            progressBarItemBatchDownload.Text = "完成：" + (progress).ToString("0.##") + "%" + "   用时：" + (int)_autoDownloadStopwatch.Elapsed.TotalSeconds + "秒";
             progressBarItemBatchDownload.Text = "已成功/已完成/总共(张):" +
                                                 _currentAutoHaveDownloadElectronicInvoiceInfos
                                                     .FindAll(a => a.IsDownloaded).Count + "/" +
                                                 _autoHaveDownloadedCount + "/" + _autoDownloadCount + "   合计(元):" +
-                                                _currentAutoHaveDownloadElectronicInvoiceInfos
-                                                    .FindAll(a => a.IsDownloaded == true && a.DownloadResult == "下载发票成功").Sum(a => a.RechargeAmount) +
+                                                _downloadedTotalAmount +
                                                 "   完成:" + (progress).ToString("0.##") + "%" + "   用时:" +
                                                 _autoDownloadStopwatch.Elapsed.Minutes + "分" +
                                                 _autoDownloadStopwatch.Elapsed.Seconds + "秒";
@@ -815,7 +824,7 @@ namespace SZTElectronicInvoice
                     electronicInvoiceInfo.DownloadResult = "正在下载……";
                     //                try
                     //                {
-          
+
                     string downloadResult = "";
                     bool ret = DownloadElectronicInvoice(ref downloadResult, cardNum, transactionDate,
                         cardNum + " " + transactionDate + ".pdf", electronicInvoiceInfo);
@@ -849,10 +858,12 @@ namespace SZTElectronicInvoice
 
         private void buttonItemRetryFailure_Click(object sender, EventArgs e)
         {
-            //_currentAutoHaveDownloadElectronicInvoiceInfos.ForEach(p =>
-            //{
-            //    Console.WriteLine(p.CardNum);
-            //});
+            //zxDataGridViewXDownloadResult.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            //zxDataGridViewXDownloadResult.MultiSelect = true;
+            ////_currentAutoHaveDownloadElectronicInvoiceInfos.ForEach(p =>
+            ////{
+            ////    Console.WriteLine(p.CardNum);
+            ////});
             //return;
             List<ElectronicInvoiceInfo> failureElectronicInvoiceInfos =
                 _currentAutoHaveDownloadElectronicInvoiceInfos.FindAll(p => p.IsDownloaded == false);
@@ -963,7 +974,7 @@ namespace SZTElectronicInvoice
                         electronicInvoiceInfo.CompleteTime, electronicInvoiceInfo.ImageFileName));
                 }
 
-                StopOperationAfterDownloading(); 
+                StopOperationAfterDownloading();
 
                 int failureCount = _currentAutoHaveDownloadElectronicInvoiceInfos.FindAll(p => p.IsDownloaded == false)
                     .Count;
@@ -1013,6 +1024,7 @@ namespace SZTElectronicInvoice
                 return;
             }
 
+            _downloadedTotalAmount = 0;
             buttonItemRetryFailure.Enabled = false;
             _autoDownloadCount = images.Count();
 
@@ -1037,7 +1049,7 @@ namespace SZTElectronicInvoice
                 //遍历string 型 images数组
                 foreach (var path in images)
                 {
-                    if (!_startBatchDownload)
+                    if (!_startBatchDownload || _downloadedTotalAmount >= 1150)
                     {
                         _autoDownloadStopwatch.Stop();
                         timerAutoDownloadFile.Stop();
@@ -1091,13 +1103,85 @@ namespace SZTElectronicInvoice
                     var items = (from staff1 in jObj["items"].Children()
                                  select (string)staff1["itemstring"]).ToList();
 
-                    if (!items.Exists(p => p.Length == 2 && (p.Contains("清湖") || p.Contains("清") || p.Contains("湖"))))
-                    {
+                    //                    if (!items.Exists(p => p.Length == 2 && (p.Contains("清湖") || p.Contains("清") || p.Contains("湖"))))
+                    //                    {
+                    //
+                    //                        //ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+                    //                        //    transactionDate, false,
+                    //                        //    "批量下载暂只支持在清湖地铁站充值的小票", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+                    //                        electronicInvoiceInfo.DownloadResult = "批量下载暂只支持在清湖地铁站充值的小票";
+                    //                        electronicInvoiceInfo.CompleteTime = DateTime.Now.ToString("HH:mm:ss");
+                    //                        _autoHaveDownloadedCount++;
+                    //
+                    //                        //DownloadResult(electronicInvoiceInfo);
+                    //                        continue;
+                    //                    }
 
-                        //ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
-                        //    transactionDate, false,
-                        //    "批量下载暂只支持在清湖地铁站充值的小票", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
-                        electronicInvoiceInfo.DownloadResult = "批量下载暂只支持在清湖地铁站充值的小票";
+                    try
+                    {
+                        string item = items.Find(p => p.Contains("卡号"));
+                        string[] itemStrings = item.Split(new string[] { ":", "，"," " }, StringSplitOptions.RemoveEmptyEntries);
+                        if (itemStrings.Length == 2)
+                        {
+                            cardNum = itemStrings[1];
+                        }
+                        else
+                        {
+                            //                            throw new Exception("未识别到卡号");
+
+                            IdentificationFailureForm identificationFailureForm = new IdentificationFailureForm("识别失败，请输入卡号", item);
+                            identificationFailureForm.ShowDialog();
+
+                            cardNum = identificationFailureForm.Value;
+
+                        }
+
+                        item = items.Find(p => p.Contains("时间"));
+                        itemStrings = item.Split(new string[] { ":", "，", " " }, StringSplitOptions.RemoveEmptyEntries);
+                        if (itemStrings.Length == 2)
+                        {
+                            originalTransactionDate = itemStrings[1];
+
+                            //                            transactionDate = Convert
+                            //                                .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
+                            //                                .ToString("yyyyMMdd").Replace(" ", "");
+                            try
+                            {
+                                transactionDate = Convert.ToDateTime(originalTransactionDate).ToString("yyyyMMdd")
+                                    .Replace(" ", "");
+                            }
+                            catch (Exception exception)
+                            {
+                                //                                Console.WriteLine(exception);
+                                //                                throw; 
+                                
+                                IdentificationFailureForm identificationFailureForm = new IdentificationFailureForm("识别失败，请修改时间格式为年月日，如20190126", item);
+                                identificationFailureForm.ShowDialog();
+
+                                originalTransactionDate = item;
+                                transactionDate = identificationFailureForm.Value;
+
+                            }
+                        }
+                        else
+                        {
+//                            throw new Exception("未识别到时间");
+
+                        IdentificationFailureForm identificationFailureForm = new IdentificationFailureForm("识别失败，请修改为正确的时间格式（年月日，如20190126）", item);
+                            identificationFailureForm.ShowDialog();
+
+                            originalTransactionDate = item;
+                            transactionDate = identificationFailureForm.Value;
+
+                        }
+
+                        electronicInvoiceInfo.TransactionDate = transactionDate;
+                        electronicInvoiceInfo.CardNum = cardNum;
+                    }
+                    catch (Exception exception)
+                    {
+                        electronicInvoiceInfo.TransactionDate = originalTransactionDate;
+                        electronicInvoiceInfo.DownloadResult = "照片识别识别，请确认照片是否拍摄完整";
                         electronicInvoiceInfo.CompleteTime = DateTime.Now.ToString("HH:mm:ss");
                         _autoHaveDownloadedCount++;
 
@@ -1107,139 +1191,139 @@ namespace SZTElectronicInvoice
 
                     try
                     {
+                        /*
+                                                //                        int cardNumIndex = items.IndexOf("卡编号") + 1;
+                                                //                        cardNum = items[cardNumIndex].Replace(" ", "");
+                                                string item = items.Find(p => p.Contains("交易号"));
+                                                if (string.IsNullOrWhiteSpace(item))
+                                                {
+                                                    item = items.Find(p => p.Contains("交易"));
+                                                    if (string.IsNullOrWhiteSpace(item))
+                                                    {
+                                                        item = items.Find(p => p.Contains("易号"));
+                                                        if (string.IsNullOrWhiteSpace(item))
+                                                        {
+                                                            item = items.Find(p => p.Contains("交"));
+                                                            if (string.IsNullOrWhiteSpace(item))
+                                                            {
+                                                                item = items.Find(p => p.Contains("易"));
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                int cardNumIndex = items.IndexOf(item);
+                                                List<string> cardNumTempList = items.FindAll(a => a.Replace(" ", "").Length >= 8 && items.IndexOf(a) > cardNumIndex);
+                                                cardNum = cardNumTempList[0].Replace(" ", "");
 
-                        //                        int cardNumIndex = items.IndexOf("卡编号") + 1;
-                        //                        cardNum = items[cardNumIndex].Replace(" ", "");
-                        string item = items.Find(p => p.Contains("交易号"));
-                        if (string.IsNullOrWhiteSpace(item))
-                        {
-                            item = items.Find(p => p.Contains("交易"));
-                            if (string.IsNullOrWhiteSpace(item))
-                            {
-                                item = items.Find(p => p.Contains("易号"));
-                                if (string.IsNullOrWhiteSpace(item))
-                                {
-                                    item = items.Find(p => p.Contains("交"));
-                                    if (string.IsNullOrWhiteSpace(item))
-                                    {
-                                        item = items.Find(p => p.Contains("易"));
-                                    }
-                                }
-                            }
-                        }
-                        int cardNumIndex = items.IndexOf(item);
-                        List<string> cardNumTempList = items.FindAll(a => a.Replace(" ", "").Length >= 8 && items.IndexOf(a) > cardNumIndex);
-                        cardNum = cardNumTempList[0].Replace(" ", "");
+                                                //int intTemp = 0;
+                                                //if (!int.TryParse(cardNum, out intTemp)) //判断是否可以转换为整型
+                                                //{
+                                                //    cardNumIndex = items.IndexOf("卡编号") - 1;
+                                                //    cardNum = items[cardNumIndex].Replace(" ", "");
+                                                //}
+                                                //                        List<string> cardNumTempList = items.FindAll(a => a.Replace(" ", "").Length == 9);
+                                                //                        if (cardNumTempList.Count == 1)
+                                                //                        {
+                                                //                            cardNum = cardNumTempList[0];
+                                                //                        }
+                                                //                        if (cardNumTempList.Count > 1)
+                                                //                        {
+                                                //                            cardNum = cardNumTempList[1];
+                                                //                        }
+                                                //                        transactionDate = items[items.IndexOf("清湖") + 1].Substring(0, 8);
+                                                transactionDate = items.Find(a => a.Contains(":") || a.Contains("/") || a.Contains(";")).Replace(":;", ":")
+                                                    .Replace(";", ":").Trim();
+                                                originalTransactionDate = transactionDate;
+                                                string date = transactionDate.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+                                                if (date.Length == 8)
+                                                {
+                                                    char[] c = date.ToCharArray();
+                                                    c[2] = '/';
+                                                    c[5] = '/';
+                                                    int i = 0;
+                                                    foreach (var VARIABLE in c)
+                                                    {
+                                                        if (Char.IsLetter(VARIABLE))
+                                                        {
+                                                            c[i] = '0';
+                                                        }
+                                                        i++;
+                                                    }
 
-                        //int intTemp = 0;
-                        //if (!int.TryParse(cardNum, out intTemp)) //判断是否可以转换为整型
-                        //{
-                        //    cardNumIndex = items.IndexOf("卡编号") - 1;
-                        //    cardNum = items[cardNumIndex].Replace(" ", "");
-                        //}
-                        //                        List<string> cardNumTempList = items.FindAll(a => a.Replace(" ", "").Length == 9);
-                        //                        if (cardNumTempList.Count == 1)
-                        //                        {
-                        //                            cardNum = cardNumTempList[0];
-                        //                        }
-                        //                        if (cardNumTempList.Count > 1)
-                        //                        {
-                        //                            cardNum = cardNumTempList[1];
-                        //                        }
-                        //                        transactionDate = items[items.IndexOf("清湖") + 1].Substring(0, 8);
-                        transactionDate = items.Find(a => a.Contains(":") || a.Contains("/") || a.Contains(";")).Replace(":;", ":")
-                            .Replace(";", ":").Trim();
-                        originalTransactionDate = transactionDate;
-                        string date = transactionDate.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
-                        if (date.Length == 8)
-                        {
-                            char[] c = date.ToCharArray();
-                            c[2] = '/';
-                            c[5] = '/';
-                            int i = 0;
-                            foreach (var VARIABLE in c)
-                            {
-                                if (Char.IsLetter(VARIABLE))
-                                {
-                                    c[i] = '0';
-                                }
-                                i++;
-                            }
+                                                    transactionDate = new string(c);
 
-                            transactionDate = new string(c);
+                                                    if (!transactionDate.Contains(" "))
+                                                    {
+                                                        transactionDate = transactionDate.Insert(8, " ");
+                                                    }
+                                                    transactionDate = Convert
+                                                        .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
+                                                        .ToString("yyyyMMdd").Replace(" ", "");
+                                                }
+                                                else
+                                                {
+                                                    string[] dates = date.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                                                    string temp = null;
+                                                    if (dates.Length == 1)
+                                                    {
+                                                        string year = DateTime.Now.Year.ToString().Substring(2, 2);
+                                                        string monthAndDay = dates[0].Substring(0, dates[0].Length - 2);
+                                                        if (monthAndDay.Length >= 5)
+                                                        {
+                                                            temp += dates[0].Substring(0, 2);
+                                                            temp += "/";
+                                                            string day = dates[0].Substring(3, 2);
+                                                            if (Convert.ToInt32(day) > 31)
+                                                            {
+                                                                temp += dates[0].Substring(2, 2);
+                                                            }
+                                                            else
+                                                            {
+                                                                temp += day;
+                                                            }
+                                                        }
+                                                        else if (monthAndDay.Length < 5)
+                                                        {
+                                                            temp += dates[0].Substring(0, 2);
+                                                            temp += "/";
+                                                            temp += dates[0].Substring(2, 2);
+                                                        }
 
-                            if (!transactionDate.Contains(" "))
-                            {
-                                transactionDate = transactionDate.Insert(8, " ");
-                            }
-                            transactionDate = Convert
-                                .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
-                                .ToString("yyyyMMdd").Replace(" ", "");
-                        }
-                        else
-                        {
-                            string[] dates = date.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                            string temp = null;
-                            if (dates.Length == 1)
-                            {
-                                string year = DateTime.Now.Year.ToString().Substring(2, 2);
-                                string monthAndDay = dates[0].Substring(0, dates[0].Length - 2);
-                                if (monthAndDay.Length >= 5)
-                                {
-                                    temp += dates[0].Substring(0, 2);
-                                    temp += "/";
-                                    string day = dates[0].Substring(3, 2);
-                                    if (Convert.ToInt32(day) > 31)
-                                    {
-                                        temp += dates[0].Substring(2, 2);
-                                    }
-                                    else
-                                    {
-                                        temp += day;
-                                    }
-                                }
-                                else if (monthAndDay.Length < 5)
-                                {
-                                    temp += dates[0].Substring(0, 2);
-                                    temp += "/";
-                                    temp += dates[0].Substring(2, 2);
-                                }
+                                                        temp += "/";
+                                                        temp += year;
+                                                        temp += "/";
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var s in dates)
+                                                        {
+                                                            if (s.Length <= 2)
+                                                            {
+                                                                temp += s;
+                                                            }
+                                                            else if (s.Length > 2 && s.Length <= 4)
+                                                            {
+                                                                temp += s.Substring(0, 2);
+                                                                temp += "/";
+                                                                temp += s.Substring(2, 2);
+                                                            }
+                                                            else
+                                                            {
+                                                                temp += s.Substring(0, 2);
+                                                            }
+                                                            temp += "/";
+                                                        }
+                                                    }
 
-                                temp += "/";
-                                temp += year;
-                                temp += "/";
-                            }
-                            else
-                            {
-                                foreach (var s in dates)
-                                {
-                                    if (s.Length <= 2)
-                                    {
-                                        temp += s;
-                                    }
-                                    else if (s.Length > 2 && s.Length <= 4)
-                                    {
-                                        temp += s.Substring(0, 2);
-                                        temp += "/";
-                                        temp += s.Substring(2, 2);
-                                    }
-                                    else
-                                    {
-                                        temp += s.Substring(0, 2);
-                                    }
-                                    temp += "/";
-                                }
-                            }
+                                                    transactionDate = temp.Remove(temp.Length - 1);
+                                                    transactionDate = Convert
+                                                        .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
+                                                        .ToString("yyyyMMdd").Replace(" ", "");
+                                                }
 
-                            transactionDate = temp.Remove(temp.Length - 1);
-                            transactionDate = Convert
-                                .ToDateTime(transactionDate.Insert(transactionDate.LastIndexOf('/') + 1, "20"))
-                                .ToString("yyyyMMdd").Replace(" ", "");
-                        }
-
-                        electronicInvoiceInfo.TransactionDate = transactionDate;
-                        electronicInvoiceInfo.CardNum = cardNum;
-                        string transactionNumber = items[items.IndexOf("交易号") + 1];
+                                                electronicInvoiceInfo.TransactionDate = transactionDate;
+                                                electronicInvoiceInfo.CardNum = cardNum;
+                                                string transactionNumber = items[items.IndexOf("交易号") + 1];*/
                     }
                     catch (Exception exception)
                     {

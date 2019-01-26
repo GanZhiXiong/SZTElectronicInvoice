@@ -56,6 +56,12 @@
     <Compile Include="Common\GZXImageManager.cs" />
     <Compile Include="Common\GZXMessageBox.cs" />
     <Compile Include="Common\RuoKuaiHttp.cs" />
+    <Compile Include="Form\IdentificationFailureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\IdentificationFailureForm.Designer.cs">
+      <DependentUpon>IdentificationFailureForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     <Compile Include="ZXControl\ZXDataGridViewX.designer.cs">
       <DependentUpon>ZXDataGridViewX.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form\IdentificationFailureForm.resx">
+      <DependentUpon>IdentificationFailureForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

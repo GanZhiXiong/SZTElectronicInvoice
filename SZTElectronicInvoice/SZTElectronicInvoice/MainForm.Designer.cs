@@ -81,18 +81,18 @@
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.progressBarItemBatchDownload = new DevComponents.DotNetBar.ProgressBarItem();
             this.superTooltip1 = new DevComponents.DotNetBar.SuperTooltip();
+            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.balloonTip1 = new DevComponents.DotNetBar.BalloonTip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerAutoDownloadFile = new System.Windows.Forms.Timer(this.components);
-            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).BeginInit();
             this.metroTabPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).BeginInit();
             this.metroTabPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -109,9 +109,9 @@
             // 
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
-            this.metroShell1.Controls.Add(this.metroTabPanel1);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel3);
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
+            this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
@@ -179,6 +179,7 @@
             // 
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.TabIndex = 1;
+            this.metroTabPanel1.Visible = false;
             // 
             // circularProgressSingleDownload
             // 
@@ -630,10 +631,10 @@
             this.metroTabPanel3.Controls.Add(this.labelX6);
             this.metroTabPanel3.Controls.Add(this.metroToolbar3);
             this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel3.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel3.Location = new System.Drawing.Point(0, 76);
             this.metroTabPanel3.Name = "metroTabPanel3";
             this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(764, 533);
+            this.metroTabPanel3.Size = new System.Drawing.Size(764, 457);
             // 
             // 
             // 
@@ -647,7 +648,6 @@
             // 
             this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel3.TabIndex = 3;
-            this.metroTabPanel3.Visible = false;
             // 
             // checkBoxXSkipDownloadedFile
             // 
@@ -799,7 +799,6 @@
             // 
             // metroTabItem1
             // 
-            this.metroTabItem1.Checked = true;
             this.metroTabItem1.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem1.Name = "metroTabItem1";
             this.metroTabItem1.Panel = this.metroTabPanel1;
@@ -814,6 +813,7 @@
             // 
             // metroTabItem3
             // 
+            this.metroTabItem3.Checked = true;
             this.metroTabItem3.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
@@ -882,32 +882,6 @@
             this.superTooltip1.DefaultTooltipSettings = new DevComponents.DotNetBar.SuperTooltipInfo("", "", "", null, null, DevComponents.DotNetBar.eTooltipColor.Gray);
             this.superTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             // 
-            // balloonTip1
-            // 
-            this.balloonTip1.AutoCloseTimeOut = 3;
-            this.balloonTip1.DefaultBalloonWidth = 100;
-            this.balloonTip1.Enabled = false;
-            this.balloonTip1.MinimumBalloonWidth = 50;
-            this.balloonTip1.ShowBalloonOnFocus = true;
-            this.balloonTip1.Style = DevComponents.DotNetBar.eBallonStyle.Alert;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.ForeColor = System.Drawing.Color.Black;
-            this.pictureBox1.Image = global::SZTElectronicInvoice.Properties.Resources.new_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(108, 55);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // timerAutoDownloadFile
-            // 
-            this.timerAutoDownloadFile.Interval = 1000;
-            this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
-            // 
             // zxDataGridViewXDownloadResult
             // 
             this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
@@ -947,6 +921,32 @@
             this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
             this.zxDataGridViewXDownloadResult.TabIndex = 4;
             // 
+            // balloonTip1
+            // 
+            this.balloonTip1.AutoCloseTimeOut = 3;
+            this.balloonTip1.DefaultBalloonWidth = 100;
+            this.balloonTip1.Enabled = false;
+            this.balloonTip1.MinimumBalloonWidth = 50;
+            this.balloonTip1.ShowBalloonOnFocus = true;
+            this.balloonTip1.Style = DevComponents.DotNetBar.eBallonStyle.Alert;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.ForeColor = System.Drawing.Color.Black;
+            this.pictureBox1.Image = global::SZTElectronicInvoice.Properties.Resources.new_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(108, 55);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            // 
+            // timerAutoDownloadFile
+            // 
+            this.timerAutoDownloadFile.Interval = 1000;
+            this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -968,8 +968,8 @@
             this.metroTabPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).EndInit();
             this.metroTabPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

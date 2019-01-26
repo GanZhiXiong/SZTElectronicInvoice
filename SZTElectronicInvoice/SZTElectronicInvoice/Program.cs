@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using DevComponents.DotNetBar;
 using SZTElectronicInvoice.Common;
+using TencentYoutuYun.SDK.Csharp;
 
 namespace SZTElectronicInvoice
 {
@@ -15,6 +16,8 @@ namespace SZTElectronicInvoice
         [STAThread]
         static void Main()
         {
+//            string result = Youtu.handwritingocr("E:\\GitHub\\SZTElectronicInvoice\\SZTElectronicInvoice\\SZTElectronicInvoice\\bin\\Debug\\pic.jpg");
+
             //            MessageBoxEx.UseSystemLocalizedString = true;
             //            MessageBoxEx.EnableGlass = true;
             DevComponents.DotNetBar.LocalizationKeys.LocalizeString +=
