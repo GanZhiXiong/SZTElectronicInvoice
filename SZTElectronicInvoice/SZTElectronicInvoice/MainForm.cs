@@ -126,7 +126,7 @@ namespace SZTElectronicInvoice
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+        
             metroShell1.SelectedTab = metroTabItem1;
 
             //textBoxXBrowseInvoicePhotoFolder.Text = @"D:\Program Files\QQRecord\1551935335\FileRecv\MobileFile";
@@ -135,6 +135,7 @@ namespace SZTElectronicInvoice
             textBoxX1CardNum.Focus();
 
             this.pictureBox1.BackColor = ColorTranslator.FromHtml("#007acc");
+            picVerificationImage.Image = GZXNetworking.GetValidateImage();
 
             //            string s= Path.GetDirectoryName(@"C:\Users\15519\Desktop\未下载成功的发票\IMG_1434.JPG");
             //            string s = Path.Combine(Path.GetDirectoryName(@"C: \Users\15519\Desktop\未下载成功的发票"),
@@ -742,7 +743,7 @@ namespace SZTElectronicInvoice
         private void picVerificationImage_Click(object sender, EventArgs e)
         {
             picVerificationImage.Image = picVerificationImage.Image = GZXNetworking.GetValidateImage();
-            textBoxXIdentifyCode.Text = GZXNetworking.ORC(picVerificationImage.Image);
+//            textBoxXIdentifyCode.Text = GZXNetworking.ORC(picVerificationImage.Image);
         }
 
         private void buttonItemSearchElectronicInvoice_Click(object sender, EventArgs e)
@@ -805,21 +806,20 @@ namespace SZTElectronicInvoice
                     "正在识别验证码", null, "");
                 this.Invoke(new Action(() => { GlobalManager.ElectronicInvoiceInfos.Add(electronicInvoiceInfo); }));
 
-                picVerificationImage.Image = GZXNetworking.GetValidateImage();
-                string orcResult = GZXNetworking.ORC(picVerificationImage.Image);
-                if (string.IsNullOrWhiteSpace(orcResult))
-                {
-                    electronicInvoiceInfo.DownloadResult = "验证码识别余额已用完";
-                    electronicInvoiceInfo.IsDownloaded = false;
-                    electronicInvoiceInfo.CompleteTime = DateTime.Now.ToString("HH:mm:ss");
-                    VerificationCodeIdentificationRequiresRenewaFee();
-                }
-                else
-                {
-                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
-                    {
-                        textBoxXIdentifyCode.Text = orcResult;
-                    }));
+//                string orcResult = GZXNetworking.ORC(picVerificationImage.Image);
+//                if (string.IsNullOrWhiteSpace(orcResult))
+//                {
+//                    electronicInvoiceInfo.DownloadResult = "验证码识别余额已用完";
+//                    electronicInvoiceInfo.IsDownloaded = false;
+//                    electronicInvoiceInfo.CompleteTime = DateTime.Now.ToString("HH:mm:ss");
+//                    VerificationCodeIdentificationRequiresRenewaFee();
+//                }
+//                else
+//                {
+//                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+//                    {
+//                        textBoxXIdentifyCode.Text = orcResult;
+//                    }));
 
                     electronicInvoiceInfo.DownloadResult = "正在下载……";
                     //                try
@@ -839,9 +839,12 @@ namespace SZTElectronicInvoice
 
                     electronicInvoiceInfo.IsDownloaded = ret;
                     electronicInvoiceInfo.DownloadResult = downloadResult;
-                }
+//                }
 
                 this.Invoke(new Action(() => { circularProgressSingleDownload.IsRunning = false; }));
+
+                picVerificationImage.Image = GZXNetworking.GetValidateImage();
+
             });
             thread.Start();
         }
@@ -1119,7 +1122,7 @@ namespace SZTElectronicInvoice
 
                     try
                     {
-                        string item = items.Find(p => p.Contains("卡号"));
+                        string item = items.FindAll(p => (p.Contains("卡号") || p.Contains("号") || p.Contains("卡"))&&!p.Contains("编号"))[0];
                         string[] itemStrings = item.Split(new string[] { ":", "，"," " }, StringSplitOptions.RemoveEmptyEntries);
                         if (itemStrings.Length == 2)
                         {
@@ -1136,9 +1139,9 @@ namespace SZTElectronicInvoice
 
                         }
 
-                        item = items.Find(p => p.Contains("时间"));
+                        item = items.Find(p => p.Contains("时间")||p.Contains("时") || p.Contains("间"));
                         itemStrings = item.Split(new string[] { ":", "，", " " }, StringSplitOptions.RemoveEmptyEntries);
-                        if (itemStrings.Length == 2)
+                        if (itemStrings.Length >= 2)
                         {
                             originalTransactionDate = itemStrings[1];
 
