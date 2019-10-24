@@ -16,7 +16,15 @@ namespace SZTElectronicInvoice
         [STAThread]
         static void Main()
         {
-//            string result = Youtu.handwritingocr("E:\\GitHub\\SZTElectronicInvoice\\SZTElectronicInvoice\\SZTElectronicInvoice\\bin\\Debug\\pic.jpg");
+            // test
+            //            var ii = new List<string>() { "1", "2", "3", "4" };
+            //            var j = ii.Find(p => p.Contains("5"));
+
+//            var item = "12345";
+//            //            var i = item.Remove(0, item.IndexOf("888"));
+//            var i = item.Remove(0, 0);
+
+            //            string result = Youtu.handwritingocr("E:\\GitHub\\SZTElectronicInvoice\\SZTElectronicInvoice\\SZTElectronicInvoice\\bin\\Debug\\pic.jpg");
 
             //            MessageBoxEx.UseSystemLocalizedString = true;
             //            MessageBoxEx.EnableGlass = true;
