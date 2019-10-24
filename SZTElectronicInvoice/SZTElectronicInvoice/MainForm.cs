@@ -334,6 +334,7 @@ namespace SZTElectronicInvoice
 
             zxDataGridViewXDownloadResult.RowsAdded += ZxDataGridViewXDownloadResult_RowsAdded;
             zxDataGridViewXDownloadResult.CellMouseClick += ZxDataGridViewXDownloadResult_CellMouseClick;
+            zxDataGridViewXDownloadResult.CellEndEdit += ZxDataGridViewXDownloadResult_CellEndEdit;
             //            TaskGridView.MouseClick += TaskGridView_MouseClick;
             //            TaskGridView.RowPostPaint += TaskGridView_RowPostPaint;
             //            TaskGridView.RowStateChanged += TaskGridView_RowStateChanged;
@@ -342,6 +343,15 @@ namespace SZTElectronicInvoice
         }
 
         #region DataGridViewX ÊÂ¼þ 
+        private void ZxDataGridViewXDownloadResult_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //            Console.WriteLine(zxDataGridViewXDownloadResult[e.ColumnIndex, e.RowIndex].Value);
+            DataGridViewRow row = zxDataGridViewXDownloadResult.Rows[e.RowIndex];
+            ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo) row.DataBoundItem;
+            Console.WriteLine(row.Cells[e.ColumnIndex].Value + ", " + electronicInvoiceInfo.CardNum);
+
+
+        }
 
         private void ZxDataGridViewXDownloadResult_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {

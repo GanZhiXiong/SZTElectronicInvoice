@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -85,9 +85,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerAutoDownloadFile = new System.Windows.Forms.Timer(this.components);
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
-            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.buttonX2 = new DevComponents.DotNetBar.ButtonX();
+            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).BeginInit();
@@ -95,8 +95,8 @@
             this.metroTabPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
             this.groupPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -113,8 +113,8 @@
             // 
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
-            this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Controls.Add(this.metroTabPanel2);
+            this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -184,6 +184,7 @@
             // 
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.TabIndex = 1;
+            this.metroTabPanel1.Visible = false;
             // 
             // circularProgressSingleDownload
             // 
@@ -558,10 +559,10 @@
             this.metroTabPanel2.Controls.Add(this.labelX4);
             this.metroTabPanel2.Controls.Add(this.metroToolbar4);
             this.metroTabPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel2.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel2.Location = new System.Drawing.Point(0, 69);
             this.metroTabPanel2.Name = "metroTabPanel2";
             this.metroTabPanel2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel2.Size = new System.Drawing.Size(764, 533);
+            this.metroTabPanel2.Size = new System.Drawing.Size(764, 464);
             // 
             // 
             // 
@@ -575,7 +576,6 @@
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 2;
-            this.metroTabPanel2.Visible = false;
             // 
             // buttonXzxDataGridViewXDownloadResultRightMenu
             // 
@@ -772,8 +772,7 @@
             this.buttonItemRetryFailure.FontBold = true;
             this.buttonItemRetryFailure.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.buttonItemRetryFailure.Name = "buttonItemRetryFailure";
-            this.superTooltip1.SetSuperTooltip(this.buttonItemRetryFailure, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "1、请用手机拍摄深圳通电子发票\r\n2、通过手机微信将照片发送到电脑微信\r\n3、将照片保存到一个文件夹中\r\n4、选择电子发票照片所在的文件夹，点击“开始批量下载发票" +
-            "”按钮即可自动\r\n   识别照片上发票信息，自动下载发票", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(444, 77)));
+            this.superTooltip1.SetSuperTooltip(this.buttonItemRetryFailure, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "重试下载不会重新识别发票照片，若您想将识别失败的卡号和日期修正，您可以直接修改列表中卡号和日期对应的单元格", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(444, 77)));
             this.buttonItemRetryFailure.Symbol = "";
             this.buttonItemRetryFailure.Text = "重试下载上次失败的发票";
             this.buttonItemRetryFailure.Click += new System.EventHandler(this.buttonItemRetryFailure_Click);
@@ -803,7 +802,6 @@
             // 
             // metroTabItem1
             // 
-            this.metroTabItem1.Checked = true;
             this.metroTabItem1.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem1.Name = "metroTabItem1";
             this.metroTabItem1.Panel = this.metroTabPanel1;
@@ -811,6 +809,7 @@
             // 
             // metroTabItem2
             // 
+            this.metroTabItem2.Checked = true;
             this.metroTabItem2.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem2.Name = "metroTabItem2";
             this.metroTabItem2.Panel = this.metroTabPanel2;
@@ -924,50 +923,9 @@
             this.buttonX1.Text = "图像识别失败";
             this.buttonX1.Click += new System.EventHandler(this.ButtonX1_Click);
             // 
-            // zxDataGridViewXDownloadResult
-            // 
-            this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
-            this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle6;
-            this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
-            this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
-            this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
-            this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.zxDataGridViewXDownloadResult.RowHeadersWidth = 72;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
-            this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
-            this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
-            this.zxDataGridViewXDownloadResult.TabIndex = 4;
-            // 
             // groupPanel1
             // 
             this.groupPanel1.BackColor = System.Drawing.Color.White;
-            this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel1.Controls.Add(this.buttonX2);
             this.groupPanel1.Controls.Add(this.buttonX1);
@@ -1018,6 +976,46 @@
             this.buttonX2.Text = "验证码识别失败";
             this.buttonX2.Click += new System.EventHandler(this.ButtonX2_Click);
             // 
+            // zxDataGridViewXDownloadResult
+            // 
+            this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
+            this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle2;
+            this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
+            this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
+            this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
+            this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.zxDataGridViewXDownloadResult.RowHeadersWidth = 72;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
+            this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
+            this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
+            this.zxDataGridViewXDownloadResult.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1040,8 +1038,8 @@
             this.metroTabPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
             this.groupPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
             this.ResumeLayout(false);
 
         }
