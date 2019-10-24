@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -48,6 +48,15 @@
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.comboBoxCompanyName = new System.Windows.Forms.ComboBox();
+            this.textBoxXTaxpayerRegistrationNumber = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.metroToolbar3 = new DevComponents.DotNetBar.Metro.MetroToolbar();
+            this.buttonItemAddCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
+            this.buttonItemDeleteCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.buttonXzxDataGridViewXDownloadResultRightMenu = new DevComponents.DotNetBar.ButtonX();
             this.buttonItemCopyCardNum = new DevComponents.DotNetBar.ButtonItem();
@@ -63,15 +72,6 @@
             this.buttonItemStartBulkDownloadInvoice = new DevComponents.DotNetBar.ButtonItem();
             this.buttonItemStopBulkDownloadInvoice = new DevComponents.DotNetBar.ButtonItem();
             this.buttonItemRetryFailure = new DevComponents.DotNetBar.ButtonItem();
-            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.checkBoxXSkipDownloadedFile = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.comboBoxCompanyName = new System.Windows.Forms.ComboBox();
-            this.textBoxXTaxpayerRegistrationNumber = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX7 = new DevComponents.DotNetBar.LabelX();
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.metroToolbar3 = new DevComponents.DotNetBar.Metro.MetroToolbar();
-            this.buttonItemAddCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
-            this.buttonItemDeleteCompanyInfo = new DevComponents.DotNetBar.ButtonItem();
             this.metroTabPanel4 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.metroTabItem1 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem2 = new DevComponents.DotNetBar.Metro.MetroTabItem();
@@ -81,18 +81,22 @@
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.progressBarItemBatchDownload = new DevComponents.DotNetBar.ProgressBarItem();
             this.superTooltip1 = new DevComponents.DotNetBar.SuperTooltip();
-            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
             this.balloonTip1 = new DevComponents.DotNetBar.BalloonTip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerAutoDownloadFile = new System.Windows.Forms.Timer(this.components);
+            this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
+            this.zxDataGridViewXDownloadResult = new SZTElectronicInvoice.ZXDataGridViewX();
+            this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.buttonX2 = new DevComponents.DotNetBar.ButtonX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).BeginInit();
+            this.metroTabPanel3.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).BeginInit();
-            this.metroTabPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).BeginInit();
+            this.groupPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // styleManager1
@@ -109,9 +113,9 @@
             // 
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CaptionVisible = true;
-            this.metroShell1.Controls.Add(this.metroTabPanel3);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
+            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
@@ -150,6 +154,7 @@
             // metroTabPanel1
             // 
             this.metroTabPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.metroTabPanel1.Controls.Add(this.groupPanel1);
             this.metroTabPanel1.Controls.Add(this.circularProgressSingleDownload);
             this.metroTabPanel1.Controls.Add(this.labelXTransactionDate);
             this.metroTabPanel1.Controls.Add(this.textBoxXIdentifyCode);
@@ -162,10 +167,10 @@
             this.metroTabPanel1.Controls.Add(this.labelX1);
             this.metroTabPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabPanel1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.metroTabPanel1.Location = new System.Drawing.Point(0, 76);
+            this.metroTabPanel1.Location = new System.Drawing.Point(0, 69);
             this.metroTabPanel1.Name = "metroTabPanel1";
             this.metroTabPanel1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel1.Size = new System.Drawing.Size(764, 457);
+            this.metroTabPanel1.Size = new System.Drawing.Size(764, 464);
             // 
             // 
             // 
@@ -179,7 +184,6 @@
             // 
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.TabIndex = 1;
-            this.metroTabPanel1.Visible = false;
             // 
             // circularProgressSingleDownload
             // 
@@ -191,7 +195,7 @@
             this.circularProgressSingleDownload.BackgroundStyle.Font = new System.Drawing.Font("微软雅黑", 5F);
             this.circularProgressSingleDownload.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.circularProgressSingleDownload.Font = new System.Drawing.Font("微软雅黑", 2F);
-            this.circularProgressSingleDownload.Location = new System.Drawing.Point(3, 334);
+            this.circularProgressSingleDownload.Location = new System.Drawing.Point(3, 341);
             this.circularProgressSingleDownload.Name = "circularProgressSingleDownload";
             this.circularProgressSingleDownload.ProgressBarType = DevComponents.DotNetBar.eCircularProgressType.Dot;
             this.circularProgressSingleDownload.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
@@ -225,13 +229,12 @@
             this.textBoxXIdentifyCode.Border.Class = "TextBoxBorder";
             this.textBoxXIdentifyCode.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.textBoxXIdentifyCode.DisabledBackColor = System.Drawing.Color.White;
-            this.textBoxXIdentifyCode.Enabled = false;
             this.textBoxXIdentifyCode.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.textBoxXIdentifyCode.ForeColor = System.Drawing.Color.Black;
             this.textBoxXIdentifyCode.Location = new System.Drawing.Point(135, 302);
             this.textBoxXIdentifyCode.Name = "textBoxXIdentifyCode";
             this.textBoxXIdentifyCode.PreventEnterBeep = true;
-            this.textBoxXIdentifyCode.Size = new System.Drawing.Size(170, 34);
+            this.textBoxXIdentifyCode.Size = new System.Drawing.Size(170, 29);
             this.textBoxXIdentifyCode.TabIndex = 1;
             // 
             // textBoxX1CardNum
@@ -248,7 +251,7 @@
             this.textBoxX1CardNum.Location = new System.Drawing.Point(135, 58);
             this.textBoxX1CardNum.Name = "textBoxX1CardNum";
             this.textBoxX1CardNum.PreventEnterBeep = true;
-            this.textBoxX1CardNum.Size = new System.Drawing.Size(170, 34);
+            this.textBoxX1CardNum.Size = new System.Drawing.Size(170, 29);
             this.textBoxX1CardNum.TabIndex = 0;
             // 
             // monthCalendarAdvTransaction
@@ -328,7 +331,7 @@
             this.metroToolbar1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.metroToolbar1.Location = new System.Drawing.Point(3, 4);
             this.metroToolbar1.Name = "metroToolbar1";
-            this.metroToolbar1.Size = new System.Drawing.Size(758, 44);
+            this.metroToolbar1.Size = new System.Drawing.Size(758, 37);
             this.metroToolbar1.TabIndex = 2;
             this.metroToolbar1.Text = "metroToolbar1";
             // 
@@ -390,6 +393,160 @@
             this.labelX1.Text = "卡       号：";
             this.labelX1.TextAlignment = System.Drawing.StringAlignment.Far;
             // 
+            // metroTabPanel3
+            // 
+            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.metroTabPanel3.Controls.Add(this.checkBoxXSkipDownloadedFile);
+            this.metroTabPanel3.Controls.Add(this.comboBoxCompanyName);
+            this.metroTabPanel3.Controls.Add(this.textBoxXTaxpayerRegistrationNumber);
+            this.metroTabPanel3.Controls.Add(this.labelX7);
+            this.metroTabPanel3.Controls.Add(this.labelX6);
+            this.metroTabPanel3.Controls.Add(this.metroToolbar3);
+            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel3.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel3.Name = "metroTabPanel3";
+            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.metroTabPanel3.Size = new System.Drawing.Size(764, 533);
+            // 
+            // 
+            // 
+            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel3.TabIndex = 3;
+            this.metroTabPanel3.Visible = false;
+            // 
+            // checkBoxXSkipDownloadedFile
+            // 
+            this.checkBoxXSkipDownloadedFile.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.checkBoxXSkipDownloadedFile.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.checkBoxXSkipDownloadedFile.CheckSignSize = new System.Drawing.Size(15, 15);
+            this.checkBoxXSkipDownloadedFile.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.checkBoxXSkipDownloadedFile.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxXSkipDownloadedFile.Location = new System.Drawing.Point(169, 162);
+            this.checkBoxXSkipDownloadedFile.Name = "checkBoxXSkipDownloadedFile";
+            this.checkBoxXSkipDownloadedFile.Size = new System.Drawing.Size(194, 23);
+            this.checkBoxXSkipDownloadedFile.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.superTooltip1.SetSuperTooltip(this.checkBoxXSkipDownloadedFile, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "如果该发票文件之前已经生成过（可能下载了，也可能只是生成了而未下载），则跳过不下载。\r\n如下情况可以勾选该选项：\r\n1、防止重复下载该发票文件；\r\n2、防止下载的" +
+            "发票公司信息不是配置的公司（发票已被其他人生成过）。", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(300, 88)));
+            this.checkBoxXSkipDownloadedFile.TabIndex = 2;
+            this.checkBoxXSkipDownloadedFile.Text = "跳过已下载的发票文件";
+            this.checkBoxXSkipDownloadedFile.CheckedChanged += new System.EventHandler(this.checkBoxXSkipDownloadedFile_CheckedChanged);
+            // 
+            // comboBoxCompanyName
+            // 
+            this.comboBoxCompanyName.BackColor = System.Drawing.Color.White;
+            this.comboBoxCompanyName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.comboBoxCompanyName.ForeColor = System.Drawing.Color.Black;
+            this.comboBoxCompanyName.FormattingEnabled = true;
+            this.comboBoxCompanyName.Location = new System.Drawing.Point(169, 47);
+            this.comboBoxCompanyName.Name = "comboBoxCompanyName";
+            this.comboBoxCompanyName.Size = new System.Drawing.Size(525, 29);
+            this.comboBoxCompanyName.TabIndex = 0;
+            // 
+            // textBoxXTaxpayerRegistrationNumber
+            // 
+            this.textBoxXTaxpayerRegistrationNumber.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.textBoxXTaxpayerRegistrationNumber.Border.Class = "TextBoxBorder";
+            this.textBoxXTaxpayerRegistrationNumber.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.textBoxXTaxpayerRegistrationNumber.DisabledBackColor = System.Drawing.Color.White;
+            this.textBoxXTaxpayerRegistrationNumber.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.textBoxXTaxpayerRegistrationNumber.ForeColor = System.Drawing.Color.Black;
+            this.textBoxXTaxpayerRegistrationNumber.Location = new System.Drawing.Point(169, 104);
+            this.textBoxXTaxpayerRegistrationNumber.Name = "textBoxXTaxpayerRegistrationNumber";
+            this.textBoxXTaxpayerRegistrationNumber.PreventEnterBeep = true;
+            this.textBoxXTaxpayerRegistrationNumber.Size = new System.Drawing.Size(525, 29);
+            this.textBoxXTaxpayerRegistrationNumber.TabIndex = 1;
+            this.textBoxXTaxpayerRegistrationNumber.TextChanged += new System.EventHandler(this.textBoxXTaxpayerRegistrationNumber_TextChanged);
+            // 
+            // labelX7
+            // 
+            this.labelX7.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelX7.ForeColor = System.Drawing.Color.Black;
+            this.labelX7.Location = new System.Drawing.Point(23, 106);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(149, 23);
+            this.labelX7.TabIndex = 6;
+            this.labelX7.Text = "纳税人识别号：";
+            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX6
+            // 
+            this.labelX6.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.labelX6.ForeColor = System.Drawing.Color.Black;
+            this.labelX6.Location = new System.Drawing.Point(74, 50);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(98, 23);
+            this.labelX6.TabIndex = 4;
+            this.labelX6.Text = "公司名称：";
+            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // metroToolbar3
+            // 
+            this.metroToolbar3.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.metroToolbar3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroToolbar3.ContainerControlProcessDialogKey = true;
+            this.metroToolbar3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metroToolbar3.DragDropSupport = true;
+            this.metroToolbar3.ExpandButtonVisible = false;
+            this.metroToolbar3.Font = new System.Drawing.Font("Segoe UI", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.metroToolbar3.ForeColor = System.Drawing.Color.Black;
+            this.metroToolbar3.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.buttonItemAddCompanyInfo,
+            this.buttonItemDeleteCompanyInfo});
+            this.metroToolbar3.ItemSpacing = 2;
+            this.metroToolbar3.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.metroToolbar3.Location = new System.Drawing.Point(3, 4);
+            this.metroToolbar3.Name = "metroToolbar3";
+            this.metroToolbar3.Size = new System.Drawing.Size(758, 37);
+            this.metroToolbar3.TabIndex = 2;
+            this.metroToolbar3.Text = "metroToolbar3";
+            // 
+            // buttonItemAddCompanyInfo
+            // 
+            this.buttonItemAddCompanyInfo.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
+            this.buttonItemAddCompanyInfo.FontBold = true;
+            this.buttonItemAddCompanyInfo.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
+            this.buttonItemAddCompanyInfo.Name = "buttonItemAddCompanyInfo";
+            this.buttonItemAddCompanyInfo.Symbol = "";
+            this.buttonItemAddCompanyInfo.Text = "添加";
+            this.buttonItemAddCompanyInfo.Click += new System.EventHandler(this.buttonItemAddCompanyInfo_Click);
+            // 
+            // buttonItemDeleteCompanyInfo
+            // 
+            this.buttonItemDeleteCompanyInfo.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
+            this.buttonItemDeleteCompanyInfo.FontBold = true;
+            this.buttonItemDeleteCompanyInfo.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
+            this.buttonItemDeleteCompanyInfo.Name = "buttonItemDeleteCompanyInfo";
+            this.buttonItemDeleteCompanyInfo.Symbol = "";
+            this.buttonItemDeleteCompanyInfo.Text = "删除";
+            this.buttonItemDeleteCompanyInfo.Click += new System.EventHandler(this.buttonItemDeleteCompanyInfo_Click);
+            // 
             // metroTabPanel2
             // 
             this.metroTabPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
@@ -401,10 +558,10 @@
             this.metroTabPanel2.Controls.Add(this.labelX4);
             this.metroTabPanel2.Controls.Add(this.metroToolbar4);
             this.metroTabPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel2.Location = new System.Drawing.Point(0, 76);
+            this.metroTabPanel2.Location = new System.Drawing.Point(0, 0);
             this.metroTabPanel2.Name = "metroTabPanel2";
             this.metroTabPanel2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel2.Size = new System.Drawing.Size(764, 457);
+            this.metroTabPanel2.Size = new System.Drawing.Size(764, 533);
             // 
             // 
             // 
@@ -533,7 +690,7 @@
             this.textBoxXBrowseInvoicePhotoFolder.Location = new System.Drawing.Point(179, 47);
             this.textBoxXBrowseInvoicePhotoFolder.Name = "textBoxXBrowseInvoicePhotoFolder";
             this.textBoxXBrowseInvoicePhotoFolder.PreventEnterBeep = true;
-            this.textBoxXBrowseInvoicePhotoFolder.Size = new System.Drawing.Size(562, 34);
+            this.textBoxXBrowseInvoicePhotoFolder.Size = new System.Drawing.Size(562, 29);
             this.textBoxXBrowseInvoicePhotoFolder.TabIndex = 4;
             this.textBoxXBrowseInvoicePhotoFolder.ButtonCustomClick += new System.EventHandler(this.textBoxXBrowseInvoicePhotoFolder_ButtonCustomClick);
             this.textBoxXBrowseInvoicePhotoFolder.TextChanged += new System.EventHandler(this.textBoxXBrowseInvoicePhotoFolder_TextChanged);
@@ -581,7 +738,7 @@
             this.metroToolbar4.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.metroToolbar4.Location = new System.Drawing.Point(3, 4);
             this.metroToolbar4.Name = "metroToolbar4";
-            this.metroToolbar4.Size = new System.Drawing.Size(758, 44);
+            this.metroToolbar4.Size = new System.Drawing.Size(758, 37);
             this.metroToolbar4.TabIndex = 3;
             this.metroToolbar4.Text = "metroToolbar4";
             // 
@@ -621,159 +778,6 @@
             this.buttonItemRetryFailure.Text = "重试下载上次失败的发票";
             this.buttonItemRetryFailure.Click += new System.EventHandler(this.buttonItemRetryFailure_Click);
             // 
-            // metroTabPanel3
-            // 
-            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
-            this.metroTabPanel3.Controls.Add(this.checkBoxXSkipDownloadedFile);
-            this.metroTabPanel3.Controls.Add(this.comboBoxCompanyName);
-            this.metroTabPanel3.Controls.Add(this.textBoxXTaxpayerRegistrationNumber);
-            this.metroTabPanel3.Controls.Add(this.labelX7);
-            this.metroTabPanel3.Controls.Add(this.labelX6);
-            this.metroTabPanel3.Controls.Add(this.metroToolbar3);
-            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel3.Location = new System.Drawing.Point(0, 76);
-            this.metroTabPanel3.Name = "metroTabPanel3";
-            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(764, 457);
-            // 
-            // 
-            // 
-            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel3.TabIndex = 3;
-            // 
-            // checkBoxXSkipDownloadedFile
-            // 
-            this.checkBoxXSkipDownloadedFile.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.checkBoxXSkipDownloadedFile.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.checkBoxXSkipDownloadedFile.CheckSignSize = new System.Drawing.Size(15, 15);
-            this.checkBoxXSkipDownloadedFile.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.checkBoxXSkipDownloadedFile.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxXSkipDownloadedFile.Location = new System.Drawing.Point(169, 162);
-            this.checkBoxXSkipDownloadedFile.Name = "checkBoxXSkipDownloadedFile";
-            this.checkBoxXSkipDownloadedFile.Size = new System.Drawing.Size(194, 23);
-            this.checkBoxXSkipDownloadedFile.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.superTooltip1.SetSuperTooltip(this.checkBoxXSkipDownloadedFile, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "如果该发票文件之前已经生成过（可能下载了，也可能只是生成了而未下载），则跳过不下载。\r\n如下情况可以勾选该选项：\r\n1、防止重复下载该发票文件；\r\n2、防止下载的" +
-            "发票公司信息不是配置的公司（发票已被其他人生成过）。", null, null, DevComponents.DotNetBar.eTooltipColor.System, true, true, new System.Drawing.Size(300, 88)));
-            this.checkBoxXSkipDownloadedFile.TabIndex = 2;
-            this.checkBoxXSkipDownloadedFile.Text = "跳过已下载的发票文件";
-            this.checkBoxXSkipDownloadedFile.CheckedChanged += new System.EventHandler(this.checkBoxXSkipDownloadedFile_CheckedChanged);
-            // 
-            // comboBoxCompanyName
-            // 
-            this.comboBoxCompanyName.BackColor = System.Drawing.Color.White;
-            this.comboBoxCompanyName.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.comboBoxCompanyName.ForeColor = System.Drawing.Color.Black;
-            this.comboBoxCompanyName.FormattingEnabled = true;
-            this.comboBoxCompanyName.Location = new System.Drawing.Point(169, 47);
-            this.comboBoxCompanyName.Name = "comboBoxCompanyName";
-            this.comboBoxCompanyName.Size = new System.Drawing.Size(525, 35);
-            this.comboBoxCompanyName.TabIndex = 0;
-            // 
-            // textBoxXTaxpayerRegistrationNumber
-            // 
-            this.textBoxXTaxpayerRegistrationNumber.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.textBoxXTaxpayerRegistrationNumber.Border.Class = "TextBoxBorder";
-            this.textBoxXTaxpayerRegistrationNumber.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.textBoxXTaxpayerRegistrationNumber.DisabledBackColor = System.Drawing.Color.White;
-            this.textBoxXTaxpayerRegistrationNumber.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.textBoxXTaxpayerRegistrationNumber.ForeColor = System.Drawing.Color.Black;
-            this.textBoxXTaxpayerRegistrationNumber.Location = new System.Drawing.Point(169, 104);
-            this.textBoxXTaxpayerRegistrationNumber.Name = "textBoxXTaxpayerRegistrationNumber";
-            this.textBoxXTaxpayerRegistrationNumber.PreventEnterBeep = true;
-            this.textBoxXTaxpayerRegistrationNumber.Size = new System.Drawing.Size(525, 34);
-            this.textBoxXTaxpayerRegistrationNumber.TabIndex = 1;
-            this.textBoxXTaxpayerRegistrationNumber.TextChanged += new System.EventHandler(this.textBoxXTaxpayerRegistrationNumber_TextChanged);
-            // 
-            // labelX7
-            // 
-            this.labelX7.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX7.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelX7.ForeColor = System.Drawing.Color.Black;
-            this.labelX7.Location = new System.Drawing.Point(23, 106);
-            this.labelX7.Name = "labelX7";
-            this.labelX7.Size = new System.Drawing.Size(149, 23);
-            this.labelX7.TabIndex = 6;
-            this.labelX7.Text = "纳税人识别号：";
-            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX6
-            // 
-            this.labelX6.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX6.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.labelX6.ForeColor = System.Drawing.Color.Black;
-            this.labelX6.Location = new System.Drawing.Point(74, 50);
-            this.labelX6.Name = "labelX6";
-            this.labelX6.Size = new System.Drawing.Size(98, 23);
-            this.labelX6.TabIndex = 4;
-            this.labelX6.Text = "公司名称：";
-            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // metroToolbar3
-            // 
-            this.metroToolbar3.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.metroToolbar3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroToolbar3.ContainerControlProcessDialogKey = true;
-            this.metroToolbar3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroToolbar3.DragDropSupport = true;
-            this.metroToolbar3.ExpandButtonVisible = false;
-            this.metroToolbar3.Font = new System.Drawing.Font("Segoe UI", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.metroToolbar3.ForeColor = System.Drawing.Color.Black;
-            this.metroToolbar3.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.buttonItemAddCompanyInfo,
-            this.buttonItemDeleteCompanyInfo});
-            this.metroToolbar3.ItemSpacing = 2;
-            this.metroToolbar3.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.metroToolbar3.Location = new System.Drawing.Point(3, 4);
-            this.metroToolbar3.Name = "metroToolbar3";
-            this.metroToolbar3.Size = new System.Drawing.Size(758, 44);
-            this.metroToolbar3.TabIndex = 2;
-            this.metroToolbar3.Text = "metroToolbar3";
-            // 
-            // buttonItemAddCompanyInfo
-            // 
-            this.buttonItemAddCompanyInfo.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
-            this.buttonItemAddCompanyInfo.FontBold = true;
-            this.buttonItemAddCompanyInfo.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
-            this.buttonItemAddCompanyInfo.Name = "buttonItemAddCompanyInfo";
-            this.buttonItemAddCompanyInfo.Symbol = "";
-            this.buttonItemAddCompanyInfo.Text = "添加";
-            this.buttonItemAddCompanyInfo.Click += new System.EventHandler(this.buttonItemAddCompanyInfo_Click);
-            // 
-            // buttonItemDeleteCompanyInfo
-            // 
-            this.buttonItemDeleteCompanyInfo.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText;
-            this.buttonItemDeleteCompanyInfo.FontBold = true;
-            this.buttonItemDeleteCompanyInfo.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
-            this.buttonItemDeleteCompanyInfo.Name = "buttonItemDeleteCompanyInfo";
-            this.buttonItemDeleteCompanyInfo.Symbol = "";
-            this.buttonItemDeleteCompanyInfo.Text = "删除";
-            this.buttonItemDeleteCompanyInfo.Click += new System.EventHandler(this.buttonItemDeleteCompanyInfo_Click);
-            // 
             // metroTabPanel4
             // 
             this.metroTabPanel4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -799,6 +803,7 @@
             // 
             // metroTabItem1
             // 
+            this.metroTabItem1.Checked = true;
             this.metroTabItem1.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem1.Name = "metroTabItem1";
             this.metroTabItem1.Panel = this.metroTabPanel1;
@@ -813,7 +818,6 @@
             // 
             // metroTabItem3
             // 
-            this.metroTabItem3.Checked = true;
             this.metroTabItem3.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Center;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
@@ -882,45 +886,6 @@
             this.superTooltip1.DefaultTooltipSettings = new DevComponents.DotNetBar.SuperTooltipInfo("", "", "", null, null, DevComponents.DotNetBar.eTooltipColor.Gray);
             this.superTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             // 
-            // zxDataGridViewXDownloadResult
-            // 
-            this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
-            this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle2;
-            this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
-            this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
-            this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
-            this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
-            this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
-            this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
-            this.zxDataGridViewXDownloadResult.TabIndex = 4;
-            // 
             // balloonTip1
             // 
             this.balloonTip1.AutoCloseTimeOut = 3;
@@ -947,9 +912,115 @@
             this.timerAutoDownloadFile.Interval = 1000;
             this.timerAutoDownloadFile.Tick += new System.EventHandler(this.timerAutoDownloadFile_Tick);
             // 
+            // buttonX1
+            // 
+            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX1.Location = new System.Drawing.Point(52, 6);
+            this.buttonX1.Name = "buttonX1";
+            this.buttonX1.Size = new System.Drawing.Size(132, 39);
+            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX1.TabIndex = 11;
+            this.buttonX1.Text = "图像识别失败";
+            this.buttonX1.Click += new System.EventHandler(this.ButtonX1_Click);
+            // 
+            // zxDataGridViewXDownloadResult
+            // 
+            this.zxDataGridViewXDownloadResult.BackgroundColor = System.Drawing.Color.White;
+            this.zxDataGridViewXDownloadResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.zxDataGridViewXDownloadResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.zxDataGridViewXDownloadResult.DefaultCellStyle = dataGridViewCellStyle6;
+            this.zxDataGridViewXDownloadResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zxDataGridViewXDownloadResult.EnableHeadersVisualStyles = false;
+            this.zxDataGridViewXDownloadResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.zxDataGridViewXDownloadResult.IsShowNumRowHeader = true;
+            this.zxDataGridViewXDownloadResult.Location = new System.Drawing.Point(1, 534);
+            this.zxDataGridViewXDownloadResult.Name = "zxDataGridViewXDownloadResult";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.zxDataGridViewXDownloadResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.zxDataGridViewXDownloadResult.RowHeadersWidth = 72;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.zxDataGridViewXDownloadResult.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.zxDataGridViewXDownloadResult.RowTemplate.Height = 23;
+            this.zxDataGridViewXDownloadResult.Size = new System.Drawing.Size(764, 137);
+            this.superTooltip1.SetSuperTooltip(this.zxDataGridViewXDownloadResult, new DevComponents.DotNetBar.SuperTooltipInfo("", "", "选择行右键有菜单，可进行复制卡号、清空列表等", null, null, DevComponents.DotNetBar.eTooltipColor.System));
+            this.zxDataGridViewXDownloadResult.TabIndex = 4;
+            // 
+            // groupPanel1
+            // 
+            this.groupPanel1.BackColor = System.Drawing.Color.White;
+            this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
+            this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel1.Controls.Add(this.buttonX2);
+            this.groupPanel1.Controls.Add(this.buttonX1);
+            this.groupPanel1.DisabledBackColor = System.Drawing.Color.Empty;
+            this.groupPanel1.Location = new System.Drawing.Point(507, 285);
+            this.groupPanel1.Name = "groupPanel1";
+            this.groupPanel1.Size = new System.Drawing.Size(234, 176);
+            // 
+            // 
+            // 
+            this.groupPanel1.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.groupPanel1.Style.BackColorGradientAngle = 90;
+            this.groupPanel1.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.groupPanel1.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderBottomWidth = 1;
+            this.groupPanel1.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.groupPanel1.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderLeftWidth = 1;
+            this.groupPanel1.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderRightWidth = 1;
+            this.groupPanel1.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.groupPanel1.Style.BorderTopWidth = 1;
+            this.groupPanel1.Style.CornerDiameter = 4;
+            this.groupPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.groupPanel1.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.groupPanel1.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.groupPanel1.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.groupPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.groupPanel1.TabIndex = 12;
+            this.groupPanel1.Text = "Test";
+            // 
+            // buttonX2
+            // 
+            this.buttonX2.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX2.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX2.Location = new System.Drawing.Point(52, 53);
+            this.buttonX2.Name = "buttonX2";
+            this.buttonX2.Size = new System.Drawing.Size(132, 39);
+            this.buttonX2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX2.TabIndex = 12;
+            this.buttonX2.Text = "验证码识别失败";
+            this.buttonX2.Click += new System.EventHandler(this.ButtonX2_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(766, 702);
             this.Controls.Add(this.zxDataGridViewXDownloadResult);
@@ -965,11 +1036,12 @@
             this.metroShell1.PerformLayout();
             this.metroTabPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picVerificationImage)).EndInit();
+            this.metroTabPanel3.ResumeLayout(false);
             this.metroTabPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReceipt)).EndInit();
-            this.metroTabPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zxDataGridViewXDownloadResult)).EndInit();
+            this.groupPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1027,5 +1099,8 @@
         private DevComponents.DotNetBar.ButtonItem buttonItemRetryFailure;
         private DevComponents.DotNetBar.ButtonItem deleteDownloadSuccessButtonItem;
         private DevComponents.DotNetBar.ButtonItem buttonItemOpenDownloadDirectory;
+        private DevComponents.DotNetBar.ButtonX buttonX1;
+        private DevComponents.DotNetBar.Controls.GroupPanel groupPanel1;
+        private DevComponents.DotNetBar.ButtonX buttonX2;
     }
 }
