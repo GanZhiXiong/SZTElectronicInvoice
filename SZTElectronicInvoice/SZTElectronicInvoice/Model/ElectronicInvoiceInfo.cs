@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SZTElectronicInvoice.Model
 {
-   public class ElectronicInvoiceInfo:INotifyPropertyChanged
+    public class ElectronicInvoiceInfo : INotifyPropertyChanged
     {
         private string _imageFileName;
         private string _cardNum;
@@ -17,6 +17,7 @@ namespace SZTElectronicInvoice.Model
         private string _isDownloadedString;
         private decimal _rechargeAmount;
 
+        public string ImageFolder { get; set; }
         public string ImageFileName
         {
             get { return _imageFileName; }
@@ -43,7 +44,7 @@ namespace SZTElectronicInvoice.Model
             get { return _transactionDate; }
             set
             {
-                _transactionDate = value; 
+                _transactionDate = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("TransactionDate"));
 
             }
@@ -54,7 +55,7 @@ namespace SZTElectronicInvoice.Model
             get { return _rechargeAmount; }
             set
             {
-                _rechargeAmount = value; 
+                _rechargeAmount = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("RechargeAmount"));
             }
         }
@@ -107,7 +108,9 @@ namespace SZTElectronicInvoice.Model
             }
         }
 
-        public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime,string imageFileName)
+        public string ocrResult { get; set; }
+
+        public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime, string imageFileName = "", string imageFolder = "", string ocrResult = "")
         {
             CardNum = cardNum;
             TransactionDate = transactionDate;
@@ -115,9 +118,11 @@ namespace SZTElectronicInvoice.Model
             CompleteTime = completeTime;
             IsDownloaded = isDownloaded;
             ImageFileName = imageFileName;
+            ImageFolder = imageFolder;
+            this.ocrResult = ocrResult;
         }
 
-        public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime, string imageFileName,decimal rechargeAmount)
+        public ElectronicInvoiceInfo(string cardNum, string transactionDate, bool isDownloaded, string downloadResult, string completeTime, string imageFileName, decimal rechargeAmount)
         {
             RechargeAmount = rechargeAmount;
             CardNum = cardNum;

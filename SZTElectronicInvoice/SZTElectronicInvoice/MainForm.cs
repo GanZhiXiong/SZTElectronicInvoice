@@ -350,11 +350,19 @@ namespace SZTElectronicInvoice
             ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo) row.DataBoundItem;
             Console.WriteLine(row.Cells[e.ColumnIndex].Value + ", " + electronicInvoiceInfo.CardNum);
 
+            pictureBoxReceipt.Image = Image.FromFile(Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
+            textBoxXInvoiceRecognitionResult.Text = electronicInvoiceInfo.ocrResult;
 
         }
 
         private void ZxDataGridViewXDownloadResult_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            Console.WriteLine("CellMouseClick");
+
+            DataGridViewRow row = zxDataGridViewXDownloadResult.Rows[e.RowIndex];
+            ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo)row.DataBoundItem;
+
+
             if ((e.Button & MouseButtons.Right) != 0)
             {
                 buttonXzxDataGridViewXDownloadResultRightMenu.Popup(MousePosition);
@@ -957,7 +965,7 @@ namespace SZTElectronicInvoice
 
                     ElectronicInvoiceInfo electronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
                         transactionDate, false,
-                        "正在识别照片", null, Path.GetFileName(path));
+                        "正在识别照片", null, Path.GetFileName(path), Path.GetDirectoryName(path));
                     DownloadResult(electronicInvoiceInfo);
 
                     //string result = Youtu.generalocr(path);
@@ -1284,7 +1292,7 @@ namespace SZTElectronicInvoice
 
                     textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
                     {
-                        textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
+                       electronicInvoiceInfo.ocrResult = textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
                     }));
 
                     string downloadFileName = cardNum + "_" + Path.GetFileName(path) + ".pdf";
@@ -1469,7 +1477,7 @@ namespace SZTElectronicInvoice
 
                     ElectronicInvoiceInfo currentElectronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
                         transactionDate, false,
-                        "正在识别验证码", null, failureElectronicInvoiceInfo.ImageFileName);
+                        "正在识别验证码", null, failureElectronicInvoiceInfo.ImageFileName, failureElectronicInvoiceInfo.ImageFolder);
                     DownloadResult(currentElectronicInvoiceInfo);
 
                     /*picVerificationImage.Image = GZXNetworking.GetValidateImage();
