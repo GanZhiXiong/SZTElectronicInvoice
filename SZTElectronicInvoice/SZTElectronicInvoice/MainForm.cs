@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.Metro;
 using DevComponents.DotNetBar.Rendering;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SZTElectronicInvoice.Common;
 using SZTElectronicInvoice.Form;
@@ -347,12 +348,8 @@ namespace SZTElectronicInvoice
         {
             //            Console.WriteLine(zxDataGridViewXDownloadResult[e.ColumnIndex, e.RowIndex].Value);
             DataGridViewRow row = zxDataGridViewXDownloadResult.Rows[e.RowIndex];
-            ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo) row.DataBoundItem;
+            ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo)row.DataBoundItem;
             Console.WriteLine(row.Cells[e.ColumnIndex].Value + ", " + electronicInvoiceInfo.CardNum);
-
-            pictureBoxReceipt.Image = Image.FromFile(Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
-            textBoxXInvoiceRecognitionResult.Text = electronicInvoiceInfo.ocrResult;
-
         }
 
         private void ZxDataGridViewXDownloadResult_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -362,6 +359,8 @@ namespace SZTElectronicInvoice
             DataGridViewRow row = zxDataGridViewXDownloadResult.Rows[e.RowIndex];
             ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo)row.DataBoundItem;
 
+            pictureBoxReceipt.Image = Image.FromFile(Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
+            textBoxXInvoiceRecognitionResult.Text = electronicInvoiceInfo.ocrResult;
 
             if ((e.Button & MouseButtons.Right) != 0)
             {
@@ -376,6 +375,52 @@ namespace SZTElectronicInvoice
         }
 
         #endregion
+
+        private void ElectronicInvoiceAjax(ElectronicInvoiceInfo electronicInvoiceInfo, string cardNum)
+        {
+            this.Invoke(new EventHandler(delegate
+            {
+                InputVerificationCodeForm inputVerificationCodeForm =
+                    new InputVerificationCodeForm(picVerificationImage.Image);
+                inputVerificationCodeForm.ShowDialog();
+                textBoxXIdentifyCode.Text = inputVerificationCodeForm.Value;
+            }));
+
+            //                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+            //                    {
+            //                        textBoxXIdentifyCode.Text = inputVerificationCodeForm.Value;
+            //                    }));
+
+            //ElectronicInvoiceInfo currentElectronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
+            //    transactionDate, false,
+            //    "正在下载……", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
+            //DownloadResult(currentElectronicInvoiceInfo);
+            electronicInvoiceInfo.DownloadResult = "正在下载……";
+
+            string verificationResult = GZXNetworking.PostRequest("https://www.shenzhentong.com/Ajax/ElectronicInvoiceAjax.aspx",
+                   string.Format("tp={0}&yzm={1}&cardnum={2}", 1, textBoxXIdentifyCode.Text, cardNum));
+            //                    _currentAutoHaveDownloadElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
+            //                    if (zxDataGridViewXDownloadResult.IsHandleCreated)
+            //                    {
+            //                        zxDataGridViewXDownloadResult.Invoke(new Action(() =>
+            //                        {
+            //                            GlobalManager.ElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
+            //                        }));
+            //                    }
+            var v = JsonConvert.DeserializeObject(verificationResult);
+
+            string state = ((Newtonsoft.Json.Linq.JValue)
+                        ((Newtonsoft.Json.Linq.JProperty)((Newtonsoft.Json.Linq.JContainer)v).First).Value).Value
+                    .ToString();
+            if (state == "100")
+            {
+                return;
+            }
+            else
+            {
+                ElectronicInvoiceAjax(electronicInvoiceInfo, cardNum);
+            }
+        }
 
         private bool DownloadElectronicInvoice(ref string downloadResult,
             string cardNum, string transactionDate, string downloadFileName,
@@ -985,7 +1030,7 @@ namespace SZTElectronicInvoice
                     }
 
                     var items = (from staff1 in jObj["items"].Children()
-                        select (string)staff1["itemstring"]).ToList();
+                                 select (string)staff1["itemstring"]).ToList();
 
                     //                    if (!items.Exists(p => p.Length == 2 && (p.Contains("清湖") || p.Contains("清") || p.Contains("湖"))))
                     //                    {
@@ -1292,7 +1337,7 @@ namespace SZTElectronicInvoice
 
                     textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
                     {
-                       electronicInvoiceInfo.ocrResult = textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
+                        electronicInvoiceInfo.ocrResult = textBoxXInvoiceRecognitionResult.Text = resultStringBuilder.ToString();
                     }));
 
                     string downloadFileName = cardNum + "_" + Path.GetFileName(path) + ".pdf";
@@ -1334,35 +1379,7 @@ namespace SZTElectronicInvoice
                     //                        return;
                     //                    }
 
-
-                    this.Invoke(new EventHandler(delegate
-                    {
-                        InputVerificationCodeForm inputVerificationCodeForm =
-                            new InputVerificationCodeForm(picVerificationImage.Image);
-                        inputVerificationCodeForm.ShowDialog();
-                        textBoxXIdentifyCode.Text = inputVerificationCodeForm.Value;
-                    }));
-
-                    //                    textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
-                    //                    {
-                    //                        textBoxXIdentifyCode.Text = inputVerificationCodeForm.Value;
-                    //                    }));
-
-                    //ElectronicInvoiceInfo currentElectronicInvoiceInfo = new ElectronicInvoiceInfo(cardNum,
-                    //    transactionDate, false,
-                    //    "正在下载……", DateTime.Now.ToString("HH:mm:ss"), Path.GetFileName(path));
-                    //DownloadResult(currentElectronicInvoiceInfo);
-                    electronicInvoiceInfo.DownloadResult = "正在下载……";
-
-
-                    //                    _currentAutoHaveDownloadElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
-                    //                    if (zxDataGridViewXDownloadResult.IsHandleCreated)
-                    //                    {
-                    //                        zxDataGridViewXDownloadResult.Invoke(new Action(() =>
-                    //                        {
-                    //                            GlobalManager.ElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
-                    //                        }));
-                    //                    }
+                    ElectronicInvoiceAjax(electronicInvoiceInfo, cardNum);
 
                     bool ret = false;
                     string downloadResult = "";
@@ -1480,8 +1497,8 @@ namespace SZTElectronicInvoice
                         "正在识别验证码", null, failureElectronicInvoiceInfo.ImageFileName, failureElectronicInvoiceInfo.ImageFolder);
                     DownloadResult(currentElectronicInvoiceInfo);
 
-                    /*picVerificationImage.Image = GZXNetworking.GetValidateImage();
-                    string orcResult = GZXNetworking.ORC(picVerificationImage.Image);
+                    picVerificationImage.Image = GZXNetworking.GetValidateImage();
+                    /*string orcResult = GZXNetworking.ORC(picVerificationImage.Image);
                     if (string.IsNullOrWhiteSpace(orcResult))
                     {
                         currentElectronicInvoiceInfo.DownloadResult = "验证码识别余额已用完";
@@ -1504,6 +1521,8 @@ namespace SZTElectronicInvoice
                         inputVerificationCodeForm.ShowDialog();
                         textBoxXIdentifyCode.Text = inputVerificationCodeForm.Value;
                     }));
+
+
 
                     //                    _currentAutoHaveDownloadElectronicInvoiceInfos.Add(currentElectronicInvoiceInfo);
                     //                    if (zxDataGridViewXDownloadResult.IsHandleCreated)

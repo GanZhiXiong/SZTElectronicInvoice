@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IdentificationFailureForm));
             this.sureButtonX = new DevComponents.DotNetBar.ButtonX();
             this.descriptionLabelX = new DevComponents.DotNetBar.LabelX();
             this.valueTextBoxX = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -39,7 +40,7 @@
             this.sureButtonX.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.sureButtonX.Font = new System.Drawing.Font("宋体", 11F);
             this.sureButtonX.Location = new System.Drawing.Point(242, 93);
-            this.sureButtonX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.sureButtonX.Margin = new System.Windows.Forms.Padding(2);
             this.sureButtonX.Name = "sureButtonX";
             this.sureButtonX.Size = new System.Drawing.Size(103, 33);
             this.sureButtonX.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -58,7 +59,7 @@
             this.descriptionLabelX.Font = new System.Drawing.Font("宋体", 12F);
             this.descriptionLabelX.ForeColor = System.Drawing.Color.Black;
             this.descriptionLabelX.Location = new System.Drawing.Point(1, 1);
-            this.descriptionLabelX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.descriptionLabelX.Margin = new System.Windows.Forms.Padding(2);
             this.descriptionLabelX.Name = "descriptionLabelX";
             this.descriptionLabelX.Size = new System.Drawing.Size(586, 34);
             this.descriptionLabelX.TabIndex = 0;
@@ -78,7 +79,7 @@
             this.valueTextBoxX.Font = new System.Drawing.Font("宋体", 13F);
             this.valueTextBoxX.ForeColor = System.Drawing.Color.Black;
             this.valueTextBoxX.Location = new System.Drawing.Point(1, 35);
-            this.valueTextBoxX.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.valueTextBoxX.Margin = new System.Windows.Forms.Padding(2);
             this.valueTextBoxX.Name = "valueTextBoxX";
             this.valueTextBoxX.PreventEnterBeep = true;
             this.valueTextBoxX.Size = new System.Drawing.Size(586, 27);
@@ -92,7 +93,8 @@
             this.Controls.Add(this.valueTextBoxX);
             this.Controls.Add(this.descriptionLabelX);
             this.Controls.Add(this.sureButtonX);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "IdentificationFailureForm";
             this.Text = "IdentificationFailureForm";
             this.ResumeLayout(false);

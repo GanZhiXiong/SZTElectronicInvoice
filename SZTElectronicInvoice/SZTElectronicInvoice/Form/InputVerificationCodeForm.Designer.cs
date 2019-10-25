@@ -74,6 +74,7 @@
             this.ClientSize = new System.Drawing.Size(355, 108);
             this.Controls.Add(this.valueTextBoxX);
             this.Controls.Add(this.picVerificationImage);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "InputVerificationCodeForm";
             this.Text = "InputVerificationCodeForm";

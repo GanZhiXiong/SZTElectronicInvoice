@@ -76,6 +76,11 @@ namespace SZTElectronicInvoice
 
         }
 
+        public static void ElectronicInvoiceAjax()
+        {
+
+        }
+
         public static byte[] GetByteImage(Image img)
         {
             byte[] bt = null;
