@@ -359,7 +359,8 @@ namespace SZTElectronicInvoice
             DataGridViewRow row = zxDataGridViewXDownloadResult.Rows[e.RowIndex];
             ElectronicInvoiceInfo electronicInvoiceInfo = (ElectronicInvoiceInfo)row.DataBoundItem;
 
-            pictureBoxReceipt.Image = Image.FromFile(Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
+            //            pictureBoxReceipt.Image = Image.FromFile(Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
+            GZXImageManager.PictureBoxSetImage(pictureBoxReceipt, Path.Combine(electronicInvoiceInfo.ImageFolder, electronicInvoiceInfo.ImageFileName));
             textBoxXInvoiceRecognitionResult.Text = electronicInvoiceInfo.ocrResult;
 
             if ((e.Button & MouseButtons.Right) != 0)
@@ -447,7 +448,9 @@ namespace SZTElectronicInvoice
                     //    textBoxXIdentifyCode.Text = orcResult;
                     //}));
 
-                    downloadResult = "第1条充值记录不存在或者已开票";
+                    //                    downloadResult = "第1条充值记录不存在或者已开票";
+                    downloadResult =
+                        "未查询到充值记录，请确认充值卡号和日期后重新搜索。\r\n\r\n建议您于充值24小时后查询交易记录，如有其它疑问，请联系深圳通客服。\r\n\r\n每个卡号每天可以查询开票10次";
                     return false;
                 }
 
@@ -494,7 +497,7 @@ namespace SZTElectronicInvoice
                 {
                     if (GlobalManager.UserConfig.IsSkipDownloadFile)
                     {
-                        downloadResult = "跳过";
+                        downloadResult = "已开票跳过";
                         return true;
                     }
 
@@ -997,11 +1000,12 @@ namespace SZTElectronicInvoice
                         bool compressResult = GZXImageManager.CompressImage(path, path, 50, 999);
                     }
 
-                    System.Drawing.Image img = System.Drawing.Image.FromFile(path);
-                    System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
-                    img.Dispose();
+                    GZXImageManager.PictureBoxSetImage(pictureBoxReceipt, path);
+                    //                    FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                    //                    pictureBoxReceipt.Image = Image.FromStream(fileStream);
+                    //                    fileStream.Close();
+                    //                    fileStream.Dispose();
 
-                    pictureBoxReceipt.Image = bmp;
                     textBoxXInvoiceRecognitionResult.Invoke(new Action(() =>
                     {
                         textBoxXInvoiceRecognitionResult.Text =
@@ -1748,24 +1752,33 @@ namespace SZTElectronicInvoice
             {
                 List<ElectronicInvoiceInfo> failureElectronicInvoiceInfos1 =
                     GlobalManager.ElectronicInvoiceInfos.ToList().FindAll(p => p.IsDownloaded == true);
-                failureElectronicInvoiceInfos1.ForEach(p =>
+
+                if (failureElectronicInvoiceInfos1.Count > 0)
                 {
-                    GlobalManager.ElectronicInvoiceInfos.Remove(p);
 
-                    string path = Path.Combine(textBoxXBrowseInvoicePhotoFolder.Text, p.ImageFileName);
-                    if (File.Exists(path))
+                    failureElectronicInvoiceInfos1.ForEach(p =>
                     {
-                        File.Delete(path);
-                    }
-                });
+                        GlobalManager.ElectronicInvoiceInfos.Remove(p);
 
-                //foreach (var electronicInvoiceInfo in failureElectronicInvoiceInfos1)
-                //{
+                        string path = Path.Combine(textBoxXBrowseInvoicePhotoFolder.Text, p.ImageFileName);
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+                    });
 
-                //}
-                //GlobalManager.ElectronicInvoiceInfos.ToList().RemoveAll(p => p.IsDownloaded == true);
+                    //foreach (var electronicInvoiceInfo in failureElectronicInvoiceInfos1)
+                    //{
 
-                GZXMessageBox.Show("删除完成");
+                    //}
+                    //GlobalManager.ElectronicInvoiceInfos.ToList().RemoveAll(p => p.IsDownloaded == true);
+
+                    GZXMessageBox.Show("删除完成");
+                }
+                else
+                {
+                    GZXMessageBox.Show("没有下载成功的发票可以删除");
+                }
             }
             catch (Exception exception)
             {

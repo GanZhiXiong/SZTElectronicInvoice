@@ -5,11 +5,21 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace SZTElectronicInvoice.Common
 {
     public class GZXImageManager
     {
+        public static void PictureBoxSetImage(PictureBox pictureBox, string path)
+        {
+            System.Drawing.Image img = System.Drawing.Image.FromFile(path);
+            System.Drawing.Image bmp = new System.Drawing.Bitmap(img);
+            img.Dispose();
+
+            pictureBox.Image = bmp;
+        }
+
         /// <summary>
         /// 无损压缩图片
         /// </summary>
