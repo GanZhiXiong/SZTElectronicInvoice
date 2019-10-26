@@ -5,7 +5,7 @@
 
 **🤦🤦现在程序去掉了若快验证码识别，改为弹框手动输入验证码**  
 
-![](https://github.com/GanZhiXiong/SZTElectronicInvoice/blob/master/Images/auto_download.gif.png)
+![](https://github.com/GanZhiXiong/SZTElectronicInvoice/blob/master/Images/auto_download.gif)
 
 ## 导航
 - [为什么要写这个程序](#为什么要写这个程序)
