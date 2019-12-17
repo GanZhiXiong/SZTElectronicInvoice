@@ -432,28 +432,28 @@ namespace SZTElectronicInvoice
 
                 //                string orcResult;
                 string url = "https://www.shenzhentong.com/Ajax/ElectronicInvoiceAjax.aspx";
-                //
-                //                string ret = GZXNetworking.PostRequest(url, string.Format("tp={0}&yzm={1}&cardnum={2}", "1",
-                //                    textBoxXIdentifyCode.Text, cardNum
-                //                ));
-                //                //            GetValidateImage();
-                //
-                //                string state = StringOperation.GetMiddleText(ret, @"state"":""", @"""");
-                //                if (!state.Equals("100"))
-                //                {
-                //                    //picVerificationImage.Image = GZXNetworking.GetValidateImage();
-                //                    //orcResult = GZXNetworking.ORC(picVerificationImage.Image);
-                //
-                //                    //textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
-                //                    //{
-                //                    //    textBoxXIdentifyCode.Text = orcResult;
-                //                    //}));
-                //
-                //                    //                    downloadResult = "第1条充值记录不存在或者已开票";
-                //                    downloadResult =
-                //                        "未查询到充值记录，请确认充值卡号和日期后重新搜索。\r\n\r\n建议您于充值24小时后查询交易记录，如有其它疑问，请联系深圳通客服。\r\n\r\n每个卡号每天可以查询开票10次";
-                //                    return false;
-                //                }
+                
+                                string ret = GZXNetworking.PostRequest(url, string.Format("tp={0}&yzm={1}&cardnum={2}", "1",
+                                    textBoxXIdentifyCode.Text, cardNum
+                                ));
+                                //            GetValidateImage();
+                
+                                string state = StringOperation.GetMiddleText(ret, @"state"":""", @"""");
+                                if (!state.Equals("100"))
+                                {
+                                    //picVerificationImage.Image = GZXNetworking.GetValidateImage();
+                                    //orcResult = GZXNetworking.ORC(picVerificationImage.Image);
+                
+                                    //textBoxXIdentifyCode.BeginInvoke(new EventHandler(delegate
+                                    //{
+                                    //    textBoxXIdentifyCode.Text = orcResult;
+                                    //}));
+                
+                                    //                    downloadResult = "第1条充值记录不存在或者已开票";
+                                    downloadResult =
+                                        "未查询到充值记录，请确认充值卡号和日期后重新搜索。\r\n\r\n建议您于充值24小时后查询交易记录，如有其它疑问，请联系深圳通客服。\r\n\r\n每个卡号每天可以查询开票10次";
+                                    return false;
+                                }
 //                string url = "";
 
                 string fplistUrl = string.Format("https://www.shenzhentong.com/service/fplist_101007009_{0}_{1}.html",
